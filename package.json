@@ -24,8 +24,8 @@
     "mysql:stop": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/mysql-dev.ps1 stop",
     "mysql:status": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/mysql-dev.ps1 status",
     "db:bootstrap": "npm run bootstrap -w @transaxis/database",
-    "db:migrate": "npm run migrate -w @transaxis/database",
-    "db:seed": "npm run seed -w @transaxis/database",
+    "db:migrate": "npm run migrate -w @transaxis/database --",
+    "db:seed": "npm run seed -w @transaxis/database --",
     "db:reset-test": "npm run reset-test -w @transaxis/database"
   },
   "devDependencies": {
