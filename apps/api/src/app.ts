@@ -16,6 +16,10 @@ import { fileRoutes } from './modules/files/routes.js';
 import { FileService } from './modules/files/service.js';
 import { referenceRoutes } from './modules/reference/routes.js';
 import { vehicleRoutes, vehicleTypeRoutes } from './modules/vehicles/routes.js';
+import { customerRoutes, locationRoutes, quoteRoutes, routeRoutes, vendorRoutes } from './modules/parties/routes.js';
+import { PartyService } from './modules/parties/service.js';
+import { attendanceRoutes, compensationRoutes, leaveRoutes, workerRoutes } from './modules/workers/routes.js';
+import { WorkerService } from './modules/workers/service.js';
 import { VehicleService } from './modules/vehicles/service.js';
 import { buildOpenApi } from './openapi/spec.js';
 import { LogOnlyProvider, type MessageProvider } from './providers/messaging.js';
@@ -119,6 +123,19 @@ export function createApp({ config, logger, db, messenger, checkDatabase }: AppD
     api.use('/vehicle-types', auth, vehicleTypeRoutes(vehicleService));
     api.use('/reference', auth, referenceRoutes(db));
     api.use('/files', auth, fileRoutes(new FileService(db, config.UPLOAD_DIR), config.MAX_UPLOAD_MB));
+
+    const workerService = new WorkerService(db);
+    api.use('/workers', auth, workerRoutes(workerService));
+    api.use('/leave', auth, leaveRoutes(workerService));
+    api.use('/attendance', auth, attendanceRoutes(workerService));
+    api.use('/compensation-policies', auth, compensationRoutes(workerService));
+
+    const partyService = new PartyService(db);
+    api.use('/customers', auth, customerRoutes(partyService));
+    api.use('/quotes', auth, quoteRoutes(partyService));
+    api.use('/vendors', auth, vendorRoutes(partyService));
+    api.use('/locations', auth, locationRoutes(partyService));
+    api.use('/routes', auth, routeRoutes(partyService));
   }
 
   // API reference: on by default outside production, opt-in with API_DOCS_ENABLED=true in production.
