@@ -10,6 +10,7 @@ import { FILE_CATEGORY_RULES, type FileCategory, type FileDto } from '@transaxis
 import { audit } from '../../lib/audit.js';
 import type { RequestContext } from '../../lib/context.js';
 import { AppError } from '../../lib/errors.js';
+import { assertTripAccess } from '../../lib/trip-access.js';
 
 const EXT: Record<string, string> = {
   'application/pdf': 'pdf',
@@ -22,7 +23,11 @@ export interface UploadInput {
   buffer: Buffer;
   originalName: string;
   category: FileCategory;
+  /** Required for trip documents: the trip the photo/document belongs to. */
+  tripId?: number;
 }
+
+const anyOf = (ctx: RequestContext, perms: readonly string[]) => perms.some((p) => ctx.permissions.has(p as never));
 
 export class FileService {
   constructor(
@@ -32,7 +37,11 @@ export class FileService {
 
   async upload(ctx: RequestContext, input: UploadInput, req: Request): Promise<FileDto> {
     const rules = FILE_CATEGORY_RULES[input.category];
-    if (!ctx.permissions.has(rules.uploadPermission)) throw AppError.forbidden();
+    if (!anyOf(ctx, rules.upload)) throw AppError.forbidden();
+    if (input.category === 'trip_document') {
+      if (!input.tripId) throw AppError.validation('tripId is required for trip documents', [{ path: 'tripId', message: 'Required' }]);
+      await assertTripAccess(this.db, ctx, input.tripId);
+    }
     if (input.buffer.length === 0) throw AppError.validation('The file is empty');
 
     // Trust the bytes, not the filename or the browser-supplied Content-Type.
@@ -62,6 +71,8 @@ export class FileService {
         sizeBytes: input.buffer.length,
         sha256: createHash('sha256').update(input.buffer).digest('hex'),
         category: input.category,
+        entityType: input.tripId ? 'trip' : null,
+        entityId: input.tripId ?? null,
         uploadedBy: ctx.userId,
       })
       .$returningId();
@@ -84,7 +95,14 @@ export class FileService {
       .limit(1);
     if (!row) throw AppError.notFound('File');
     const rules = FILE_CATEGORY_RULES[row.category as FileCategory];
-    if (!rules || !ctx.permissions.has(rules.downloadPermission)) throw AppError.notFound('File');
+    if (!rules || !anyOf(ctx, rules.download)) throw AppError.notFound('File');
+    // Drivers may only fetch documents attached to their own trips.
+    if (row.category === 'trip_document' && !ctx.permissions.has('trips:read')) {
+      if (row.entityType !== 'trip' || !row.entityId) throw AppError.notFound('File');
+      await assertTripAccess(this.db, ctx, row.entityId).catch(() => {
+        throw AppError.notFound('File');
+      });
+    }
 
     const fullPath = this.pathFor(row.storageKey);
     try {
@@ -94,6 +112,20 @@ export class FileService {
     }
     await audit(this.db, req, { action: 'file.downloaded', entityType: 'file', entityId: row.id, summary: row.originalName });
     return { row, stream: () => createReadStream(fullPath) };
+  }
+
+  /** Validates that file ids belong to the org (and, for trip documents, to the given trip). */
+  async assertOwned(ctx: RequestContext, ids: number[], tripId?: number): Promise<void> {
+    for (const id of ids) {
+      const [f] = await this.db
+        .select({ id: files.id, entityType: files.entityType, entityId: files.entityId })
+        .from(files)
+        .where(and(eq(files.id, id), eq(files.orgId, ctx.orgId)))
+        .limit(1);
+      if (!f || (tripId && (f.entityType !== 'trip' || f.entityId !== tripId))) {
+        throw AppError.validation('Unknown file', [{ path: 'fileId', message: `File ${id} not found for this record` }]);
+      }
+    }
   }
 
   private pathFor(storageKey: string): string {
