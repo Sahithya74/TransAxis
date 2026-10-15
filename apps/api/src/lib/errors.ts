@@ -9,6 +9,10 @@ export type ErrorCode =
   | 'CONFLICT'
   | 'RATE_LIMITED'
   | 'BUSINESS_RULE'
+  | 'ASSIGNMENT_BLOCKED'
+  | 'OVERRIDE_REQUIRED'
+  | 'OTP_INVALID'
+  | 'OTP_LOCKED'
   | 'PAYLOAD_TOO_LARGE'
   | 'UNSUPPORTED_MEDIA_TYPE'
   | 'INTERNAL_ERROR';
@@ -50,6 +54,17 @@ export interface ErrorBody {
   error: { code: ErrorCode; message: string; details?: unknown; requestId?: string };
 }
 
+/** MySQL deadlock (1213) or lock-wait timeout (1205), possibly wrapped by the ORM. */
+function isLockContention(err: unknown): boolean {
+  let e: unknown = err;
+  for (let i = 0; i < 3 && e; i++) {
+    const code = (e as { code?: string }).code;
+    if (code === 'ER_LOCK_DEADLOCK' || code === 'ER_LOCK_WAIT_TIMEOUT') return true;
+    e = (e as { cause?: unknown }).cause;
+  }
+  return false;
+}
+
 export const notFoundHandler: RequestHandler = (req, _res, next) => {
   next(AppError.notFound(`Route ${req.method} ${req.path}`));
 };
@@ -76,6 +91,10 @@ export function createErrorHandler(logger: Logger): ErrorRequestHandler {
         message: 'Request validation failed',
         details: err.issues.map((i) => ({ path: i.path.join('.'), message: i.message })),
       };
+    } else if (isLockContention(err)) {
+      // Concurrent writers collided; nothing was committed and the client can simply retry.
+      status = 409;
+      body = { code: 'CONFLICT', message: 'Another change was being saved at the same time. Please retry.' };
     } else if ((err as { type?: string }).type === 'entity.parse.failed') {
       status = 400;
       body = { code: 'VALIDATION_ERROR', message: 'Request body is not valid JSON' };
