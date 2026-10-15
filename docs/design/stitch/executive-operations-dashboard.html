@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary-fixed-dim":"#b4c5ff","inverse-primary":"#b4c5ff","inverse-on-surface":"#eaf1ff","on-background":"#0b1c30","on-secondary-container":"#5c647a","on-secondary-fixed-variant":"#3f465c","outline":"#737686","outline-variant":"#c3c6d7","tertiary-fixed-dim":"#d0bcff","surface-bright":"#f8f9ff","on-tertiary":"#ffffff","on-primary-container":"#eeefff","surface-tint":"#0053db","on-secondary":"#ffffff","secondary-container":"#dae2fd","on-primary":"#ffffff","on-secondary-fixed":"#131b2e","background":"#f8f9ff","surface-container-high":"#dce9ff","primary-fixed":"#dbe1ff","on-error-container":"#93000a","inverse-surface":"#213145","on-surface":"#0b1c30","surface-variant":"#d3e4fe","surface-dim":"#cbdbf5","on-primary-fixed":"#00174b","on-tertiary-container":"#f6edff","surface-container":"#e5eeff","secondary-fixed-dim":"#bec6e0","on-primary-fixed-variant":"#003ea8","secondary":"#565e74","on-surface-variant":"#434655","surface-container-low":"#eff4ff","tertiary":"#632ecd","tertiary-fixed":"#e9ddff","surface-container-highest":"#d3e4fe","primary":"#004ac6","secondary-fixed":"#dae2fd","on-tertiary-fixed":"#23005c","on-tertiary-fixed-variant":"#5516be","error-container":"#ffdad6","error":"#ba1a1a","surface":"#f8f9ff","tertiary-container":"#7d4ce7","primary-container":"#2563eb","surface-container-lowest":"#ffffff","on-error":"#ffffff"},borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},spacing:{"space-md":"0.75rem",gutter:"1rem","gutter-desktop":"1.5rem","space-sm":"0.5rem","space-xl":"2rem","margin-desktop":"1.5rem","space-xs":"0.25rem",margin:"1rem","space-lg":"1.25rem"},fontFamily:{"body-sm":["Inter"],"label-sm":["Inter"],"body-lg":["Inter"],"title-sm":["Plus Jakarta Sans"],"data-mono":["Inter"],"label-md":["Inter"],"headline-md":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-xl":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"]},fontSize:{"body-sm":["0.75rem",{lineHeight:"1rem",fontWeight:"400"}],"label-sm":["0.75rem",{lineHeight:"1rem",fontWeight:"600"}],"body-lg":["1rem",{lineHeight:"1.5rem",fontWeight:"400"}],"title-sm":["1rem",{lineHeight:"1.5rem",fontWeight:"600"}],"data-mono":["0.8125rem",{lineHeight:"1.125rem",fontWeight:"500"}],"label-md":["0.875rem",{lineHeight:"1.25rem",fontWeight:"500"}],"headline-md":["1.25rem",{lineHeight:"1.75rem",fontWeight:"600"}],"headline-xl-mobile":["1.5rem",{lineHeight:"2rem",fontWeight:"700"}],"body-md":["0.875rem",{lineHeight:"1.25rem",fontWeight:"400"}],"headline-xl":["2rem",{lineHeight:"2.5rem",fontWeight:"700"}],"headline-lg":["1.5rem",{lineHeight:"2rem",fontWeight:"600"}]}}}}</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-64 bg-inverse-surface z-50 flex flex-col border-r border-outline/20 select-none"><div class="h-14 px-gutter flex items-center justify-between border-b border-outline/20 bg-inverse-surface"><div class="flex items-center gap-space-sm"><div class="flex items-center justify-center w-7 h-7 rounded-lg bg-primary text-on-primary font-headline-md text-headline-md font-bold">T</div><div class="flex flex-col"><span class="font-title-sm text-title-sm text-surface-bright leading-none tracking-tight">TransAxis</span><span class="font-label-sm text-label-sm text-surface-dim/70 leading-none mt-0.5">FLEET OS v4.2</span></div></div><button class="flex items-center justify-center w-6 h-6 rounded text-surface-dim hover:text-surface-bright hover:bg-surface-dim/10 transition-colors"><span class="material-symbols-outlined text-base">first_page</span></button></div><div class="flex-1 overflow-y-auto px-space-sm py-space-sm space-y-space-md"><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Overview</div><a aria-current="page" class="flex items-center justify-between px-space-sm py-1.5 rounded-lg transition-colors bg-primary text-on-primary font-semibold" data-path="executive-dashboard" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg">dashboard</span><span>Executive Dashboard</span></div><span class="w-1.5 h-1.5 rounded-full bg-primary-fixed"></span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="live-fleet-map" href="#"><span class="material-symbols-outlined text-lg">map</span><span>Live Fleet Map</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="dispatch-board" href="#"><span class="material-symbols-outlined text-lg">view_kanban</span><span>Dispatch Board</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="trip-management" href="#"><span class="material-symbols-outlined text-lg">alt_route</span><span>Trip Management</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Operations</div><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="load-bookings" href="#"><span class="material-symbols-outlined text-lg">assignment</span><span>Load Bookings</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="vehicles" href="#"><span class="material-symbols-outlined text-lg">local_shipping</span><span>Vehicles</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="drivers-workforce" href="#"><span class="material-symbols-outlined text-lg">badge</span><span>Drivers &amp; Workforce</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="customers-vendors" href="#"><span class="material-symbols-outlined text-lg">corporate_fare</span><span>Customers &amp; Vendors</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="maintenance" href="#"><span class="material-symbols-outlined text-lg">build</span><span>Maintenance</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="fuel-management" href="#"><span class="material-symbols-outlined text-lg">local_gas_station</span><span>Fuel Management</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Security &amp; Safety</div><a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="security-control-room" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg text-error-container">emergency</span><span>Security Control Room</span></div><span class="px-1.5 py-0.5 rounded-full bg-error text-on-error font-label-sm text-label-sm uppercase tracking-wider animate-pulse">SOS</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="safety-alerts" href="#"><span class="material-symbols-outlined text-lg">warning</span><span>Safety Alerts</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="incident-management" href="#"><span class="material-symbols-outlined text-lg">gavel</span><span>Incident Management</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Finance</div><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="financial-overview" href="#"><span class="material-symbols-outlined text-lg">account_balance</span><span>Financial Overview</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="trip-profitability" href="#"><span class="material-symbols-outlined text-lg">trending_up</span><span>Trip Profitability</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="invoices-collections" href="#"><span class="material-symbols-outlined text-lg">receipt_long</span><span>Invoices &amp; Collections</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="driver-settlements" href="#"><span class="material-symbols-outlined text-lg">payments</span><span>Driver Settlements</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="expenses-vendors" href="#"><span class="material-symbols-outlined text-lg">price_change</span><span>Expenses &amp; Vendors</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Intelligence</div><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="reports-analytics" href="#"><span class="material-symbols-outlined text-lg">insights</span><span>Reports &amp; Analytics</span></a><a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="ai-transport-assistant" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg text-tertiary-fixed">auto_awesome</span><span>AI Transport Assistant</span></div><span class="px-1.5 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm">AI</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="document-knowledge-base" href="#"><span class="material-symbols-outlined text-lg">menu_book</span><span>Document Knowledge Base</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Administration</div><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="calendar-events" href="#"><span class="material-symbols-outlined text-lg">event</span><span>Calendar &amp; Events</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="compliance-documents" href="#"><span class="material-symbols-outlined text-lg">verified_user</span><span>Compliance &amp; Documents</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="users-permissions" href="#"><span class="material-symbols-outlined text-lg">manage_accounts</span><span>Users &amp; Permissions</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="audit-logs" href="#"><span class="material-symbols-outlined text-lg">history</span><span>Audit Logs</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-lg">settings</span><span>Settings</span></a></nav></div><div class="p-space-sm border-t border-outline/20 bg-inverse-surface/80"><div class="flex items-center justify-between px-space-sm py-1.5 rounded-lg bg-surface-dim/10"><div class="flex items-center gap-space-sm"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-surface-bright leading-none">Nhava Gateway</span><span class="font-data-mono text-data-mono text-outline-variant text-[11px]">Node 09: 99.98%</span></div></div><span class="material-symbols-outlined text-sm text-surface-dim">sensors</span></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-14 bg-surface-container-lowest border-b border-outline-variant/30 z-40 flex items-center justify-between px-gutter-desktop shadow-[0_1px_3px_0_rgba(15,23,42,0.03)]"><div class="flex items-center gap-gutter"><div class="flex items-center gap-space-sm"><img alt="TransAxis Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WV72O0uA7rLkLl698tm6PJU4Z-D5TDO-zcH_UQIi1zHNGx23KPnK1ZiCnX7dTiIHC5NvjnOUY8FXZ6bamIu8F3kcVFEwMPgZ8kAEASNsCPpVlvK1e29UVwOOnDzomKZZKrBJEOszRX8JhDfBynvlzgWKYOE9fxze-ScYeXFFVhQkVW0tBGWE3x-qMhoYxn7GI-nxB6GfuKTzqEBVfEotJ3utxIPFIZl_ozb9lXtNgK0M3o0_pxfzmvd7c"/><div class="h-5 w-px bg-outline-variant/50"></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer"><span class="material-symbols-outlined text-primary text-base">hub</span><span class="font-label-md text-label-md text-on-surface font-semibold">West Zone Hub - Nhava Sheva / Bhiwandi</span><span class="material-symbols-outlined text-secondary text-sm">expand_more</span></div></div><div class="relative w-80 hidden lg:block"><span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline text-base">search</span><input class="w-full h-8 pl-8 pr-3 bg-surface-container-low border border-outline-variant rounded-lg font-data-mono text-data-mono text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all" placeholder="Omni-search Trucks (MH-04), Drivers, Trips..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low border border-outline-variant/40"><span class="w-2 h-2 rounded-full bg-emerald-500"></span><span class="font-data-mono text-data-mono text-[11px] text-secondary font-medium tracking-tight">SIMULATED GPS: LIVE 1.2s</span></div><button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed hover:bg-tertiary-fixed-dim transition-colors font-label-md text-label-md font-semibold"><span class="material-symbols-outlined text-base">auto_awesome</span><span class="hidden md:inline">AI Fleet Assist</span></button><div class="relative"><button class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-surface-container transition-colors text-on-surface-variant relative"><span class="material-symbols-outlined text-lg">notifications</span><span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-error text-on-error font-label-sm text-[10px] leading-none flex items-center justify-center font-bold">3</span></button></div><div class="h-6 w-px bg-outline-variant/40"></div><div class="flex items-center gap-space-sm pl-1 cursor-pointer"><img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg0d6FhCLsz95lposrnBH1hOQgJnxZZEL79WTrkN3iLampUNlZ6nsOzEoRWg1o7aASjZcIK9Vy9CdYG5GGQdSBV232DDDQJyGPyoFlvfNDUDGYbesSTu5jjZL35JMyDV0s9wV9EppK4aIBnAyCAbTYOl9m0qFIDdAYaNoshGMnHCZRvL3LzyESBLbN6dfIniyBKO-dlPUconwOrApT7W9qDgm7ponIH4Br9h5wRnEf-uYlRQuRglHK"/><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Rajesh Varma</span><span class="font-body-sm text-body-sm text-secondary leading-none">VP Operations</span></div><span class="material-symbols-outlined text-secondary text-base">arrow_drop_down</span></div></div></header><main class="relative pt-14 w-full px-gutter-desktop min-h-screen bg-background"><div class="flex flex-col w-full pb-12">
+<!-- Command Sub-Header & Controls Bar -->
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md py-space-md mb-space-lg">
+<!-- Breadcrumb & Title Context -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 font-data-mono text-data-mono text-secondary">
+<span class="hover:text-primary transition-colors cursor-pointer">Operations</span>
+<span class="text-outline-variant font-normal">/</span>
+<span class="hover:text-primary transition-colors cursor-pointer">West Zone Hub</span>
+<span class="text-outline-variant font-normal">/</span>
+<span class="text-primary font-semibold">Executive Dashboard</span>
+</div>
+<div class="flex items-center gap-space-sm mt-0.5">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Fleet Intelligence &amp; Performance Control</h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-label-sm font-label-sm border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          Live Ingestion active
+        </span>
+</div>
+</div>
+<!-- Quick Action Toolset & Fiscal Selector -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<!-- Period Scope Dropdown -->
+<div class="flex items-center bg-surface-container-lowest border border-outline-variant rounded-lg p-1 shadow-sm">
+<button class="px-3 py-1 rounded font-label-sm text-label-sm text-primary font-semibold bg-primary-fixed/40 transition-colors">
+          This Month (Nov 2024)
+        </button>
+<button class="px-3 py-1 rounded font-label-sm text-label-sm text-secondary hover:text-on-surface transition-colors">
+          Oct 2024
+        </button>
+<button class="px-3 py-1 rounded font-label-sm text-label-sm text-secondary hover:text-on-surface transition-colors flex items-center gap-1">
+<span>Q3 FY24-25</span>
+<span class="material-symbols-outlined text-sm">calendar_month</span>
+</button>
+</div>
+<!-- Export PDF Report -->
+<button class="flex items-center gap-1.5 px-3.5 py-2 bg-surface-container-lowest border border-outline-variant hover:bg-surface-container rounded-lg font-label-md text-label-md text-on-surface transition-all shadow-sm">
+<span class="material-symbols-outlined text-base text-secondary">picture_as_pdf</span>
+<span>Export Report</span>
+</button>
+<!-- New Trip Dispatch Button -->
+<button class="flex items-center gap-1.5 px-4 py-2 bg-primary hover:bg-primary-container text-on-primary rounded-lg font-label-md text-label-md font-semibold transition-all shadow-sm shadow-primary/20">
+<span class="material-symbols-outlined text-base">add_circle</span>
+<span>Initiate Trip Dispatch</span>
+</button>
+</div>
+</div>
+<!-- 8 Precision Executive KPI Cards Mosaic -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-xl">
+<!-- KPI 1: Fleet Inventory -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-primary/40 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Total Fleet Scale</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">482</span>
+<span class="font-body-sm text-body-sm text-secondary">Heavy Commercials</span>
+</div>
+</div>
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">local_shipping</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-3 border-t border-surface-container-high font-data-mono text-data-mono text-[11px]">
+<span class="text-emerald-700 flex items-center gap-0.5 font-semibold">
+<span class="material-symbols-outlined text-xs">trending_up</span> +14 induction this Q
+        </span>
+<a class="text-primary hover:underline font-label-sm text-label-sm" href="#">Fleet Registry →</a>
+</div>
+</div>
+<!-- KPI 2: Active Utilization -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-primary/40 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Active In-Transit</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">328</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-bold">68.0%</span>
+</div>
+</div>
+<div class="w-9 h-9 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">commute</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-3 border-t border-surface-container-high font-data-mono text-data-mono text-[11px]">
+<span class="text-secondary">Optimal corridor load index</span>
+<span class="text-emerald-700 font-semibold flex items-center gap-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> +4.2% MoM
+        </span>
+</div>
+</div>
+<!-- KPI 3: Available Yard Strength -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-primary/40 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Ready in Terminals</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">86</span>
+<span class="font-body-sm text-body-sm text-secondary">Lorries staged</span>
+</div>
+</div>
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-xl">warehouse</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-3 border-t border-surface-container-high font-data-mono text-data-mono text-[11px]">
+<span class="text-secondary">42 Nhava / 31 Bhiwandi / 13 Chakan</span>
+<a class="text-primary hover:underline font-label-sm text-label-sm" href="#">Assign Load →</a>
+</div>
+</div>
+<!-- KPI 4: Active Consignments SLA -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-primary/40 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Active Consignments</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">328</span>
+<span class="font-data-mono text-data-mono text-[11px] text-amber-700 font-bold bg-amber-100 px-1.5 py-0.5 rounded">16 Monitored</span>
+</div>
+</div>
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">inventory_2</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-3 border-t border-surface-container-high font-data-mono text-data-mono text-[11px]">
+<span class="text-emerald-700 font-semibold">312 Crisp on-schedule</span>
+<span class="text-error font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs">speed</span> 2 Toll bottlenecks
+        </span>
+</div>
+</div>
+<!-- KPI 5: On-Time Delivery Metric -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-primary/40 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">On-Time SLA Delivery</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">96.4%</span>
+<span class="font-body-sm text-body-sm text-emerald-700 font-semibold">+1.8%</span>
+</div>
+</div>
+<div class="w-9 h-9 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-700">
+<span class="material-symbols-outlined text-xl">verified</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-3 border-t border-surface-container-high font-data-mono text-data-mono text-[11px]">
+<span class="text-secondary">Benchmark target: 95.0%</span>
+<span class="text-primary font-semibold">Tier-1 Clients</span>
+</div>
+</div>
+<!-- KPI 6: Total Gross Invoiced Revenue -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-primary/40 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Gross Freight Invoicing</span>
+<div class="flex items-baseline gap-1.5 mt-1">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold tracking-tight">₹4.82</span>
+<span class="font-title-sm text-title-sm text-secondary font-semibold">Cr</span>
+</div>
+</div>
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">payments</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-3 border-t border-surface-container-high font-data-mono text-data-mono text-[11px]">
+<span class="text-emerald-700 font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs">trending_up</span> +11.2% MoM (₹4.82 Cr)
+        </span>
+<span class="text-secondary">MTD Total</span>
+</div>
+</div>
+<!-- KPI 7: Operating Fleet Expenditure -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-primary/40 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Total OPEX Outflow</span>
+<div class="flex items-baseline gap-1.5 mt-1">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold tracking-tight">₹3.62</span>
+<span class="font-title-sm text-title-sm text-secondary font-semibold">Cr</span>
+</div>
+</div>
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-xl">account_balance_wallet</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-3 border-t border-surface-container-high font-data-mono text-data-mono text-[11px]">
+<span class="text-secondary">Diesel (52%) • Toll (19%) • Crew</span>
+<span class="text-amber-700 font-semibold">₹3,61,95,000</span>
+</div>
+</div>
+<!-- KPI 8: Operating Margin & Realization -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-primary/40 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Net Operating Profit</span>
+<div class="flex items-baseline gap-1.5 mt-1">
+<span class="font-headline-xl text-headline-xl text-primary font-bold tracking-tight">₹1.21</span>
+<span class="font-title-sm text-title-sm text-primary font-semibold">Cr</span>
+</div>
+</div>
+<div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">insights</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-3 border-t border-surface-container-high font-data-mono text-data-mono text-[11px]">
+<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">25.0% Margin</span>
+<span class="text-secondary font-semibold">₹1,20,65,000 Net</span>
+</div>
+</div>
+</div>
+<!-- Operational Command Core Split -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN: Deep Live Operations Table & Financial Ingestion Chart (8 cols) -->
+<div class="lg:col-span-8 flex flex-col gap-space-lg min-w-0">
+<!-- Primary Operational Trips Monitoring Card -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl shadow-sm flex flex-col overflow-hidden">
+<!-- Card Control Header -->
+<div class="p-4 border-b border-outline-variant/40 flex flex-col md:flex-row md:items-center justify-between gap-space-sm bg-surface-container-low/40">
+<div class="flex items-center gap-space-sm">
+<div class="w-2.5 h-2.5 rounded-full bg-primary animate-ping"></div>
+<div>
+<h2 class="font-title-sm text-title-sm text-on-surface font-bold leading-tight">Live Active Trips &amp; Route Telemetry</h2>
+<p class="font-body-sm text-body-sm text-secondary">Real-time GPS nodes, cargo weight compliance &amp; live gross margin indexing</p>
+</div>
+</div>
+<!-- Table Filter Pills -->
+<div class="flex items-center gap-1 bg-surface-container p-0.5 rounded-lg font-label-sm text-label-sm">
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest text-primary font-semibold shadow-xs">All (328)</button>
+<button class="px-2.5 py-1 rounded text-secondary hover:text-on-surface transition-colors">En-Route (284)</button>
+<button class="px-2.5 py-1 rounded text-secondary hover:text-on-surface transition-colors">Loading (28)</button>
+<button class="px-2.5 py-1 rounded text-secondary hover:text-on-surface transition-colors flex items-center gap-1">
+<span>Delayed</span>
+<span class="w-4 h-4 rounded-full bg-error text-on-error text-[10px] flex items-center justify-center font-bold">4</span>
+</button>
+<button class="px-2.5 py-1 rounded text-secondary hover:text-on-surface transition-colors">Approaching (12)</button>
+</div>
+</div>
+<!-- High-Density Telemetry Table -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/80 border-b border-outline-variant/40 text-[11px] font-label-sm uppercase tracking-wider text-secondary">
+<th class="py-2.5 px-3 font-semibold">Trip ID / Vehicle</th>
+<th class="py-2.5 px-3 font-semibold">Driver &amp; Crew</th>
+<th class="py-2.5 px-3 font-semibold">Origin → Destination</th>
+<th class="py-2.5 px-3 font-semibold">Cargo &amp; Weight</th>
+<th class="py-2.5 px-3 font-semibold">Current Milestone / ETA</th>
+<th class="py-2.5 px-3 font-semibold">Health Status</th>
+<th class="py-2.5 px-3 font-semibold text-right">Proj. Net Profit</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30 text-body-sm font-body-sm">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<span class="font-data-mono text-data-mono font-bold text-primary">#TX-8841</span>
+<span class="font-data-mono text-data-mono text-xs text-on-surface font-semibold">MH-04-GP-2819</span>
+<span class="text-[11px] text-secondary">Tata Prima 4028.S (14-Wh)</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center text-secondary font-label-sm font-bold text-xs">
+                      SS
+                    </div>
+<div class="flex flex-col">
+<span class="text-on-surface font-semibold text-xs leading-tight">Sukhwinder Singh</span>
+<span class="text-[11px] text-secondary">+1 Co-Driver (G. Ram)</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 font-semibold text-xs text-on-surface">
+<span>Bhiwandi Hub</span>
+<span class="material-symbols-outlined text-[13px] text-outline">arrow_forward</span>
+<span>Sri City, AP</span>
+</div>
+<span class="text-[11px] text-secondary">Corridor: NH-48 / Golden Quad</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-on-surface">Auto Transmission Assemblies</span>
+<span class="font-data-mono text-data-mono text-[11px] text-secondary">24.5 MT (Tare: 15.2 MT)</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 text-xs font-semibold text-emerald-800">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>Pune Bypass • 4h ahead</span>
+</div>
+<span class="text-[11px] text-secondary font-data-mono">ETA: 24 Nov, 18:30 IST</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-semibold border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                    On Route - Healthy
+                  </span>
+</td>
+<td class="py-3 px-3 text-right">
+<span class="font-data-mono text-data-mono font-bold text-emerald-700 text-xs">+₹42,800</span>
+<div class="text-[10px] text-secondary font-data-mono">Margin: 28.4%</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<span class="font-data-mono text-data-mono font-bold text-primary">#TX-8839</span>
+<span class="font-data-mono text-data-mono text-xs text-on-surface font-semibold">NL-01-AH-9411</span>
+<span class="text-[11px] text-secondary">BharatBenz 3528R (Reefer)</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center text-secondary font-label-sm font-bold text-xs">
+                      DY
+                    </div>
+<div class="flex flex-col">
+<span class="text-on-surface font-semibold text-xs leading-tight">Dinesh Yadav</span>
+<span class="text-[11px] text-secondary">Solo Driver</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 font-semibold text-xs text-on-surface">
+<span>Vapi GIDC</span>
+<span class="material-symbols-outlined text-[13px] text-outline">arrow_forward</span>
+<span>Manesar Hub</span>
+</div>
+<span class="text-[11px] text-secondary">Corridor: Western Express / NH-48</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-on-surface">Vaccines &amp; API Formulations</span>
+<span class="font-data-mono text-data-mono text-[11px] text-tertiary font-semibold">18.2 MT • Temp: 4.2°C</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 text-xs font-semibold text-amber-700">
+<span class="material-symbols-outlined text-sm">traffic</span>
+<span>Udaipur Bypass • Minor delay</span>
+</div>
+<span class="text-[11px] text-secondary font-data-mono">ETA: 25 Nov, 06:15 IST</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 text-[11px] font-semibold border border-amber-200">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+                    Temp Alert Flag
+                  </span>
+</td>
+<td class="py-3 px-3 text-right">
+<span class="font-data-mono text-data-mono font-bold text-emerald-700 text-xs">+₹68,500</span>
+<div class="text-[10px] text-secondary font-data-mono">Margin: 34.1%</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<span class="font-data-mono text-data-mono font-bold text-primary">#TX-8834</span>
+<span class="font-data-mono text-data-mono text-xs text-on-surface font-semibold">MH-12-PQ-7744</span>
+<span class="text-[11px] text-secondary">Ashok Leyland 4220 HG</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center text-secondary font-label-sm font-bold text-xs">
+                      PK
+                    </div>
+<div class="flex flex-col">
+<span class="text-on-surface font-semibold text-xs leading-tight">Pravin Kadam</span>
+<span class="text-[11px] text-secondary">+1 Cleaner (A. Shaikh)</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 font-semibold text-xs text-on-surface">
+<span>Chakan, Pune</span>
+<span class="material-symbols-outlined text-[13px] text-outline">arrow_forward</span>
+<span>Hosur Plant-2</span>
+</div>
+<span class="text-[11px] text-secondary">Corridor: Pune-Bangalore Corridor</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-on-surface">Precision Chassis Castings</span>
+<span class="font-data-mono text-data-mono text-[11px] text-secondary">28.4 MT (High Density)</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 text-xs font-semibold text-emerald-800">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>Belagavi Toll • On schedule</span>
+</div>
+<span class="text-[11px] text-secondary font-data-mono">ETA: 24 Nov, 22:45 IST</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-semibold border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                    On Route - Healthy
+                  </span>
+</td>
+<td class="py-3 px-3 text-right">
+<span class="font-data-mono text-data-mono font-bold text-emerald-700 text-xs">+₹39,200</span>
+<div class="text-[10px] text-secondary font-data-mono">Margin: 23.9%</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group bg-red-50/30">
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<span class="font-data-mono text-data-mono font-bold text-primary">#TX-8829</span>
+<span class="font-data-mono text-data-mono text-xs text-error font-semibold">MH-04-EY-6011</span>
+<span class="text-[11px] text-secondary">Tata Signa 4825.TK</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-error-container text-on-error-container flex items-center justify-center font-label-sm font-bold text-xs">
+                      MA
+                    </div>
+<div class="flex flex-col">
+<span class="text-on-surface font-semibold text-xs leading-tight">Mohd. Arif</span>
+<span class="text-[11px] text-error font-semibold">Unresponsive 35m</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 font-semibold text-xs text-on-surface">
+<span>JNPT Nhava Sheva</span>
+<span class="material-symbols-outlined text-[13px] text-outline">arrow_forward</span>
+<span>Indore ICD</span>
+</div>
+<span class="text-[11px] text-secondary">Corridor: Nashik-Dhule-Indore</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-on-surface">High-Value Electronics Container</span>
+<span class="font-data-mono text-data-mono text-[11px] text-secondary">19.8 MT • Seal #AX-9912</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 text-xs font-semibold text-error">
+<span class="material-symbols-outlined text-sm">warning</span>
+<span>Surat Outskirts • Route Diverted</span>
+</div>
+<span class="text-[11px] text-error font-data-mono">Off corridor by 8.4 km</span>
+</div>
+</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-error-container text-on-error-container text-[11px] font-semibold border border-error/20">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span>
+                    Security Override
+                  </span>
+</td>
+<td class="py-3 px-3 text-right">
+<span class="font-data-mono text-data-mono font-bold text-secondary text-xs">₹31,000 (At Risk)</span>
+<div class="text-[10px] text-error font-data-mono">SOS Active</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Quick Link -->
+<div class="p-3 bg-surface-container-low/40 border-t border-outline-variant/30 flex items-center justify-between font-label-sm text-label-sm text-secondary">
+<div class="flex items-center gap-2">
+<span>Showing 4 of 328 Active Consignments</span>
+<span class="text-outline-variant">•</span>
+<span class="text-emerald-700 font-semibold">Average Fleet Velocity: 54.2 km/h</span>
+</div>
+<a class="text-primary hover:text-primary-container font-semibold flex items-center gap-1" href="#">
+<span>Open Complete Live Dispatch Board (Kanban / Grid)</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Financial Performance Trend Visualization (6-Month Rolling) -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl p-5 shadow-sm flex flex-col gap-4">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant/30 pb-3">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">bar_chart</span>
+<h3 class="font-title-sm text-title-sm text-on-surface font-bold">Financial Realization vs Core Operational Outflows</h3>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Monthly reconciliation in Indian Lakhs (INR) across diesel, Fastag tolls, repairs and margin</p>
+</div>
+<!-- Legend -->
+<div class="flex items-center gap-3 text-[11px] font-data-mono">
+<div class="flex items-center gap-1">
+<span class="w-3 h-3 rounded bg-primary"></span>
+<span class="text-on-surface">Gross Revenue</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-3 h-3 rounded bg-amber-500"></span>
+<span class="text-on-surface">Fuel Outflow</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-3 h-3 rounded bg-secondary"></span>
+<span class="text-on-surface">Fastag &amp; En-Route</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-3 h-3 rounded bg-emerald-500"></span>
+<span class="text-on-surface">Net OP Margin</span>
+</div>
+</div>
+</div>
+<!-- Inline SVG Visualization (Under 2KB, responsive) -->
+<div class="w-full h-52 flex items-end justify-between gap-3 pt-6 pb-2 px-2 relative font-data-mono">
+<!-- Background Guidelines -->
+<div class="absolute inset-0 top-6 flex flex-col justify-between pointer-events-none opacity-20">
+<div class="border-b border-outline w-full flex justify-between text-[10px]"><span class="text-secondary">5.0 Cr</span></div>
+<div class="border-b border-outline w-full flex justify-between text-[10px]"><span class="text-secondary">3.75 Cr</span></div>
+<div class="border-b border-outline w-full flex justify-between text-[10px]"><span class="text-secondary">2.5 Cr</span></div>
+<div class="border-b border-outline w-full flex justify-between text-[10px]"><span class="text-secondary">1.25 Cr</span></div>
+<div class="border-b border-outline w-full flex justify-between text-[10px]"><span></span></div>
+</div>
+<!-- Month 1: Jun 24 -->
+<div class="flex-1 flex flex-col items-center gap-1 h-full justify-end z-10 group">
+<div class="w-full max-w-[48px] flex items-end gap-1 h-4/5">
+<div class="flex-1 bg-primary/80 group-hover:bg-primary transition-all rounded-t-xs h-[78%]" title="Revenue: ₹3.90 Cr"></div>
+<div class="w-2.5 bg-amber-500 rounded-t-xs h-[42%]" title="Fuel: ₹1.64 Cr"></div>
+<div class="w-2.5 bg-emerald-500 rounded-t-xs h-[21%]" title="Net Margin: ₹82 Lakhs"></div>
+</div>
+<span class="text-[11px] text-secondary font-medium mt-1">Jun 24</span>
+<span class="text-[10px] text-on-surface font-semibold">₹3.90 Cr</span>
+</div>
+<!-- Month 2: Jul 24 -->
+<div class="flex-1 flex flex-col items-center gap-1 h-full justify-end z-10 group">
+<div class="w-full max-w-[48px] flex items-end gap-1 h-4/5">
+<div class="flex-1 bg-primary/80 group-hover:bg-primary transition-all rounded-t-xs h-[81%]" title="Revenue: ₹4.05 Cr"></div>
+<div class="w-2.5 bg-amber-500 rounded-t-xs h-[44%]" title="Fuel: ₹1.78 Cr"></div>
+<div class="w-2.5 bg-emerald-500 rounded-t-xs h-[22%]" title="Net Margin: ₹89 Lakhs"></div>
+</div>
+<span class="text-[11px] text-secondary font-medium mt-1">Jul 24</span>
+<span class="text-[10px] text-on-surface font-semibold">₹4.05 Cr</span>
+</div>
+<!-- Month 3: Aug 24 -->
+<div class="flex-1 flex flex-col items-center gap-1 h-full justify-end z-10 group">
+<div class="w-full max-w-[48px] flex items-end gap-1 h-4/5">
+<div class="flex-1 bg-primary/80 group-hover:bg-primary transition-all rounded-t-xs h-[84%]" title="Revenue: ₹4.20 Cr"></div>
+<div class="w-2.5 bg-amber-500 rounded-t-xs h-[43%]" title="Fuel: ₹1.80 Cr"></div>
+<div class="w-2.5 bg-emerald-500 rounded-t-xs h-[23%]" title="Net Margin: ₹96 Lakhs"></div>
+</div>
+<span class="text-[11px] text-secondary font-medium mt-1">Aug 24</span>
+<span class="text-[10px] text-on-surface font-semibold">₹4.20 Cr</span>
+</div>
+<!-- Month 4: Sep 24 -->
+<div class="flex-1 flex flex-col items-center gap-1 h-full justify-end z-10 group">
+<div class="w-full max-w-[48px] flex items-end gap-1 h-4/5">
+<div class="flex-1 bg-primary/80 group-hover:bg-primary transition-all rounded-t-xs h-[87%]" title="Revenue: ₹4.35 Cr"></div>
+<div class="w-2.5 bg-amber-500 rounded-t-xs h-[45%]" title="Fuel: ₹1.95 Cr"></div>
+<div class="w-2.5 bg-emerald-500 rounded-t-xs h-[23%]" title="Net Margin: ₹1.01 Cr"></div>
+</div>
+<span class="text-[11px] text-secondary font-medium mt-1">Sep 24</span>
+<span class="text-[10px] text-on-surface font-semibold">₹4.35 Cr</span>
+</div>
+<!-- Month 5: Oct 24 -->
+<div class="flex-1 flex flex-col items-center gap-1 h-full justify-end z-10 group">
+<div class="w-full max-w-[48px] flex items-end gap-1 h-4/5">
+<div class="flex-1 bg-primary/80 group-hover:bg-primary transition-all rounded-t-xs h-[90%]" title="Revenue: ₹4.51 Cr"></div>
+<div class="w-2.5 bg-amber-500 rounded-t-xs h-[46%]" title="Fuel: ₹2.07 Cr"></div>
+<div class="w-2.5 bg-emerald-500 rounded-t-xs h-[24%]" title="Net Margin: ₹1.08 Cr"></div>
+</div>
+<span class="text-[11px] text-secondary font-medium mt-1">Oct 24</span>
+<span class="text-[10px] text-on-surface font-semibold">₹4.51 Cr</span>
+</div>
+<!-- Month 6: Nov 24 (Current Active) -->
+<div class="flex-1 flex flex-col items-center gap-1 h-full justify-end z-10 group bg-surface-container-low/40 rounded-lg p-1">
+<div class="w-full max-w-[48px] flex items-end gap-1 h-4/5">
+<div class="flex-1 bg-primary shadow-sm rounded-t-xs h-[96%]" title="Revenue: ₹4.82 Cr"></div>
+<div class="w-2.5 bg-amber-500 rounded-t-xs h-[48%]" title="Fuel: ₹2.25 Cr"></div>
+<div class="w-2.5 bg-emerald-500 rounded-t-xs h-[25%]" title="Net Margin: ₹1.21 Cr"></div>
+</div>
+<span class="text-[11px] text-primary font-bold mt-1">Nov 24 (MTD)</span>
+<span class="text-[10px] text-primary font-bold">₹4.82 Cr</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between text-body-sm font-body-sm text-secondary pt-3 border-t border-outline-variant/30">
+<div class="flex items-center gap-4">
+<span>Average Freight Realization: <strong class="text-on-surface font-semibold">₹68.4 / KM</strong></span>
+<span>Diesel Cost per KM: <strong class="text-on-surface font-semibold">₹27.8 / KM</strong></span>
+<span>Fastag Overhead: <strong class="text-on-surface font-semibold">8.2%</strong></span>
+</div>
+<a class="text-primary hover:underline font-label-sm text-label-sm font-semibold flex items-center gap-0.5" href="#">
+            Full Financial Ledger →
+          </a>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Fleet Radar, Compliance Warnings, Safety SOS & Collections (4 cols) -->
+<div class="lg:col-span-4 flex flex-col gap-space-lg">
+<!-- Interactive Fleet Radar Map Section -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="p-3.5 border-b border-outline-variant/40 flex items-center justify-between bg-surface-container-low/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">explore</span>
+<span class="font-title-sm text-title-sm text-on-surface font-bold">Golden Quad Radar</span>
+</div>
+<span class="font-data-mono text-data-mono text-[11px] px-2 py-0.5 rounded bg-surface-container text-secondary font-semibold">
+            328 GPS Transponders
+          </span>
+</div>
+<!-- Map Viewport -->
+<div class="relative w-full h-56 bg-surface-container">
+<div class="w-full h-full bg-cover bg-center" data-location="India Highway Corridors" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAMVxGIrU_i2K3dF8jAAL9LTADNSVpZFtGByI0MFG-mADcCdhIFsYgO2YmM4wcBeFLsHghM7ZCV-KzirwfGvoWrzhf8teikxhRhilqoc30aLcic94S-W5f-HLYXR_p22LMcGgXn_pAsLPrznqMSXrXR7fW-EgFPeJsKfqRQou1kg7PDPkVqwUA7cwkxyaB_2W6SuAD5PPpEVCSkN7eDDwNq9-aQQ-PlTA4bymNtRs1zTphag3Oz6PQ1')">
+<!-- Simulated GIS Overlay UI Elements -->
+<div class="absolute inset-0 bg-inverse-surface/15 flex flex-col justify-between p-3 pointer-events-none">
+<!-- Top Left Node Badge -->
+<div class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-inverse-surface/90 text-surface-bright font-data-mono text-[10px] backdrop-blur-xs w-fit">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+<span>Active Link: Nhava Sheva ↔ NCR Corridor</span>
+</div>
+<!-- Hotspot Badges -->
+<div class="flex justify-between items-end">
+<div class="px-2 py-1 rounded bg-amber-500/90 text-white font-data-mono text-[10px] font-bold">
+                  Slowdown: Khed Shivapur Toll (+45m)
+                </div>
+<div class="px-2 py-1 rounded bg-inverse-surface/85 text-surface-bright font-data-mono text-[10px]">
+                  Sim: Lat 18.96N, Long 72.82E
+                </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Corridor Metrics -->
+<div class="p-3.5 grid grid-cols-2 gap-2 text-body-sm font-body-sm bg-surface-container-lowest border-t border-outline-variant/30">
+<div class="flex flex-col p-2 rounded bg-surface-container-low">
+<span class="font-label-sm text-label-sm text-secondary">Mumbai ↔ Delhi (WDFC)</span>
+<span class="font-data-mono text-data-mono text-xs font-bold text-on-surface mt-0.5">142 Lorries • 98% Normal</span>
+</div>
+<div class="flex flex-col p-2 rounded bg-surface-container-low">
+<span class="font-label-sm text-label-sm text-secondary">Mumbai ↔ Chennai (NH-48)</span>
+<span class="font-data-mono text-data-mono text-xs font-bold text-on-surface mt-0.5">116 Lorries • 1 Bottleneck</span>
+</div>
+</div>
+</div>
+<!-- Critical Safety & Security Alert Stream -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="p-3.5 border-b border-outline-variant/40 flex items-center justify-between bg-error-container/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-lg">emergency</span>
+<span class="font-title-sm text-title-sm text-on-surface font-bold">Live Risk &amp; Safety Telemetry</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-error text-on-error font-label-sm text-[10px] uppercase font-bold animate-pulse">
+            3 High Priority
+          </span>
+</div>
+<div class="divide-y divide-outline-variant/30">
+<!-- Alert 1: Deviation -->
+<div class="p-3 flex items-start gap-3 hover:bg-surface-container-low/60 transition-colors">
+<div class="w-8 h-8 rounded-lg bg-error-container text-on-error-container flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-lg">alt_route</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between gap-1">
+<span class="text-xs font-bold text-on-surface truncate">Geo-Fence Breach (NH-48 Surat)</span>
+<span class="font-data-mono text-data-mono text-[10px] text-error font-semibold">12m ago</span>
+</div>
+<p class="text-[11px] text-secondary mt-0.5">Vehicle <strong class="text-on-surface font-data-mono">MH-04-EY-6011</strong> diverted 8.4 km towards industrial bypass without route authorization.</p>
+<div class="flex items-center gap-2 mt-2">
+<button class="px-2 py-0.5 rounded bg-error text-on-error font-label-sm text-[11px] font-semibold">Call Driver</button>
+<button class="px-2 py-0.5 rounded bg-surface-container text-secondary hover:text-on-surface font-label-sm text-[11px]">Control Room Feed</button>
+</div>
+</div>
+</div>
+<!-- Alert 2: Harsh Braking / ADAS -->
+<div class="p-3 flex items-start gap-3 hover:bg-surface-container-low/60 transition-colors">
+<div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-900 flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-lg">speed</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between gap-1">
+<span class="text-xs font-bold text-on-surface truncate">Harsh Deceleration • 0.65G</span>
+<span class="font-data-mono text-data-mono text-[10px] text-secondary">24m ago</span>
+</div>
+<p class="text-[11px] text-secondary mt-0.5">Vehicle <strong class="text-on-surface font-data-mono">MH-14-CW-1920</strong> near Satara Ghats. Driver telemetry suggests sudden obstacle mitigation.</p>
+</div>
+</div>
+<!-- Alert 3: Cold Chain Reefer Sensor -->
+<div class="p-3 flex items-start gap-3 hover:bg-surface-container-low/60 transition-colors">
+<div class="w-8 h-8 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-lg">thermostat</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between gap-1">
+<span class="text-xs font-bold text-on-surface truncate">Temp Variance: Pharma Cargo</span>
+<span class="font-data-mono text-data-mono text-[10px] text-tertiary font-bold">Live Sensor</span>
+</div>
+<p class="text-[11px] text-secondary mt-0.5">Container <strong class="text-on-surface font-data-mono">TX-RFC-042</strong> climbed to +7.8°C (Target: ≤ +5.0°C). Compressor unit #2 auxiliary active.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Upcoming Maintenance & Compliance Expiry Widget -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="p-3.5 border-b border-outline-variant/40 flex items-center justify-between bg-surface-container-low/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-lg">fact_check</span>
+<span class="font-title-sm text-title-sm text-on-surface font-bold">RTO Compliance &amp; Workshop Dues</span>
+</div>
+<a class="text-primary font-label-sm text-label-sm hover:underline" href="#">View All →</a>
+</div>
+<div class="p-3.5 flex flex-col gap-2.5">
+<!-- Compliance Item 1 -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded bg-red-100 text-error flex items-center justify-center font-bold text-xs">
+                RTO
+              </div>
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-bold text-on-surface font-data-mono truncate">MH-12-RN-9921</span>
+<span class="text-[11px] text-secondary">Fitness Certificate Expiring in 4 days</span>
+</div>
+</div>
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high text-primary font-label-sm text-[11px] font-semibold shrink-0">
+              Renew Doc
+            </button>
+</div>
+<!-- Compliance Item 2 -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded bg-amber-100 text-amber-900 flex items-center justify-center font-bold text-xs">
+                SRV
+              </div>
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-bold text-on-surface font-data-mono truncate">MH-43-BB-1102</span>
+<span class="text-[11px] text-secondary">80,000 km Hub Grease &amp; Brake Overhaul</span>
+</div>
+</div>
+<span class="text-[11px] font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded shrink-0">
+              Due Tomorrow
+            </span>
+</div>
+<!-- Compliance Item 3 -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded bg-surface-container-high text-secondary flex items-center justify-center font-bold text-xs">
+                INS
+              </div>
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-bold text-on-surface font-data-mono truncate">KA-01-MJ-5519</span>
+<span class="text-[11px] text-secondary">Commercial Comprehensive Policy • ICICI Lombard</span>
+</div>
+</div>
+<span class="text-[11px] font-data-mono text-secondary shrink-0">
+              Exp: 18 Dec
+            </span>
+</div>
+</div>
+</div>
+<!-- Financial Pipeline: Pending Collections & Driver Settlement Approvals -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 rounded-xl shadow-sm p-4 flex flex-col gap-3">
+<div class="flex items-center justify-between border-b border-outline-variant/30 pb-2">
+<span class="font-title-sm text-title-sm text-on-surface font-bold">Liquid Cashflow Governance</span>
+<span class="material-symbols-outlined text-secondary text-base">savings</span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="p-3 rounded-lg bg-amber-50/60 border border-amber-200/50 flex flex-col">
+<span class="font-label-sm text-label-sm text-amber-900 font-semibold">Overdue Invoices (&gt;30d)</span>
+<span class="font-data-mono text-base font-bold text-amber-950 mt-1">₹64,20,000</span>
+<span class="text-[11px] text-amber-800 mt-1">7 Enterprise Consignors</span>
+<button class="mt-2 text-left font-label-sm text-[11px] text-amber-900 underline font-semibold">
+              Review Ageing →
+            </button>
+</div>
+<div class="p-3 rounded-lg bg-emerald-50/60 border border-emerald-200/50 flex flex-col">
+<span class="font-label-sm text-label-sm text-emerald-900 font-semibold">Trip Driver Settlements</span>
+<span class="font-data-mono text-base font-bold text-emerald-950 mt-1">₹18,50,000</span>
+<span class="text-[11px] text-emerald-800 mt-1">42 Trips Ready for Signoff</span>
+<button class="mt-2 text-left font-label-sm text-[11px] text-emerald-900 underline font-semibold">
+              Approve Payouts →
+            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Micro-interaction: Active period toggling
+  document.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      if (this.textContent.includes('Export Report')) {
+        const originalText = this.innerHTML;
+        this.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">refresh</span> Generating PDF...';
+        setTimeout(() => {
+          this.innerHTML = '<span class="material-symbols-outlined text-base text-emerald-600">check</span> Report Ready';
+          setTimeout(() => { this.innerHTML = originalText; }, 2000);
+        }, 1200);
+      }
+    });
+  });
+</script></main></div></body></html>

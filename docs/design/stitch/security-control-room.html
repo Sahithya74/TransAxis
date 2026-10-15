@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary-fixed-dim":"#b4c5ff","inverse-primary":"#b4c5ff","inverse-on-surface":"#eaf1ff","on-background":"#0b1c30","on-secondary-container":"#5c647a","on-secondary-fixed-variant":"#3f465c","outline":"#737686","outline-variant":"#c3c6d7","tertiary-fixed-dim":"#d0bcff","surface-bright":"#f8f9ff","on-tertiary":"#ffffff","on-primary-container":"#eeefff","surface-tint":"#0053db","on-secondary":"#ffffff","secondary-container":"#dae2fd","on-primary":"#ffffff","on-secondary-fixed":"#131b2e","background":"#f8f9ff","surface-container-high":"#dce9ff","primary-fixed":"#dbe1ff","on-error-container":"#93000a","inverse-surface":"#213145","on-surface":"#0b1c30","surface-variant":"#d3e4fe","surface-dim":"#cbdbf5","on-primary-fixed":"#00174b","on-tertiary-container":"#f6edff","surface-container":"#e5eeff","secondary-fixed-dim":"#bec6e0","on-primary-fixed-variant":"#003ea8","secondary":"#565e74","on-surface-variant":"#434655","surface-container-low":"#eff4ff","tertiary":"#632ecd","tertiary-fixed":"#e9ddff","surface-container-highest":"#d3e4fe","primary":"#004ac6","secondary-fixed":"#dae2fd","on-tertiary-fixed":"#23005c","on-tertiary-fixed-variant":"#5516be","error-container":"#ffdad6","error":"#ba1a1a","surface":"#f8f9ff","tertiary-container":"#7d4ce7","primary-container":"#2563eb","surface-container-lowest":"#ffffff","on-error":"#ffffff"},borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},spacing:{"space-md":"0.75rem",gutter:"1rem","gutter-desktop":"1.5rem","space-sm":"0.5rem","space-xl":"2rem","margin-desktop":"1.5rem","space-xs":"0.25rem",margin:"1rem","space-lg":"1.25rem"},fontFamily:{"body-sm":["Inter"],"label-sm":["Inter"],"body-lg":["Inter"],"title-sm":["Plus Jakarta Sans"],"data-mono":["Inter"],"label-md":["Inter"],"headline-md":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-xl":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"]},fontSize:{"body-sm":["0.75rem",{lineHeight:"1rem",fontWeight:"400"}],"label-sm":["0.75rem",{lineHeight:"1rem",fontWeight:"600"}],"body-lg":["1rem",{lineHeight:"1.5rem",fontWeight:"400"}],"title-sm":["1rem",{lineHeight:"1.5rem",fontWeight:"600"}],"data-mono":["0.8125rem",{lineHeight:"1.125rem",fontWeight:"500"}],"label-md":["0.875rem",{lineHeight:"1.25rem",fontWeight:"500"}],"headline-md":["1.25rem",{lineHeight:"1.75rem",fontWeight:"600"}],"headline-xl-mobile":["1.5rem",{lineHeight:"2rem",fontWeight:"700"}],"body-md":["0.875rem",{lineHeight:"1.25rem",fontWeight:"400"}],"headline-xl":["2rem",{lineHeight:"2.5rem",fontWeight:"700"}],"headline-lg":["1.5rem",{lineHeight:"2rem",fontWeight:"600"}]}}}}</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-64 bg-inverse-surface z-50 flex flex-col border-r border-outline/20 select-none"><div class="h-14 px-gutter flex items-center justify-between border-b border-outline/20 bg-inverse-surface"><div class="flex items-center gap-space-sm"><div class="flex items-center justify-center w-7 h-7 rounded-lg bg-primary text-on-primary font-headline-md text-headline-md font-bold">T</div><div class="flex flex-col"><span class="font-title-sm text-title-sm text-surface-bright leading-none tracking-tight">TransAxis</span><span class="font-label-sm text-label-sm text-surface-dim/70 leading-none mt-0.5">FLEET OS v4.2</span></div></div><button class="flex items-center justify-center w-6 h-6 rounded text-surface-dim hover:text-surface-bright hover:bg-surface-dim/10 transition-colors"><span class="material-symbols-outlined text-base">first_page</span></button></div><div class="flex-1 overflow-y-auto px-space-sm py-space-sm space-y-space-md"><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Overview</div><a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="executive-dashboard" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg">dashboard</span><span>Executive Dashboard</span></div><span class="w-1.5 h-1.5 rounded-full bg-primary-fixed"></span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="live-fleet-map" href="#"><span class="material-symbols-outlined text-lg">map</span><span>Live Fleet Map</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="dispatch-board" href="#"><span class="material-symbols-outlined text-lg">view_kanban</span><span>Dispatch Board</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="trip-management" href="#"><span class="material-symbols-outlined text-lg">alt_route</span><span>Trip Management</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Operations</div><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="load-bookings" href="#"><span class="material-symbols-outlined text-lg">assignment</span><span>Load Bookings</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="vehicles" href="#"><span class="material-symbols-outlined text-lg">local_shipping</span><span>Vehicles</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="drivers-workforce" href="#"><span class="material-symbols-outlined text-lg">badge</span><span>Drivers &amp; Workforce</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="customers-vendors" href="#"><span class="material-symbols-outlined text-lg">corporate_fare</span><span>Customers &amp; Vendors</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="maintenance" href="#"><span class="material-symbols-outlined text-lg">build</span><span>Maintenance</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="fuel-management" href="#"><span class="material-symbols-outlined text-lg">local_gas_station</span><span>Fuel Management</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Security &amp; Safety</div><a aria-current="page" class="flex items-center justify-between px-space-sm py-1.5 rounded-lg transition-colors bg-primary text-on-primary font-semibold" data-path="security-control-room" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg text-error-container">emergency</span><span>Security Control Room</span></div><span class="px-1.5 py-0.5 rounded-full bg-error text-on-error font-label-sm text-label-sm uppercase tracking-wider animate-pulse">SOS</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="safety-alerts" href="#"><span class="material-symbols-outlined text-lg">warning</span><span>Safety Alerts</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="incident-management" href="#"><span class="material-symbols-outlined text-lg">gavel</span><span>Incident Management</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Finance</div><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="financial-overview" href="#"><span class="material-symbols-outlined text-lg">account_balance</span><span>Financial Overview</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="trip-profitability" href="#"><span class="material-symbols-outlined text-lg">trending_up</span><span>Trip Profitability</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="invoices-collections" href="#"><span class="material-symbols-outlined text-lg">receipt_long</span><span>Invoices &amp; Collections</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="driver-settlements" href="#"><span class="material-symbols-outlined text-lg">payments</span><span>Driver Settlements</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="expenses-vendors" href="#"><span class="material-symbols-outlined text-lg">price_change</span><span>Expenses &amp; Vendors</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Intelligence</div><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="reports-analytics" href="#"><span class="material-symbols-outlined text-lg">insights</span><span>Reports &amp; Analytics</span></a><a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="ai-transport-assistant" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg text-tertiary-fixed">auto_awesome</span><span>AI Transport Assistant</span></div><span class="px-1.5 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm">AI</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="document-knowledge-base" href="#"><span class="material-symbols-outlined text-lg">menu_book</span><span>Document Knowledge Base</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Administration</div><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="calendar-events" href="#"><span class="material-symbols-outlined text-lg">event</span><span>Calendar &amp; Events</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="compliance-documents" href="#"><span class="material-symbols-outlined text-lg">verified_user</span><span>Compliance &amp; Documents</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="users-permissions" href="#"><span class="material-symbols-outlined text-lg">manage_accounts</span><span>Users &amp; Permissions</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="audit-logs" href="#"><span class="material-symbols-outlined text-lg">history</span><span>Audit Logs</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-lg">settings</span><span>Settings</span></a></nav></div><div class="p-space-sm border-t border-outline/20 bg-inverse-surface/80"><div class="flex items-center justify-between px-space-sm py-1.5 rounded-lg bg-surface-dim/10"><div class="flex items-center gap-space-sm"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-surface-bright leading-none">Nhava Gateway</span><span class="font-data-mono text-data-mono text-outline-variant text-[11px]">Node 09: 99.98%</span></div></div><span class="material-symbols-outlined text-sm text-surface-dim">sensors</span></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-14 bg-surface-container-lowest border-b border-outline-variant/30 z-40 flex items-center justify-between px-gutter-desktop shadow-[0_1px_3px_0_rgba(15,23,42,0.03)]"><div class="flex items-center gap-gutter"><div class="flex items-center gap-space-sm"><img alt="TransAxis Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WV72O0uA7rLkLl698tm6PJU4Z-D5TDO-zcH_UQIi1zHNGx23KPnK1ZiCnX7dTiIHC5NvjnOUY8FXZ6bamIu8F3kcVFEwMPgZ8kAEASNsCPpVlvK1e29UVwOOnDzomKZZKrBJEOszRX8JhDfBynvlzgWKYOE9fxze-ScYeXFFVhQkVW0tBGWE3x-qMhoYxn7GI-nxB6GfuKTzqEBVfEotJ3utxIPFIZl_ozb9lXtNgK0M3o0_pxfzmvd7c"/><div class="h-5 w-px bg-outline-variant/50"></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer"><span class="material-symbols-outlined text-primary text-base">hub</span><span class="font-label-md text-label-md text-on-surface font-semibold">West Zone Hub - Nhava Sheva / Bhiwandi</span><span class="material-symbols-outlined text-secondary text-sm">expand_more</span></div></div><div class="relative w-80 hidden lg:block"><span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline text-base">search</span><input class="w-full h-8 pl-8 pr-3 bg-surface-container-low border border-outline-variant rounded-lg font-data-mono text-data-mono text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all" placeholder="Omni-search Trucks (MH-04), Drivers, Trips..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low border border-outline-variant/40"><span class="w-2 h-2 rounded-full bg-emerald-500"></span><span class="font-data-mono text-data-mono text-[11px] text-secondary font-medium tracking-tight">SIMULATED GPS: LIVE 1.2s</span></div><button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed hover:bg-tertiary-fixed-dim transition-colors font-label-md text-label-md font-semibold"><span class="material-symbols-outlined text-base">auto_awesome</span><span class="hidden md:inline">AI Fleet Assist</span></button><div class="relative"><button class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-surface-container transition-colors text-on-surface-variant relative"><span class="material-symbols-outlined text-lg">notifications</span><span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-error text-on-error font-label-sm text-[10px] leading-none flex items-center justify-center font-bold">3</span></button></div><div class="h-6 w-px bg-outline-variant/40"></div><div class="flex items-center gap-space-sm pl-1 cursor-pointer"><img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg0d6FhCLsz95lposrnBH1hOQgJnxZZEL79WTrkN3iLampUNlZ6nsOzEoRWg1o7aASjZcIK9Vy9CdYG5GGQdSBV232DDDQJyGPyoFlvfNDUDGYbesSTu5jjZL35JMyDV0s9wV9EppK4aIBnAyCAbTYOl9m0qFIDdAYaNoshGMnHCZRvL3LzyESBLbN6dfIniyBKO-dlPUconwOrApT7W9qDgm7ponIH4Br9h5wRnEf-uYlRQuRglHK"/><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Rajesh Varma</span><span class="font-body-sm text-body-sm text-secondary leading-none">VP Operations</span></div><span class="material-symbols-outlined text-secondary text-base">arrow_drop_down</span></div></div></header><main class="relative pt-14 w-full px-gutter-desktop min-h-screen bg-background"><div class="flex flex-col w-full">
+<!-- Command Room Header Ribbon -->
+<div class="relative w-full bg-inverse-surface text-inverse-on-surface rounded-xl p-space-lg mb-space-lg shadow-xl overflow-hidden">
+<div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-error/10 blur-3xl pointer-events-none"></div>
+<div class="absolute left-1/3 -bottom-24 w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-space-md">
+<div class="space-y-space-xs">
+<div class="flex flex-wrap items-center gap-space-sm">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-error text-on-error font-label-sm text-label-sm uppercase tracking-wider animate-pulse">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">emergency</span>
+            Critical Alert Active
+          </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-dim/20 text-inverse-on-surface font-data-mono text-data-mono">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            SECURITY INTEGRATION: ACTIVE | 482 SENSORS ONLINE
+          </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-xs">radio_button_checked</span>
+            Live Telematics Feed
+          </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-surface-bright tracking-tight font-bold">
+          TransAxis 24x7 Security Operations Command &amp; Emergency Telematics Room
+        </h1>
+<p class="font-body-md text-body-md text-outline-variant max-w-4xl">
+          Real-time threat monitoring, SOS panic signals, armed escort telemetry, and highway incident escalation for Western &amp; Southern Logistics Corridors.
+        </p>
+</div>
+<!-- Control Toggles -->
+<div class="flex flex-wrap items-center gap-space-sm bg-surface-dim/15 p-space-xs rounded-xl self-start xl:self-center">
+<button class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-error text-on-error hover:bg-error/90 font-label-md text-label-md transition-all shadow-sm" id="sirenBtn" onclick="toggleSirenAudio()">
+<span class="material-symbols-outlined text-base" id="sirenIcon">volume_up</span>
+<span id="sirenLabel">Siren Active</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container-high/30 hover:bg-surface-container-high/50 text-surface-bright font-label-md text-label-md transition-all" onclick="acknowledgeAllAlerts()">
+<span class="material-symbols-outlined text-base">check_circle</span>
+<span>Acknowledge Mute (15m)</span>
+</button>
+<div class="h-6 w-px bg-outline-variant/30 hidden sm:block"></div>
+<div class="flex items-center gap-1 px-2 text-surface-dim font-data-mono text-data-mono text-xs">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span id="utcClock">UTC +05:30 14:48:22 IST</span>
+</div>
+</div>
+</div>
+</div>
+<!-- High-Priority Emergency & Risk KPI Bar -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-md mb-space-lg">
+<!-- SOS KPI Card -->
+<div class="relative overflow-hidden rounded-xl bg-error-container text-on-error-container p-space-md shadow-sm transition-all hover:scale-[1.01]">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-error font-bold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+            Critical SOS / Panic
+          </span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-xl text-headline-xl text-error font-black">1</span>
+<span class="font-label-sm text-label-sm text-error/90 font-semibold">Immediate Action</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-error/20 flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">emergency_home</span>
+</div>
+</div>
+<div class="mt-3 text-xs font-data-mono text-error/80 flex items-center justify-between">
+<span>Incident #SEC-098</span>
+<span>18m shoulder idle</span>
+</div>
+</div>
+<!-- Geofence Deviations -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-lowest text-on-surface p-space-md shadow-sm transition-all hover:scale-[1.01]">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            Geofence Deviations
+          </span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-xl text-headline-xl text-on-surface font-black">3</span>
+<span class="font-label-sm text-label-sm text-amber-700 font-semibold">Off Prescribed Path</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined text-2xl">wrong_location</span>
+</div>
+</div>
+<div class="mt-3 text-xs font-data-mono text-secondary flex items-center justify-between">
+<span>Highest: KA-01-AJ-4920</span>
+<span class="text-amber-700">+6.8 km off-route</span>
+</div>
+</div>
+<!-- Unauthorized Stops -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-lowest text-on-surface p-space-md shadow-sm transition-all hover:scale-[1.01]">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            Unauthorized Stops
+          </span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-xl text-headline-xl text-on-surface font-black">4</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Monitored Hotspots</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-2xl">front_hand</span>
+</div>
+</div>
+<div class="mt-3 text-xs font-data-mono text-secondary flex items-center justify-between">
+<span>Avg Stoppage: 26 mins</span>
+<span class="text-secondary font-semibold">2 cleared</span>
+</div>
+</div>
+<!-- Cargo Tamper / Sensors -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-lowest text-on-surface p-space-md shadow-sm transition-all hover:scale-[1.01]">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+            Tamper &amp; Cold Chain
+          </span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-xl text-headline-xl text-on-surface font-black">1</span>
+<span class="font-label-sm text-label-sm text-error font-semibold">Reefer Trip Spike</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center text-rose-600">
+<span class="material-symbols-outlined text-2xl">thermostat</span>
+</div>
+</div>
+<div class="mt-3 text-xs font-data-mono text-secondary flex items-center justify-between">
+<span>Pharma MH-46-H-3381</span>
+<span class="text-error font-semibold">+9.1°C Spike</span>
+</div>
+</div>
+<!-- Harsh Driving / Overspeed -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-lowest text-on-surface p-space-md shadow-sm transition-all hover:scale-[1.01]">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+            Overspeed (&gt;80 km/h)
+          </span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-xl text-headline-xl text-on-surface font-black">12</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Flagged 24h</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">speed</span>
+</div>
+</div>
+<div class="mt-3 text-xs font-data-mono text-secondary flex items-center justify-between">
+<span>Harsh Braking: 8</span>
+<span class="text-primary font-semibold">3 Night Ops</span>
+</div>
+</div>
+</div>
+<!-- Split Screen Operations Layout -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start pb-space-xl">
+<!-- Left / Main Queue (7 Cols) -->
+<div class="xl:col-span-7 flex flex-col gap-space-md">
+<!-- Section Header -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-xl">view_timeline</span>
+<div>
+<h2 class="font-title-sm text-title-sm text-on-surface font-bold">Active Security &amp; Safety Incident Queue</h2>
+<p class="font-body-sm text-body-sm text-secondary">Real-time prioritized by automated Threat Velocity Algorithm (TVA-v4)</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="text-xs font-label-sm text-secondary uppercase mr-1">Filter:</span>
+<button class="px-2.5 py-1 rounded bg-error text-on-error text-xs font-label-sm font-semibold">Critical (1)</button>
+<button class="px-2.5 py-1 rounded bg-surface-container text-on-surface text-xs font-label-sm">High (1)</button>
+<button class="px-2.5 py-1 rounded bg-surface-container text-on-surface text-xs font-label-sm">Medium (2)</button>
+<button class="px-2.5 py-1 rounded bg-surface-container text-on-surface text-xs font-label-sm">Resolved (14)</button>
+</div>
+</div>
+<!-- INCIDENT 1: CRITICAL SOS -->
+<div class="relative bg-surface-container-lowest rounded-xl p-space-md shadow-md border-l-4 border-error transition-all hover:shadow-lg">
+<div class="flex flex-wrap items-center justify-between gap-2 mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-error text-on-error font-label-sm text-label-sm uppercase tracking-wider font-bold">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">emergency</span>
+              CRITICAL - SOS PANIC BUTTON
+            </span>
+<span class="font-data-mono text-data-mono text-on-surface font-bold">INCIDENT #SEC-2024-098</span>
+</div>
+<div class="flex items-center gap-1.5 font-data-mono text-data-mono text-xs text-error font-semibold">
+<span class="material-symbols-outlined text-sm animate-spin">sync</span>
+<span>LIVE EXCEPTION - 18 MINS ELAPSED</span>
+</div>
+</div>
+<!-- Vehicle & Driver Card -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm bg-surface-container-low p-space-sm rounded-lg mb-space-sm">
+<div>
+<span class="text-xs uppercase tracking-wider text-secondary font-label-sm block">Vehicle &amp; Model</span>
+<div class="font-data-mono text-data-mono font-bold text-on-surface mt-0.5">MH-04-EY-6011</div>
+<div class="text-xs text-secondary font-body-sm">Tata Signa 4825 (Heavy Commercial)</div>
+</div>
+<div>
+<span class="text-xs uppercase tracking-wider text-secondary font-label-sm block">Assigned Crew</span>
+<div class="font-label-md text-label-md font-semibold text-on-surface mt-0.5">Balwinder Singh (Lead)</div>
+<div class="text-xs text-secondary font-body-sm">Co-driver: Gurpreet S. | Staff ID #TX-882</div>
+</div>
+<div>
+<span class="text-xs uppercase tracking-wider text-secondary font-label-sm block">Telemetry State</span>
+<div class="font-data-mono text-data-mono font-bold text-error mt-0.5">0 km/h (Shoulder Stop)</div>
+<div class="text-xs text-secondary font-body-sm">NH-48 Ankleshwar Industrial Bypass</div>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface mb-space-md">
+<strong class="font-semibold text-error">Physical cabin panic switch triggered</strong> by co-driver. Vehicle has been stationary on the shoulder of NH-48 for 18 minutes outside designated service plaza. Gujarat Highway Patrol (Chowki #4) and TransAxis Quick Response Team (QRT Ankleshwar Hub) notified.
+        </p>
+<!-- Rapid Actions Panel -->
+<div class="flex flex-wrap items-center gap-space-sm pt-space-xs">
+<button class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-error text-on-error hover:bg-error/90 font-label-md text-label-md font-semibold transition-all shadow-sm" onclick="openEscalationModal()">
+<span class="material-symbols-outlined text-base">local_police</span>
+<span>Escalate to State Police Desk</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold transition-all" id="intercomBtn" onclick="triggerIntercom()">
+<span class="material-symbols-outlined text-base">mic</span>
+<span>Cabin Intercom Override</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold transition-all" onclick="callDriver()">
+<span class="material-symbols-outlined text-base">call</span>
+<span>Call Driver (Sim 1)</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold transition-all" onclick="viewCameraFeed()">
+<span class="material-symbols-outlined text-base">videocam</span>
+<span>Dual Dashcam Live</span>
+</button>
+</div>
+</div>
+<!-- INCIDENT 2: HIGH ROUTE DEVIATION -->
+<div class="relative bg-surface-container-lowest rounded-xl p-space-md shadow-sm border-l-4 border-amber-500 transition-all hover:shadow-md">
+<div class="flex flex-wrap items-center justify-between gap-2 mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-amber-100 text-amber-900 font-label-sm text-label-sm uppercase tracking-wider font-bold">
+<span class="material-symbols-outlined text-xs">alt_route</span>
+              HIGH - ROUTE DEVIATION
+            </span>
+<span class="font-data-mono text-data-mono text-on-surface font-bold">INCIDENT #SEC-2024-095</span>
+</div>
+<span class="text-xs font-data-mono text-amber-700 font-semibold">14m ago | Speed 41 km/h</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm bg-surface-container-low p-space-sm rounded-lg mb-space-sm">
+<div>
+<span class="text-xs uppercase tracking-wider text-secondary font-label-sm block">Truck Reg</span>
+<span class="font-data-mono text-data-mono font-bold text-on-surface">KA-01-AJ-4920</span>
+</div>
+<div>
+<span class="text-xs uppercase tracking-wider text-secondary font-label-sm block">High-Value Cargo</span>
+<span class="font-label-md text-label-md font-semibold text-error">Consumer Electronics (₹1.80 Cr)</span>
+</div>
+<div>
+<span class="text-xs uppercase tracking-wider text-secondary font-label-sm block">Deviation Radius</span>
+<span class="font-data-mono text-data-mono font-bold text-amber-800">6.8 km off authorized geofence</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface mb-space-sm">
+          Vehicle diverted from Greenfield Expressway corridor onto unpaved service road towards an unapproved private warehousing zone. Electronic e-Lock seal remains intact. Driver route correction prompt pushed to cabin display tablet.
+        </p>
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-medium hover:bg-primary/90 transition-all">
+<span class="material-symbols-outlined text-sm">navigation</span>
+<span>Force Reroute Signal</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span>Verify Electronic Seal</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm">contact_phone</span>
+<span>Contact Escort Dispatch</span>
+</button>
+</div>
+</div>
+<!-- INCIDENT 3: MEDIUM COLD CHAIN TEMP -->
+<div class="relative bg-surface-container-lowest rounded-xl p-space-md shadow-sm border-l-4 border-primary transition-all hover:shadow-md">
+<div class="flex flex-wrap items-center justify-between gap-2 mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm uppercase tracking-wider font-bold">
+<span class="material-symbols-outlined text-xs">device_thermostat</span>
+              MEDIUM - TEMPERATURE BREACH
+            </span>
+<span class="font-data-mono text-data-mono text-on-surface font-bold">INCIDENT #SEC-2024-092</span>
+</div>
+<span class="text-xs font-data-mono text-secondary">29m ago | Biologics</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm bg-surface-container-low p-space-sm rounded-lg mb-space-sm">
+<div>
+<span class="text-xs uppercase tracking-wider text-secondary font-label-sm block">Reefer Truck</span>
+<span class="font-data-mono text-data-mono font-bold text-on-surface">MH-46-H-3381</span>
+</div>
+<div>
+<span class="text-xs uppercase tracking-wider text-secondary font-label-sm block">Cold Range Permitted</span>
+<span class="font-label-md text-label-md text-on-surface">+2.0°C to +6.0°C</span>
+</div>
+<div>
+<span class="text-xs uppercase tracking-wider text-secondary font-label-sm block">Current Telemetry</span>
+<span class="font-data-mono text-data-mono font-bold text-error">+9.1°C (Compressor Trip)</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface mb-space-sm">
+          Pharma cold chain shipment payload containing insulin consignments. Secondary generator auxiliary breaker tripped. Temperature delta slope: +1.2°C per 15 minutes.
+        </p>
+<div class="flex items-center gap-space-sm">
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm">restart_alt</span>
+<span>Remote Gen-Set Reboot</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm">medical_services</span>
+<span>Alert QA Pharma Auditor</span>
+</button>
+</div>
+</div>
+<!-- INCIDENT 4: MEDIUM CHECK-IN DELAY -->
+<div class="relative bg-surface-container-lowest rounded-xl p-space-md shadow-sm border-l-4 border-slate-400 transition-all hover:shadow-md">
+<div class="flex flex-wrap items-center justify-between gap-2 mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-surface-container text-on-surface font-label-sm text-label-sm uppercase tracking-wider font-bold">
+<span class="material-symbols-outlined text-xs">timer_off</span>
+              MEDIUM - MISSED SAFETY CHECK-IN
+            </span>
+<span class="font-data-mono text-data-mono text-on-surface font-bold">INCIDENT #SEC-2024-089</span>
+</div>
+<span class="text-xs font-data-mono text-secondary">35m overdue</span>
+</div>
+<div class="text-sm font-body-md text-on-surface">
+          Mandatory 4-hour night transit driver alertness check-in overdue for 35 mins on Hyderabad-Nagpur NH-44 corridor (Vehicle: AP-29-TA-8120). GPS reports continuous motion at 62 km/h. Driver fatigue camera algorithm active.
+        </div>
+</div>
+</div>
+<!-- Right: Incident Detail & Live Threat Assessment Panel (5 Cols) -->
+<div class="xl:col-span-5 flex flex-col gap-space-md">
+<!-- Active Investigation Detail Box -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between pb-space-sm border-b border-surface-container">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-error animate-ping"></span>
+<span class="font-title-sm text-title-sm font-bold text-on-surface">Live Threat Matrix: #SEC-098</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container text-secondary font-data-mono text-xs">Tata Signa 4825</span>
+</div>
+<!-- Telemetry Diagnostic Meters -->
+<div class="grid grid-cols-3 gap-2 my-space-sm text-center">
+<div class="bg-surface-container-low p-2 rounded-lg">
+<span class="text-[10px] uppercase tracking-wider text-secondary font-label-sm block">GSM Uplink</span>
+<span class="font-data-mono text-data-mono font-bold text-emerald-700 flex items-center justify-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-sm">signal_cellular_alt</span>
+              4G (92%)
+            </span>
+</div>
+<div class="bg-surface-container-low p-2 rounded-lg">
+<span class="text-[10px] uppercase tracking-wider text-secondary font-label-sm block">Aux Battery</span>
+<span class="font-data-mono text-data-mono font-bold text-primary flex items-center justify-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-sm">battery_charging_full</span>
+              24.4V Normal
+            </span>
+</div>
+<div class="bg-surface-container-low p-2 rounded-lg">
+<span class="text-[10px] uppercase tracking-wider text-secondary font-label-sm block">Cabin Mic</span>
+<span class="font-data-mono text-data-mono font-bold text-amber-700 flex items-center justify-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-sm">hearing</span>
+              Standby
+            </span>
+</div>
+</div>
+<!-- Location Map Container -->
+<div class="relative w-full h-56 rounded-xl overflow-hidden bg-surface-container my-space-sm shadow-inner">
+<div class="w-full h-full bg-cover bg-center" data-location="Ankleshwar, Gujarat, India" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBs3TWczXx7m3p2DzPO9kLEH8fbSbtyS-pRmRAnZfFZflEfjLhY2duEm0oxkpLsDoJD79HrGs7l7hNXB0riZWa4wTRhX9piJssK_-UvFZBrbjAjtWwnIWgzCIgK40QU1mKEySsGkzrWwQK0BQlM7dYvyznJnZ-10-Lh7apJyHxQfnEZK9-JPIm-0gTsjfpj3x3MJrVo6pq77w1T73ZX-1pjiSsQUgZawNqKqJ5jJBOes8K8biHNQKUm')"></div>
+<!-- Tactical Overlay Marker -->
+<div class="absolute bottom-3 left-3 right-3 bg-inverse-surface/90 backdrop-blur text-inverse-on-surface p-2.5 rounded-lg flex items-center justify-between text-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-lg" style="font-variation-settings: 'FILL' 1;">pin_drop</span>
+<div class="font-data-mono">
+<div class="font-bold text-surface-bright">21.6264° N, 73.0152° E</div>
+<div class="text-[10px] text-outline-variant">NH-48 KM Stone 192 (Northbound Lane)</div>
+</div>
+</div>
+<a class="px-2 py-1 rounded bg-primary text-on-primary font-label-sm text-[11px] font-semibold hover:bg-primary/90" href="#">
+              Open GIS
+            </a>
+</div>
+</div>
+<!-- Speed Trajectory Mini-Graph (SVG inline sparkline) -->
+<div class="bg-surface-container-low p-3 rounded-xl my-space-sm">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-xs text-secondary uppercase font-semibold">Deceleration Trajectory Before Stop</span>
+<span class="font-data-mono text-xs font-bold text-error">Sudden Halt Detected</span>
+</div>
+<div class="w-full h-12 flex items-center">
+<svg class="w-full h-10 text-primary overflow-visible" viewbox="0 0 240 40">
+<polyline fill="none" points="0,8 30,10 60,7 90,12 120,9 150,14 170,22 185,38 240,38" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></polyline>
+<circle class="fill-error stroke-white stroke-2" cx="185" cy="38" r="3.5"></circle>
+<text class="font-data-mono text-[9px] fill-secondary" x="5" y="36">72 km/h</text>
+<text class="font-data-mono text-[9px] fill-error font-bold" x="180" y="28">0 km/h [14:30]</text>
+</svg>
+</div>
+</div>
+<!-- Standard Operating Procedure (SOP) Checklist -->
+<div class="mt-space-md">
+<div class="flex items-center justify-between mb-space-xs">
+<h3 class="font-title-sm text-title-sm font-bold text-on-surface">Emergency Response SOP</h3>
+<span class="text-xs font-data-mono text-secondary">Level-3 Armed Protocol</span>
+</div>
+<div class="space-y-2">
+<label class="flex items-start gap-2.5 p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer">
+<input checked="" class="mt-0.5 rounded text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+<div class="text-xs">
+<span class="font-label-md font-semibold text-on-surface block">1. Confirm driver phone reachable &amp; verify duress code</span>
+<span class="text-secondary font-body-sm">Tried 2x (No response on Primary SIM; Co-driver phone engaged)</span>
+</div>
+</label>
+<label class="flex items-start gap-2.5 p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer">
+<input checked="" class="mt-0.5 rounded text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+<div class="text-xs">
+<span class="font-label-md font-semibold text-on-surface block">2. Scan nearby company fleet for escort/rendezvous</span>
+<span class="text-secondary font-body-sm">2 TransAxis vehicles identified within 15 km: <strong>MH-04-AB-1029</strong> is 8.2 km behind.</span>
+</div>
+</label>
+<label class="flex items-start gap-2.5 p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer">
+<input class="mt-0.5 rounded text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+<div class="text-xs">
+<span class="font-label-md font-semibold text-on-surface block">3. Contact consignor security officer &amp; activate QRT</span>
+<span class="text-secondary font-body-sm">Consignor: Reliance Petrochemical Security Control (Duty Officer: Capt. Nair)</span>
+</div>
+</label>
+<label class="flex items-start gap-2.5 p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer">
+<input class="mt-0.5 rounded text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+<div class="text-xs">
+<span class="font-label-md font-semibold text-on-surface block">4. Transmit telemetry coordinates to State Police Control</span>
+<span class="text-secondary font-body-sm">Gujarat Dial 112 API Webhook armed</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Communications & Dispatch Log Timeline -->
+<div class="mt-space-md pt-space-sm border-t border-surface-container">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-xs text-secondary uppercase font-bold">Action &amp; Comm Log</span>
+<button class="text-xs font-label-md text-primary hover:underline font-semibold flex items-center gap-0.5" onclick="addLogEntry()">
+<span class="material-symbols-outlined text-xs">add</span> Add Note
+            </button>
+</div>
+<div class="space-y-2.5 font-data-mono text-xs max-h-48 overflow-y-auto pr-1" id="commLogList">
+<div class="p-2 rounded bg-surface-container-low flex flex-col gap-0.5">
+<div class="flex items-center justify-between text-secondary text-[11px]">
+<span class="font-bold text-on-surface">14:46:10 IST</span>
+<span class="text-primary font-semibold">Dispatcher: S. Deshmukh</span>
+</div>
+<span class="text-on-surface">TransAxis QRT Ankleshwar dispatched Patrol Vehicle Scorpio (Reg: GJ-16-Z-1011). ETA 11 mins.</span>
+</div>
+<div class="p-2 rounded bg-surface-container-low flex flex-col gap-0.5">
+<div class="flex items-center justify-between text-secondary text-[11px]">
+<span class="font-bold text-on-surface">14:38:02 IST</span>
+<span class="text-secondary">Automated Telematics Engine</span>
+</div>
+<span class="text-on-surface">Hard Geofence Stop Exception logged. Speed reduced to 0 km/h with panic latch engaged.</span>
+</div>
+<div class="p-2 rounded bg-surface-container-low flex flex-col gap-0.5">
+<div class="flex items-center justify-between text-secondary text-[11px]">
+<span class="font-bold text-on-surface">14:30:18 IST</span>
+<span class="text-error font-bold">TELEMATICS SENSOR #PANIC-01</span>
+</div>
+<span class="text-error font-semibold">CRITICAL: Physical Cabin Panic Button Latched ON by Crew.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Nearby Support Fleet Quick-Action Strip -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between mb-space-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">share_location</span>
+<span class="font-title-sm text-title-sm font-bold text-on-surface">Tactical Support Assets Nearby</span>
+</div>
+<span class="text-xs font-data-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-semibold">2 En-Route</span>
+</div>
+<div class="space-y-2 mt-2">
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low text-xs">
+<div>
+<div class="font-data-mono font-bold text-on-surface">MH-04-AB-1029 (Tata 4018)</div>
+<div class="text-secondary font-body-sm">Driver: Harvinder | 8.2 km Southbound</div>
+</div>
+<button class="px-2.5 py-1.5 rounded bg-primary text-on-primary font-label-sm font-medium hover:bg-primary/90" onclick="alertSupportTruck('MH-04-AB-1029')">
+              Request Rendezvous
+            </button>
+</div>
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low text-xs">
+<div>
+<div class="font-data-mono font-bold text-on-surface">QRT Patrol #04 (Scorpio S11)</div>
+<div class="text-secondary font-body-sm">Officer: R. Solanki | 12.4 km Ankleshwar North</div>
+</div>
+<button class="px-2.5 py-1.5 rounded bg-inverse-surface text-inverse-on-surface font-label-sm font-medium hover:bg-inverse-surface/90" onclick="alertSupportTruck('QRT Patrol #04')">
+              Patrol Intercept
+            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Police Escalation Modal Backdrop & Panel -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/60 backdrop-blur-sm hidden items-center justify-center p-4" id="escalationModal">
+<div class="relative w-full max-w-lg bg-surface-container-lowest text-on-surface rounded-2xl shadow-2xl p-space-lg overflow-hidden border-2 border-error/20 animate-in fade-in zoom-in-95 duration-200">
+<div class="flex items-center justify-between pb-space-sm border-b border-surface-container">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-error text-on-error flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">local_police</span>
+</div>
+<div>
+<h4 class="font-title-sm text-title-sm font-bold text-on-surface">State Police Protocol Escalation</h4>
+<span class="text-xs font-data-mono text-secondary">Dial 112 Highway Emergency Dispatch</span>
+</div>
+</div>
+<button class="w-7 h-7 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-secondary" onclick="closeEscalationModal()">
+<span class="material-symbols-outlined text-base">close</span>
+</button>
+</div>
+<!-- Safeguard Warning Callout -->
+<div class="p-space-sm bg-error-container text-on-error-container rounded-xl my-space-md text-xs space-y-1">
+<div class="font-bold flex items-center gap-1.5 text-error">
+<span class="material-symbols-outlined text-base">warning</span>
+          MANDATORY REGULATORY SAFEGUARD
+        </div>
+<p class="font-body-sm leading-relaxed text-on-error-container">
+          "Never imply emergency police assistance has arrived at the vehicle until a verifiable confirmation code is received from the Gujarat Highway Patrol Duty Desk."
+        </p>
+</div>
+<div class="space-y-space-sm text-xs font-body-md text-on-surface">
+<div>
+<label class="block font-label-sm text-secondary uppercase font-semibold mb-1">Target Incident</label>
+<input class="w-full h-9 px-3 bg-surface-container-low rounded-lg font-data-mono text-on-surface" readonly="" type="text" value="#SEC-2024-098 (MH-04-EY-6011) - NH-48 Ankleshwar"/>
+</div>
+<div>
+<label class="block font-label-sm text-secondary uppercase font-semibold mb-1">State Jurisdictional Control</label>
+<input class="w-full h-9 px-3 bg-surface-container-low rounded-lg font-data-mono text-on-surface" readonly="" type="text" value="Gujarat Police - Bharuch District Highway Control Room"/>
+</div>
+<div>
+<label class="block font-label-sm text-secondary uppercase font-semibold mb-1">Operator Authorization Pin</label>
+<input class="w-full h-9 px-3 bg-surface rounded-lg border border-outline-variant font-data-mono focus:outline-none focus:border-error" id="authPinInput" placeholder="Enter 6-digit Supervisor PIN to transmit" type="password"/>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-sm mt-space-lg pt-space-sm border-t border-surface-container">
+<button class="px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-medium hover:bg-surface-container-high" onclick="closeEscalationModal()">
+          Cancel
+        </button>
+<button class="px-4 py-2 rounded-lg bg-error text-on-error font-label-md text-label-md font-bold hover:bg-error/90 shadow-md" onclick="submitPoliceEscalation()">
+          Transmit Police Emergency Dispatch
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Live Clock updater
+  function updateLiveClock() {
+    const el = document.getElementById('utcClock');
+    if (!el) return;
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('en-IN', { hour12: false });
+    el.textContent = `UTC +05:30 ${timeStr} IST`;
+  }
+  setInterval(updateLiveClock, 1000);
+
+  // Siren Audio/Visual toggle
+  let sirenActive = true;
+  function toggleSirenAudio() {
+    const btn = document.getElementById('sirenBtn');
+    const label = document.getElementById('sirenLabel');
+    const icon = document.getElementById('sirenIcon');
+    sirenActive = !sirenActive;
+    if (sirenActive) {
+      btn.className = "flex items-center gap-1.5 px-3 py-2 rounded-lg bg-error text-on-error hover:bg-error/90 font-label-md text-label-md transition-all shadow-sm";
+      label.textContent = "Siren Active";
+      icon.textContent = "volume_up";
+    } else {
+      btn.className = "flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-dim/30 text-surface-bright font-label-md text-label-md transition-all";
+      label.textContent = "Siren Muted";
+      icon.textContent = "volume_off";
+    }
+  }
+
+  function acknowledgeAllAlerts() {
+    alert("Alert acoustic chime muted for 15 minutes across Security Room console. Incident tracking remains active.");
+  }
+
+  // Intercom trigger action
+  function triggerIntercom() {
+    const btn = document.getElementById('intercomBtn');
+    if (!btn) return;
+    btn.innerHTML = `<span class="material-symbols-outlined text-base text-error animate-pulse">mic</span><span class="text-error font-bold">Intercom Open...</span>`;
+    setTimeout(() => {
+      alert("Cabin two-way emergency audio line established with MH-04-EY-6011. Transmit speech via console headset.");
+      btn.innerHTML = `<span class="material-symbols-outlined text-base">mic</span><span>Cabin Intercom Active</span>`;
+    }, 600);
+  }
+
+  function callDriver() {
+    alert("Initiating secure cellular bridge to Driver Balwinder Singh (+91-98201-XXXXX).");
+  }
+
+  function viewCameraFeed() {
+    alert("Dual Dashcam feed requested: Front road lens (1080p) + Cabin driver monitoring sensor (IR). Buffering telemetry...");
+  }
+
+  function alertSupportTruck(truckId) {
+    alert(`Tactical dispatch prompt transmitted to vehicle ${truckId}. Driver notified to converge coordinates.`);
+  }
+
+  function addLogEntry() {
+    const note = prompt("Enter dispatcher situation note:");
+    if (!note) return;
+    const list = document.getElementById('commLogList');
+    const item = document.createElement('div');
+    item.className = "p-2 rounded bg-surface-container-low flex flex-col gap-0.5 animate-in fade-in";
+    const now = new Date().toLocaleTimeString('en-IN', { hour12: false });
+    item.innerHTML = `
+      <div class="flex items-center justify-between text-secondary text-[11px]">
+        <span class="font-bold text-on-surface">${now} IST</span>
+        <span class="text-primary font-semibold">Dispatcher Manual Note</span>
+      </div>
+      <span class="text-on-surface">${note}</span>
+    `;
+    list.prepend(item);
+  }
+
+  // Modal controls
+  function openEscalationModal() {
+    const modal = document.getElementById('escalationModal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+  }
+
+  function closeEscalationModal() {
+    const modal = document.getElementById('escalationModal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  }
+
+  function submitPoliceEscalation() {
+    const pin = document.getElementById('authPinInput').value;
+    if (!pin || pin.length < 4) {
+      alert("Please enter a valid supervisor authorization PIN.");
+      return;
+    }
+    alert("CRITICAL DISPATCH SENT: Direct bridge open with Bharuch Highway Control Room. Token #POL-GJ-88129 assigned.");
+    closeEscalationModal();
+  }
+</script></main></div></body></html>

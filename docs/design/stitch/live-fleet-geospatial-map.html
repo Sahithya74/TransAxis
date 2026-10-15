@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary-fixed-dim":"#b4c5ff","inverse-primary":"#b4c5ff","inverse-on-surface":"#eaf1ff","on-background":"#0b1c30","on-secondary-container":"#5c647a","on-secondary-fixed-variant":"#3f465c","outline":"#737686","outline-variant":"#c3c6d7","tertiary-fixed-dim":"#d0bcff","surface-bright":"#f8f9ff","on-tertiary":"#ffffff","on-primary-container":"#eeefff","surface-tint":"#0053db","on-secondary":"#ffffff","secondary-container":"#dae2fd","on-primary":"#ffffff","on-secondary-fixed":"#131b2e","background":"#f8f9ff","surface-container-high":"#dce9ff","primary-fixed":"#dbe1ff","on-error-container":"#93000a","inverse-surface":"#213145","on-surface":"#0b1c30","surface-variant":"#d3e4fe","surface-dim":"#cbdbf5","on-primary-fixed":"#00174b","on-tertiary-container":"#f6edff","surface-container":"#e5eeff","secondary-fixed-dim":"#bec6e0","on-primary-fixed-variant":"#003ea8","secondary":"#565e74","on-surface-variant":"#434655","surface-container-low":"#eff4ff","tertiary":"#632ecd","tertiary-fixed":"#e9ddff","surface-container-highest":"#d3e4fe","primary":"#004ac6","secondary-fixed":"#dae2fd","on-tertiary-fixed":"#23005c","on-tertiary-fixed-variant":"#5516be","error-container":"#ffdad6","error":"#ba1a1a","surface":"#f8f9ff","tertiary-container":"#7d4ce7","primary-container":"#2563eb","surface-container-lowest":"#ffffff","on-error":"#ffffff"},borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},spacing:{"space-md":"0.75rem",gutter:"1rem","gutter-desktop":"1.5rem","space-sm":"0.5rem","space-xl":"2rem","margin-desktop":"1.5rem","space-xs":"0.25rem",margin:"1rem","space-lg":"1.25rem"},fontFamily:{"body-sm":["Inter"],"label-sm":["Inter"],"body-lg":["Inter"],"title-sm":["Plus Jakarta Sans"],"data-mono":["Inter"],"label-md":["Inter"],"headline-md":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-xl":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"]},fontSize:{"body-sm":["0.75rem",{lineHeight:"1rem",fontWeight:"400"}],"label-sm":["0.75rem",{lineHeight:"1rem",fontWeight:"600"}],"body-lg":["1rem",{lineHeight:"1.5rem",fontWeight:"400"}],"title-sm":["1rem",{lineHeight:"1.5rem",fontWeight:"600"}],"data-mono":["0.8125rem",{lineHeight:"1.125rem",fontWeight:"500"}],"label-md":["0.875rem",{lineHeight:"1.25rem",fontWeight:"500"}],"headline-md":["1.25rem",{lineHeight:"1.75rem",fontWeight:"600"}],"headline-xl-mobile":["1.5rem",{lineHeight:"2rem",fontWeight:"700"}],"body-md":["0.875rem",{lineHeight:"1.25rem",fontWeight:"400"}],"headline-xl":["2rem",{lineHeight:"2.5rem",fontWeight:"700"}],"headline-lg":["1.5rem",{lineHeight:"2rem",fontWeight:"600"}]}}}}</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-64 bg-inverse-surface z-50 flex flex-col border-r border-outline/20 select-none"><div class="h-14 px-gutter flex items-center justify-between border-b border-outline/20 bg-inverse-surface"><div class="flex items-center gap-space-sm"><div class="flex items-center justify-center w-7 h-7 rounded-lg bg-primary text-on-primary font-headline-md text-headline-md font-bold">T</div><div class="flex flex-col"><span class="font-title-sm text-title-sm text-surface-bright leading-none tracking-tight">TransAxis</span><span class="font-label-sm text-label-sm text-surface-dim/70 leading-none mt-0.5">FLEET OS v4.2</span></div></div><button class="flex items-center justify-center w-6 h-6 rounded text-surface-dim hover:text-surface-bright hover:bg-surface-dim/10 transition-colors"><span class="material-symbols-outlined text-base">first_page</span></button></div><div class="flex-1 overflow-y-auto px-space-sm py-space-sm space-y-space-md"><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Overview</div><a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="executive-dashboard" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg">dashboard</span><span>Executive Dashboard</span></div><span class="w-1.5 h-1.5 rounded-full bg-primary-fixed"></span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg transition-colors bg-primary text-on-primary font-semibold" data-path="live-fleet-map" href="#"><span class="material-symbols-outlined text-lg">map</span><span>Live Fleet Map</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="dispatch-board" href="#"><span class="material-symbols-outlined text-lg">view_kanban</span><span>Dispatch Board</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="trip-management" href="#"><span class="material-symbols-outlined text-lg">alt_route</span><span>Trip Management</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Operations</div><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="load-bookings" href="#"><span class="material-symbols-outlined text-lg">assignment</span><span>Load Bookings</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="vehicles" href="#"><span class="material-symbols-outlined text-lg">local_shipping</span><span>Vehicles</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="drivers-workforce" href="#"><span class="material-symbols-outlined text-lg">badge</span><span>Drivers &amp; Workforce</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="customers-vendors" href="#"><span class="material-symbols-outlined text-lg">corporate_fare</span><span>Customers &amp; Vendors</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="maintenance" href="#"><span class="material-symbols-outlined text-lg">build</span><span>Maintenance</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="fuel-management" href="#"><span class="material-symbols-outlined text-lg">local_gas_station</span><span>Fuel Management</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Security &amp; Safety</div><a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="security-control-room" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg text-error-container">emergency</span><span>Security Control Room</span></div><span class="px-1.5 py-0.5 rounded-full bg-error text-on-error font-label-sm text-label-sm uppercase tracking-wider animate-pulse">SOS</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="safety-alerts" href="#"><span class="material-symbols-outlined text-lg">warning</span><span>Safety Alerts</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="incident-management" href="#"><span class="material-symbols-outlined text-lg">gavel</span><span>Incident Management</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Finance</div><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="financial-overview" href="#"><span class="material-symbols-outlined text-lg">account_balance</span><span>Financial Overview</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="trip-profitability" href="#"><span class="material-symbols-outlined text-lg">trending_up</span><span>Trip Profitability</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="invoices-collections" href="#"><span class="material-symbols-outlined text-lg">receipt_long</span><span>Invoices &amp; Collections</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="driver-settlements" href="#"><span class="material-symbols-outlined text-lg">payments</span><span>Driver Settlements</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="expenses-vendors" href="#"><span class="material-symbols-outlined text-lg">price_change</span><span>Expenses &amp; Vendors</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Intelligence</div><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="reports-analytics" href="#"><span class="material-symbols-outlined text-lg">insights</span><span>Reports &amp; Analytics</span></a><a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="ai-transport-assistant" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-lg text-tertiary-fixed">auto_awesome</span><span>AI Transport Assistant</span></div><span class="px-1.5 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm">AI</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="document-knowledge-base" href="#"><span class="material-symbols-outlined text-lg">menu_book</span><span>Document Knowledge Base</span></a></nav><nav class="space-y-space-xs" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant/80 font-bold">Administration</div><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="calendar-events" href="#"><span class="material-symbols-outlined text-lg">event</span><span>Calendar &amp; Events</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="compliance-documents" href="#"><span class="material-symbols-outlined text-lg">verified_user</span><span>Compliance &amp; Documents</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="users-permissions" href="#"><span class="material-symbols-outlined text-lg">manage_accounts</span><span>Users &amp; Permissions</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="audit-logs" href="#"><span class="material-symbols-outlined text-lg">history</span><span>Audit Logs</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-inverse-on-surface hover:bg-inverse-on-surface/10 hover:text-surface-bright font-label-md text-label-md transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-lg">settings</span><span>Settings</span></a></nav></div><div class="p-space-sm border-t border-outline/20 bg-inverse-surface/80"><div class="flex items-center justify-between px-space-sm py-1.5 rounded-lg bg-surface-dim/10"><div class="flex items-center gap-space-sm"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-surface-bright leading-none">Nhava Gateway</span><span class="font-data-mono text-data-mono text-outline-variant text-[11px]">Node 09: 99.98%</span></div></div><span class="material-symbols-outlined text-sm text-surface-dim">sensors</span></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-14 bg-surface-container-lowest border-b border-outline-variant/30 z-40 flex items-center justify-between px-gutter-desktop shadow-[0_1px_3px_0_rgba(15,23,42,0.03)]"><div class="flex items-center gap-gutter"><div class="flex items-center gap-space-sm"><img alt="TransAxis Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WV72O0uA7rLkLl698tm6PJU4Z-D5TDO-zcH_UQIi1zHNGx23KPnK1ZiCnX7dTiIHC5NvjnOUY8FXZ6bamIu8F3kcVFEwMPgZ8kAEASNsCPpVlvK1e29UVwOOnDzomKZZKrBJEOszRX8JhDfBynvlzgWKYOE9fxze-ScYeXFFVhQkVW0tBGWE3x-qMhoYxn7GI-nxB6GfuKTzqEBVfEotJ3utxIPFIZl_ozb9lXtNgK0M3o0_pxfzmvd7c"/><div class="h-5 w-px bg-outline-variant/50"></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer"><span class="material-symbols-outlined text-primary text-base">hub</span><span class="font-label-md text-label-md text-on-surface font-semibold">West Zone Hub - Nhava Sheva / Bhiwandi</span><span class="material-symbols-outlined text-secondary text-sm">expand_more</span></div></div><div class="relative w-80 hidden lg:block"><span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline text-base">search</span><input class="w-full h-8 pl-8 pr-3 bg-surface-container-low border border-outline-variant rounded-lg font-data-mono text-data-mono text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all" placeholder="Omni-search Trucks (MH-04), Drivers, Trips..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low border border-outline-variant/40"><span class="w-2 h-2 rounded-full bg-emerald-500"></span><span class="font-data-mono text-data-mono text-[11px] text-secondary font-medium tracking-tight">SIMULATED GPS: LIVE 1.2s</span></div><button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed hover:bg-tertiary-fixed-dim transition-colors font-label-md text-label-md font-semibold"><span class="material-symbols-outlined text-base">auto_awesome</span><span class="hidden md:inline">AI Fleet Assist</span></button><div class="relative"><button class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-surface-container transition-colors text-on-surface-variant relative"><span class="material-symbols-outlined text-lg">notifications</span><span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-error text-on-error font-label-sm text-[10px] leading-none flex items-center justify-center font-bold">3</span></button></div><div class="h-6 w-px bg-outline-variant/40"></div><div class="flex items-center gap-space-sm pl-1 cursor-pointer"><img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg0d6FhCLsz95lposrnBH1hOQgJnxZZEL79WTrkN3iLampUNlZ6nsOzEoRWg1o7aASjZcIK9Vy9CdYG5GGQdSBV232DDDQJyGPyoFlvfNDUDGYbesSTu5jjZL35JMyDV0s9wV9EppK4aIBnAyCAbTYOl9m0qFIDdAYaNoshGMnHCZRvL3LzyESBLbN6dfIniyBKO-dlPUconwOrApT7W9qDgm7ponIH4Br9h5wRnEf-uYlRQuRglHK"/><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Rajesh Varma</span><span class="font-body-sm text-body-sm text-secondary leading-none">VP Operations</span></div><span class="material-symbols-outlined text-secondary text-base">arrow_drop_down</span></div></div></header><main class="relative pt-14 w-full px-gutter-desktop min-h-screen bg-background"><div class="flex flex-col w-full">
+<!-- Top Control Bar / Mission Filter Matrix -->
+<header class="py-space-sm px-gutter mb-space-sm bg-surface-container-low rounded-xl shadow-sm flex flex-col gap-space-sm">
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<!-- Search & Live Filter Pills -->
+<div class="flex flex-wrap items-center gap-space-sm flex-1 min-w-[320px]">
+<div class="relative flex-1 min-w-[240px] max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">travel_explore</span>
+<input class="w-full h-9 pl-9 pr-8 bg-surface-container-lowest rounded-lg font-data-mono text-data-mono text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary/40 shadow-xs" id="omni-filter-input" placeholder="Search Reg (MH, DL, KA, GJ, TN), Driver, or Trip ID..." type="text"/>
+<button class="absolute right-2.5 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface" onclick="document.getElementById('omni-filter-input').value=''"><span class="material-symbols-outlined text-sm">close</span></button>
+</div>
+<!-- Vehicle Type Filter Dropdown -->
+<div class="relative">
+<button class="h-9 px-3 bg-surface-container-lowest rounded-lg flex items-center gap-2 text-on-surface font-label-md text-label-md hover:bg-surface-container transition shadow-xs" id="btn-vehicle-filter">
+<span class="material-symbols-outlined text-primary text-base">local_shipping</span>
+<span id="label-veh-type">All Vehicle Types</span>
+<span class="material-symbols-outlined text-secondary text-sm">expand_more</span>
+</button>
+</div>
+<!-- Trip Status Badges Toggle -->
+<div class="flex items-center gap-1 bg-surface-container p-1 rounded-lg">
+<button class="px-2.5 py-1 rounded-md bg-surface-container-lowest text-primary font-label-sm text-label-sm shadow-xs transition" onclick="toggleStatusFilter(this, 'ALL')">All (328)</button>
+<button class="px-2 py-1 rounded-md text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition flex items-center gap-1" onclick="toggleStatusFilter(this, 'TRANSIT')"><span class="w-2 h-2 rounded-full bg-emerald-500"></span>Transit (214)</button>
+<button class="px-2 py-1 rounded-md text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition flex items-center gap-1" onclick="toggleStatusFilter(this, 'TOLL')"><span class="w-2 h-2 rounded-full bg-amber-500"></span>Tolls (42)</button>
+<button class="px-2 py-1 rounded-md text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition flex items-center gap-1" onclick="toggleStatusFilter(this, 'OFFROUTE')"><span class="w-2 h-2 rounded-full bg-error"></span>Off-Route (4)</button>
+</div>
+<!-- Alert Severity Matrix -->
+<div class="flex items-center gap-1 bg-surface-container p-1 rounded-lg">
+<button class="px-2 py-1 rounded-md text-error bg-error-container/60 font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">crisis_alert</span>Critical (2)
+          </button>
+<button class="px-2 py-1 rounded-md text-secondary font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Warnings (11)
+          </button>
+</div>
+</div>
+<!-- Live GPS Health Telemetry Readout & Controls -->
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-lowest shadow-xs">
+<div class="relative flex items-center justify-center">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+<span class="absolute w-4 h-4 rounded-full bg-emerald-500/40 animate-ping"></span>
+</div>
+<div class="flex flex-col">
+<div class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider flex items-center gap-1">
+<span>SIMULATED GPS FEED</span>
+<span class="px-1 py-0.2 bg-emerald-100 text-emerald-800 rounded text-[10px] font-bold">100% HEALTH</span>
+</div>
+<span class="font-data-mono text-data-mono text-outline text-[11px] leading-tight">Live Packet Sync: 1.4s ago</span>
+</div>
+</div>
+<!-- Layer Toggle Switches -->
+<div class="flex items-center gap-1 bg-surface-container-lowest p-1 rounded-lg shadow-xs">
+<button class="p-1.5 rounded text-primary hover:bg-surface-container" id="toggle-trails" title="Toggle Highway Trajectory Lines">
+<span class="material-symbols-outlined text-lg">route</span>
+</button>
+<button class="p-1.5 rounded text-secondary hover:bg-surface-container" id="toggle-tollgates" title="Toll Plazas &amp; FastTag Nodes">
+<span class="material-symbols-outlined text-lg">toll</span>
+</button>
+<button class="p-1.5 rounded text-secondary hover:bg-surface-container" id="toggle-geofence" title="Geofence Polygons">
+<span class="material-symbols-outlined text-lg">cloud_upload</span>
+</button>
+<button class="p-1.5 rounded text-secondary hover:bg-surface-container" title="Full Map Refresh">
+<span class="material-symbols-outlined text-lg">sync</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Interactive Map Stage Area & Layer Overlays -->
+<div class="relative w-full h-[calc(100vh-148px)] min-h-[640px] rounded-xl overflow-hidden bg-slate-900 shadow-lg select-none">
+<!-- Map Canvas Element / High-Fidelity Vector Map Simulation -->
+<div class="absolute inset-0 bg-[#0B1526] overflow-hidden">
+<!-- Golden Quadrilateral Highway Matrix SVG overlay -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" preserveaspectratio="xMidYMid slice" viewbox="0 0 1600 1000" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern height="60" id="map-grid" patternunits="userSpaceOnUse" width="60">
+<path d="M 60 0 L 0 0 0 60" fill="none" stroke="#1E293B" stroke-opacity="0.5" stroke-width="0.75"></path>
+</pattern>
+<radialgradient cx="50%" cy="50%" id="hub-glow" r="50%">
+<stop offset="0%" stop-color="#3B82F6" stop-opacity="0.35"></stop>
+<stop offset="100%" stop-color="#3B82F6" stop-opacity="0"></stop>
+</radialgradient>
+<lineargradient id="route-emerald" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#10B981"></stop>
+<stop offset="100%" stop-color="#059669"></stop>
+</lineargradient>
+<lineargradient id="route-amber" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#F59E0B"></stop>
+<stop offset="100%" stop-color="#D97706"></stop>
+</lineargradient>
+<lineargradient id="route-crimson" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#EF4444"></stop>
+<stop offset="100%" stop-color="#B91C1C"></stop>
+</lineargradient>
+</defs>
+<!-- Base Grid Floor -->
+<rect fill="url(#map-grid)" height="100%" width="100%"></rect>
+<!-- Geographical Contour Watermasses (Arabian Sea Coastline Hint) -->
+<path d="M 0,0 L 420,0 C 410,180 390,320 340,490 C 290,650 210,810 160,1000 L 0,1000 Z" fill="#07101E" opacity="0.8"></path>
+<path d="M 420,0 C 410,180 390,320 340,490 C 290,650 210,810 160,1000" fill="none" stroke="#1E3A8A" stroke-dasharray="4 4" stroke-opacity="0.3" stroke-width="1.5"></path>
+<!-- Major Hub Area Radials -->
+<circle cx="530" cy="740" fill="url(#hub-glow)" r="140"></circle>
+<circle cx="690" cy="310" fill="url(#hub-glow)" r="120"></circle>
+<circle cx="1080" cy="620" fill="url(#hub-glow)" r="110"></circle>
+<!-- National Highway Arteries: Golden Quadrilateral (NH-48, NH-44, NH-53) -->
+<!-- Background Highway Glow (Infrastructural corridors) -->
+<path d="M 530,740 Q 560,610 590,530 T 630,420 T 690,310 T 780,180" fill="none" stroke="#1E293B" stroke-linecap="round" stroke-width="10"></path>
+<path d="M 530,740 L 740,780 L 1020,830 L 1150,890" fill="none" stroke="#1E293B" stroke-linecap="round" stroke-width="8"></path>
+<path d="M 590,530 L 890,560 L 1180,610" fill="none" stroke="#1E293B" stroke-linecap="round" stroke-width="7"></path>
+<!-- Active Route Corridor: NH-48 Western Freight Spine (Mumbai-Bhiwandi to Ahmedabad-Sanand) -->
+<!-- Blue Planned Path -->
+<path d="M 530,740 C 545,670 560,600 590,530 C 615,480 640,410 690,310 C 720,250 750,220 780,180" fill="none" stroke="#1D4ED8" stroke-dasharray="8 6" stroke-opacity="0.35" stroke-width="4"></path>
+<!-- Green On-Schedule Past Track for MH-04-GP-2819 -->
+<path class="filter drop-shadow-[0_0_8px_rgba(16,185,129,0.6)]" d="M 530,740 C 545,670 560,600 590,530" fill="none" stroke="url(#route-emerald)" stroke-linecap="round" stroke-width="4"></path>
+<!-- Planned Continuation with subtle animation -->
+<path d="M 590,530 C 615,480 640,410 690,310" fill="none" stroke="#3B82F6" stroke-dasharray="6 4" stroke-opacity="0.8" stroke-width="3"></path>
+<!-- Secondary Routes for Fleet Visualization -->
+<!-- Amber route (Slow speed/Toll Queue at Pune Bypass) -->
+<path class="filter drop-shadow-[0_0_6px_rgba(245,158,11,0.5)]" d="M 530,740 Q 640,790 740,780" fill="none" stroke="url(#route-amber)" stroke-linecap="round" stroke-width="3.5"></path>
+<!-- Crimson Route (Off-route deviation at Surat Ring Road) -->
+<path class="filter drop-shadow-[0_0_6px_rgba(239,68,68,0.7)]" d="M 640,410 L 610,380 L 595,430" fill="none" stroke="url(#route-crimson)" stroke-dasharray="4 2" stroke-linecap="round" stroke-width="3"></path>
+<!-- Waypoint & Hub Node Graphics -->
+<!-- Nhava Sheva / Bhiwandi Origin Hub -->
+<g transform="translate(530, 740)">
+<circle fill="#004AC6" r="9"></circle>
+<circle fill="#FFFFFF" r="4"></circle>
+<text fill="#93C5FD" font-family="Inter" font-size="11" font-weight="600" letter-spacing="0.5" x="14" y="4">BHIWANDI HUB (ORIGIN)</text>
+</g>
+<!-- Manor Toll Plaza -->
+<g transform="translate(560, 630)">
+<rect fill="#334155" height="12" rx="2" stroke="#F59E0B" stroke-width="1.5" width="12" x="-6" y="-6"></rect>
+<text fill="#E2E8F0" font-family="Inter" font-size="9" x="12" y="3">MANOR FASTAG PLAZA</text>
+</g>
+<!-- Vapi Weighbridge Point -->
+<g transform="translate(578, 575)">
+<circle fill="#3B82F6" r="5"></circle>
+<text fill="#CBD5E1" font-family="Inter" font-size="9" x="10" y="3">VAPI WEIGHBRIDGE [28.2 MT OK]</text>
+</g>
+<!-- Navsari Bypass Inspection Area -->
+<g transform="translate(590, 530)">
+<circle class="animate-pulse" fill="#10B981" fill-opacity="0.2" r="14"></circle>
+<circle fill="#10B981" r="7"></circle>
+<circle fill="#FFFFFF" r="3"></circle>
+</g>
+<!-- Sanand Hub Destination -->
+<g transform="translate(690, 310)">
+<polygon fill="#8B5CF6" points="0,-10 9,6 -9,6"></polygon>
+<text fill="#DDD6FE" font-family="Inter" font-size="11" font-weight="600" x="14" y="4">TATA MOTORS SANAND (DEST)</text>
+</g>
+<!-- Toll Nodes along quadrilateral -->
+<g transform="translate(635, 430)">
+<rect fill="#1E293B" height="10" rx="2" stroke="#94A3B8" stroke-width="1" width="10" x="-5" y="-5"></rect>
+<text fill="#94A3B8" font-family="Inter" font-size="8" x="10" y="3">BHARUCH NARMADA TOLL</text>
+</g>
+<g transform="translate(670, 780)">
+<rect fill="#1E293B" height="10" rx="2" stroke="#F59E0B" stroke-width="1.5" width="10" x="-5" y="-5"></rect>
+<text fill="#FDE68A" font-family="Inter" font-size="8" x="10" y="3">KHED SHIVAPUR TOLL (12m Queue)</text>
+</g>
+<!-- Secondary City Landmarks -->
+<text fill="#475569" font-family="Plus Jakarta Sans" font-size="12" font-weight="700" x="440" y="700">MUMBAI MMR</text>
+<text fill="#475569" font-family="Plus Jakarta Sans" font-size="10" font-weight="600" x="630" y="490">SURAT INDUSTRIAL CORRIDOR</text>
+<text fill="#475569" font-family="Plus Jakarta Sans" font-size="10" font-weight="600" x="650" y="390">VADODARA LOGISTICS PARK</text>
+<text fill="#475569" font-family="Plus Jakarta Sans" font-size="11" font-weight="700" x="760" y="810">PUNE METRO HUB</text>
+</svg>
+<!-- Interactive HTML Vehicle Pins Floating over the Highway Vector -->
+<!-- Focus Vehicle Pin: MH-04-GP-2819 (Active Selection) -->
+<div class="absolute left-[36.5%] top-[52.5%] -translate-x-1/2 -translate-y-1/2 z-30 cursor-pointer group" id="pin-mh04" onclick="focusVehicle('MH-04-GP-2819')">
+<!-- Callout Banner -->
+<div class="relative flex flex-col items-center">
+<div class="mb-1.5 px-2.5 py-1 rounded-md bg-inverse-surface/95 text-surface-bright shadow-lg backdrop-blur-md flex items-center gap-2 border border-primary/40 transform transition group-hover:-translate-y-1">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+<span class="font-data-mono text-data-mono font-bold text-white tracking-tight">MH-04-GP-2819</span>
+<div class="h-3 w-px bg-slate-600"></div>
+<span class="font-data-mono text-data-mono text-emerald-400 font-semibold">58 km/h</span>
+<span class="px-1.5 py-0.2 rounded bg-primary text-on-primary font-label-sm text-[10px]">VOLVO FH</span>
+</div>
+<!-- Direction Heading Pin -->
+<div class="relative w-10 h-10 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full bg-primary/30 animate-pulse"></div>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white shadow-md transform rotate-[-45deg] transition group-hover:scale-110">
+<span class="material-symbols-outlined text-lg">navigation</span>
+</div>
+</div>
+<span class="font-data-mono text-[10px] text-slate-300 bg-slate-900/80 px-1 rounded mt-0.5">NH-48 KM 214</span>
+</div>
+</div>
+<!-- Secondary Vehicle: DL-01-AK-9042 (Speeding / Amber Delay) -->
+<div class="absolute left-[46%] top-[77.5%] -translate-x-1/2 -translate-y-1/2 z-20 cursor-pointer group" onclick="focusVehicle('DL-01-AK-9042')">
+<div class="flex flex-col items-center">
+<div class="mb-1 px-2 py-0.5 rounded bg-inverse-surface/90 text-surface-bright shadow flex items-center gap-1.5 border border-amber-500/40">
+<span class="font-data-mono text-[11px] font-bold text-white">DL-01-AK-9042</span>
+<span class="font-data-mono text-[11px] text-amber-400 font-medium">0 km/h (Toll)</span>
+</div>
+<div class="w-7 h-7 rounded-full bg-amber-500 flex items-center justify-center text-slate-950 shadow-md">
+<span class="material-symbols-outlined text-base">pause</span>
+</div>
+</div>
+</div>
+<!-- Third Vehicle: KA-05-EV-1102 (Off-Route Deviation) -->
+<div class="absolute left-[38.5%] top-[42%] -translate-x-1/2 -translate-y-1/2 z-20 cursor-pointer group" onclick="focusVehicle('KA-05-EV-1102')">
+<div class="flex flex-col items-center">
+<div class="mb-1 px-2 py-0.5 rounded bg-error text-on-error shadow-lg flex items-center gap-1.5 animate-bounce">
+<span class="material-symbols-outlined text-xs">warning</span>
+<span class="font-data-mono text-[11px] font-bold">KA-05-EV-1102</span>
+<span class="font-data-mono text-[10px]">3.4km Deviated</span>
+</div>
+<div class="w-7 h-7 rounded-full bg-error flex items-center justify-center text-white shadow-md transform rotate-[120deg]">
+<span class="material-symbols-outlined text-base">near_me</span>
+</div>
+</div>
+</div>
+<!-- Fourth Vehicle: GJ-06-TT-5510 (Reefer On Schedule) -->
+<div class="absolute left-[42.5%] top-[31%] -translate-x-1/2 -translate-y-1/2 z-20 cursor-pointer group" onclick="focusVehicle('GJ-06-TT-5510')">
+<div class="flex flex-col items-center">
+<div class="mb-1 px-2 py-0.5 rounded bg-inverse-surface/90 text-surface-bright shadow flex items-center gap-1.5">
+<span class="font-data-mono text-[11px] font-bold text-white">GJ-06-TT-5510</span>
+<span class="font-data-mono text-[11px] text-emerald-400">62 km/h</span>
+<span class="text-[9px] text-cyan-300 font-bold">-18°C</span>
+</div>
+<div class="w-7 h-7 rounded-full bg-cyan-600 flex items-center justify-center text-white shadow-md transform rotate-[-30deg]">
+<span class="material-symbols-outlined text-base">ac_unit</span>
+</div>
+</div>
+</div>
+<!-- Fifth Vehicle: TN-22-BY-8831 (10-Wheeler Container) -->
+<div class="absolute left-[58%] top-[61%] -translate-x-1/2 -translate-y-1/2 z-20 cursor-pointer group">
+<div class="flex flex-col items-center opacity-85 hover:opacity-100 transition">
+<div class="mb-1 px-1.5 py-0.5 rounded bg-slate-800 text-white text-[10px] font-data-mono">TN-22-BY-8831 | 51 km/h</div>
+<div class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white shadow transform rotate-[45deg]">
+<span class="material-symbols-outlined text-sm">navigation</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Map Floating Tool HUD (Zoom, Heatmap, Compass, Distance Ruler) -->
+<div class="absolute top-4 right-4 z-20 flex flex-col gap-1.5">
+<div class="bg-surface-container-lowest/95 backdrop-blur-md rounded-lg shadow-md p-1 flex flex-col gap-1">
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container transition" title="Zoom In"><span class="material-symbols-outlined text-lg">add</span></button>
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container transition" title="Zoom Out"><span class="material-symbols-outlined text-lg">remove</span></button>
+<div class="w-6 h-px bg-outline-variant/40 mx-auto"></div>
+<button class="w-8 h-8 rounded flex items-center justify-center text-primary hover:bg-surface-container transition" title="Reset North"><span class="material-symbols-outlined text-lg">explore</span></button>
+</div>
+<div class="bg-surface-container-lowest/95 backdrop-blur-md rounded-lg shadow-md p-1 flex flex-col gap-1">
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:text-primary transition" title="Traffic Congestion Overlay"><span class="material-symbols-outlined text-lg">traffic</span></button>
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:text-primary transition" title="Satellite View Toggle"><span class="material-symbols-outlined text-lg">satellite_alt</span></button>
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:text-primary transition" title="Measure Distance"><span class="material-symbols-outlined text-lg">straighten</span></button>
+</div>
+</div>
+<!-- Map Legend Bar (Bottom Left Anchor) -->
+<div class="absolute bottom-4 left-4 z-20 hidden md:flex items-center gap-3 px-3 py-1.5 rounded-lg bg-inverse-surface/90 backdrop-blur-md text-surface-bright shadow-md text-label-sm font-label-sm border border-slate-700/50">
+<div class="flex items-center gap-1.5"><span class="w-3 h-1 rounded-full bg-emerald-400"></span><span class="text-slate-300">On-Schedule</span></div>
+<div class="flex items-center gap-1.5"><span class="w-3 h-1 rounded-full bg-blue-500"></span><span class="text-slate-300">Planned Corridor</span></div>
+<div class="flex items-center gap-1.5"><span class="w-3 h-1 rounded-full bg-amber-400"></span><span class="text-slate-300">Toll / Idle Delay</span></div>
+<div class="flex items-center gap-1.5"><span class="w-3 h-1 rounded-full bg-error"></span><span class="text-slate-300">Off-Route</span></div>
+<div class="h-3 w-px bg-slate-700"></div>
+<span class="text-slate-400 font-data-mono text-[11px]">W-DFC &amp; Golden Quad NH-48 Sector</span>
+</div>
+<!-- LEFT OVERLAY: Collapsible Fleet Quick Selector (328 Active Fleet Drawer) -->
+<aside class="absolute top-3 bottom-3 left-3 w-80 max-w-[calc(100%-24px)] z-30 flex flex-col bg-surface-container-lowest/95 backdrop-blur-md rounded-xl shadow-xl border border-outline-variant/30 transition-transform duration-300" id="fleet-selector-panel">
+<!-- Selector Header -->
+<div class="p-3 border-b border-outline-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">hub</span>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface leading-tight">Live Fleet Radar</div>
+<div class="font-data-mono text-data-mono text-secondary text-[11px]">328 Connected Telematics Nodes</div>
+</div>
+</div>
+<button class="w-7 h-7 rounded-md hover:bg-surface-container flex items-center justify-center text-secondary transition" onclick="toggleFleetPanel()" title="Collapse Selector">
+<span class="material-symbols-outlined text-base">chevron_left</span>
+</button>
+</div>
+<!-- Quick Metrics Counters -->
+<div class="grid grid-cols-3 gap-1 px-3 py-2 bg-surface-container-low/60 text-center border-b border-outline-variant/20">
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md font-bold text-emerald-600 leading-none">214</span>
+<span class="font-label-sm text-[10px] text-secondary uppercase mt-0.5">Moving</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md font-bold text-amber-600 leading-none">42</span>
+<span class="font-label-sm text-[10px] text-secondary uppercase mt-0.5">Toll / Idle</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md font-bold text-error leading-none">04</span>
+<span class="font-label-sm text-[10px] text-secondary uppercase mt-0.5">Deviations</span>
+</div>
+</div>
+<!-- Quick Search inside list -->
+<div class="p-2 border-b border-outline-variant/20">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-outline text-sm">filter_list</span>
+<input class="w-full h-7 pl-7 pr-2 bg-surface-container text-xs rounded font-data-mono text-on-surface placeholder:text-outline focus:outline-none" placeholder="Filter node list..." type="text"/>
+</div>
+</div>
+<!-- Vehicle Card Stream (Dense Virtual Scroll) -->
+<div class="flex-1 overflow-y-auto p-2 space-y-1.5 divide-y divide-transparent">
+<!-- Item 1: Active Selected Multi-Axle -->
+<div class="p-2.5 rounded-lg bg-surface-container-high border-l-4 border-primary cursor-pointer hover:bg-surface-variant transition" onclick="focusVehicle('MH-04-GP-2819')">
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center gap-1.5">
+<span class="font-data-mono text-data-mono font-bold text-primary">MH-04-GP-2819</span>
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+</div>
+<span class="font-data-mono text-data-mono text-emerald-700 font-bold">58 km/h</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface truncate font-medium">Volvo FH 40ft Multi-Axle Trailer</div>
+<div class="flex items-center justify-between mt-1 text-[11px] text-secondary font-data-mono">
+<span>NH-48 km 214 (Navsari)</span>
+<div class="flex items-center gap-1.5">
+<span class="text-on-surface">IGN: <strong class="text-emerald-600">ON</strong></span>
+<span>•</span>
+<span>⚡ 74% Fuel</span>
+</div>
+</div>
+</div>
+<!-- Item 2: Reefer Truck Normal -->
+<div class="p-2.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container cursor-pointer transition border border-outline-variant/20" onclick="focusVehicle('GJ-06-TT-5510')">
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center gap-1.5">
+<span class="font-data-mono text-data-mono font-bold text-on-surface">GJ-06-TT-5510</span>
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+</div>
+<span class="font-data-mono text-data-mono text-emerald-700 font-semibold">62 km/h</span>
+</div>
+<div class="font-body-sm text-body-sm text-secondary truncate">BharatBenz 32ft Reefer (-18°C Pharma)</div>
+<div class="flex items-center justify-between mt-1 text-[11px] text-secondary font-data-mono">
+<span>Vadodara Ring Rd</span>
+<span>⚡ 91% Fuel</span>
+</div>
+</div>
+<!-- Item 3: Off-route Warning Item -->
+<div class="p-2.5 rounded-lg bg-error-container/40 hover:bg-error-container/70 cursor-pointer transition border-l-4 border-error" onclick="focusVehicle('KA-05-EV-1102')">
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center gap-1.5">
+<span class="font-data-mono text-data-mono font-bold text-error">KA-05-EV-1102</span>
+<span class="px-1 py-0.2 rounded bg-error text-on-error text-[9px] font-bold">OFF-ROUTE</span>
+</div>
+<span class="font-data-mono text-data-mono text-error font-bold">42 km/h</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface truncate">Tata Signa 10-Wheeler Tipper</div>
+<div class="flex items-center justify-between mt-1 text-[11px] text-error font-data-mono">
+<span>Surat Rural Byroad (+3.4 km)</span>
+<span>🚨 Geofence Breach</span>
+</div>
+</div>
+<!-- Item 4: Stalled at Toll Plaza -->
+<div class="p-2.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container cursor-pointer transition border border-outline-variant/20" onclick="focusVehicle('DL-01-AK-9042')">
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center gap-1.5">
+<span class="font-data-mono text-data-mono font-bold text-on-surface">DL-01-AK-9042</span>
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+</div>
+<span class="font-data-mono text-data-mono text-amber-700 font-bold">0 km/h (14m)</span>
+</div>
+<div class="font-body-sm text-body-sm text-secondary truncate">Ashok Leyland 32ft MXL Container</div>
+<div class="flex items-center justify-between mt-1 text-[11px] text-secondary font-data-mono">
+<span>Khed Shivapur FastTag Plaza</span>
+<span>IGN: IDLE</span>
+</div>
+</div>
+<!-- Item 5: Open Lorry -->
+<div class="p-2.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container cursor-pointer transition border border-outline-variant/20">
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center gap-1.5">
+<span class="font-data-mono text-data-mono font-bold text-on-surface">TN-22-BY-8831</span>
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+</div>
+<span class="font-data-mono text-data-mono text-emerald-700 font-medium">51 km/h</span>
+</div>
+<div class="font-body-sm text-body-sm text-secondary truncate">Eicher Pro 14ft Open Lorry</div>
+<div class="flex items-center justify-between mt-1 text-[11px] text-secondary font-data-mono">
+<span>W-DFC Freight Hub Sector 4</span>
+<span>⚡ 68% Fuel</span>
+</div>
+</div>
+</div>
+<!-- Drawer Footer -->
+<div class="p-2.5 border-t border-outline-variant/30 bg-surface-container-low/40 flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-secondary font-data-mono text-[11px]">Filtered: 5 of 328 nodes</span>
+<button class="text-primary hover:underline font-semibold text-xs flex items-center gap-0.5">Export Telematics CSV <span class="material-symbols-outlined text-xs">download</span></button>
+</div>
+</aside>
+<!-- RIGHT INSPECTOR DRAWER: Comprehensive Telematics & Trip Deep-Dive (Expanded for MH-04-GP-2819) -->
+<aside class="absolute top-3 bottom-3 right-3 w-[440px] max-w-[calc(100%-24px)] z-30 flex flex-col bg-surface-container-lowest/98 backdrop-blur-lg rounded-xl shadow-2xl border border-outline-variant/30 overflow-hidden transition-transform duration-300" id="vehicle-inspector">
+<!-- Inspector Top Banner with Primary Metadata -->
+<div class="p-4 bg-inverse-surface text-surface-bright flex flex-col gap-2 relative">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 rounded-lg bg-primary/20 border border-primary/40 flex items-center justify-center text-primary-fixed">
+<span class="material-symbols-outlined text-2xl">local_shipping</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md font-bold tracking-tight text-white">MH-04-GP-2819</h2>
+<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  LIVE ON-ROAD
+                </span>
+</div>
+<p class="font-body-sm text-body-sm text-slate-300">Volvo FH 540 • 40ft Multi-Axle Prime Mover (6x4)</p>
+</div>
+</div>
+<button class="text-slate-400 hover:text-white transition p-1" onclick="minimizeInspector()" title="Close Panel">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+</div>
+<!-- Telematics Vital KPI Chips -->
+<div class="grid grid-cols-4 gap-2 pt-2 border-t border-slate-700/60 font-data-mono">
+<div class="bg-slate-800/80 p-2 rounded flex flex-col">
+<span class="text-[10px] text-slate-400 uppercase">Live Speed</span>
+<span class="text-sm font-bold text-emerald-400 leading-tight">58 km/h</span>
+</div>
+<div class="bg-slate-800/80 p-2 rounded flex flex-col">
+<span class="text-[10px] text-slate-400 uppercase">Fuel Level</span>
+<span class="text-sm font-bold text-white leading-tight">280L <span class="text-xs text-primary-fixed">(74%)</span></span>
+</div>
+<div class="bg-slate-800/80 p-2 rounded flex flex-col">
+<span class="text-[10px] text-slate-400 uppercase">DEF (AdBlue)</span>
+<span class="text-sm font-bold text-white leading-tight">82%</span>
+</div>
+<div class="bg-slate-800/80 p-2 rounded flex flex-col">
+<span class="text-[10px] text-slate-400 uppercase">Engine Temp</span>
+<span class="text-sm font-bold text-amber-300 leading-tight">88°C <span class="text-[10px] text-emerald-400">NORM</span></span>
+</div>
+</div>
+</div>
+<!-- Inspector Scrollable Body Sections -->
+<div class="flex-1 overflow-y-auto p-4 space-y-4 text-on-surface">
+<!-- Live Trip Route & Consignment Profile -->
+<div class="bg-surface-container-low p-3.5 rounded-xl space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-base">inventory_2</span>
+              Consignment &amp; Waybill
+            </span>
+<span class="font-data-mono text-[11px] font-bold text-primary bg-primary-fixed/40 px-2 py-0.5 rounded">E-WAY: #291048102941</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-baseline">
+<span class="font-title-sm text-title-sm font-bold text-on-surface">28.0 MT Hot-Rolled Steel Coils</span>
+<span class="font-data-mono text-data-mono text-emerald-700 font-semibold">Tire Load: Balanced</span>
+</div>
+<div class="font-body-sm text-body-sm text-secondary">Consignee: <strong class="text-on-surface">Tata Motors Sanand Assembly Plant</strong>, Gujarat</div>
+<div class="font-data-mono text-[11px] text-secondary flex items-center gap-2">
+<span>Origin: Bhiwandi Steel Stockyard</span>
+<span>➔</span>
+<span>Valid till: 28-Feb 23:59 IST</span>
+</div>
+</div>
+</div>
+<!-- Real-Time Milestone Timeline (Trip Progress Flow) -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant/30 space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-base">timeline</span>
+              Route Milestone Trajectory
+            </span>
+<span class="font-data-mono text-[11px] text-secondary">Trip ID: TRP-99214-W</span>
+</div>
+<div class="relative pl-6 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-outline-variant/50">
+<!-- Milestone 1: Origin -->
+<div class="relative">
+<span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-[9px] text-white font-bold">✓</span>
+<div class="flex items-center justify-between font-label-md text-label-md font-semibold">
+<span>Bhiwandi Origin Hub (MH)</span>
+<span class="font-data-mono text-data-mono text-secondary text-[11px]">06:30 IST</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Dispatch inspection completed. E-seal applied &amp; verified.</p>
+</div>
+<!-- Milestone 2: Manor Toll -->
+<div class="relative">
+<span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-[9px] text-white font-bold">✓</span>
+<div class="flex items-center justify-between font-label-md text-label-md font-semibold">
+<span>Manor FastTag Toll Gate</span>
+<span class="font-data-mono text-data-mono text-secondary text-[11px]">08:45 IST</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Toll debited ₹420. Lane 04 clearance under 35 seconds.</p>
+</div>
+<!-- Milestone 3: Vapi Weighbridge -->
+<div class="relative">
+<span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-[9px] text-white font-bold">✓</span>
+<div class="flex items-center justify-between font-label-md text-label-md font-semibold">
+<span>Vapi Commercial Weighbridge</span>
+<span class="font-data-mono text-data-mono text-secondary text-[11px]">11:20 IST</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Gross Weight verified: <strong>28.2 MT</strong> (Within legal axle tolerance).</p>
+</div>
+<!-- Milestone 4: CURRENT (Navsari Bypass) -->
+<div class="relative">
+<span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-primary border-2 border-white animate-ping"></span>
+<span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-primary border-2 border-white"></span>
+<div class="flex items-center justify-between font-label-md text-label-md font-bold text-primary">
+<span>Current: Navsari Bypass (NH-48)</span>
+<span class="font-data-mono text-data-mono text-emerald-700 font-bold">ETA: 17:15 IST</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface font-medium">Cruising at 58 km/h. Speed regulator engaged (Speed Governor: 60 max).</p>
+</div>
+<!-- Milestone 5: Destination -->
+<div class="relative opacity-60">
+<span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-slate-300 border-2 border-white"></span>
+<div class="flex items-center justify-between font-label-md text-label-md font-semibold">
+<span>Tata Motors Sanand Plant (GJ)</span>
+<span class="font-data-mono text-data-mono text-secondary text-[11px]">Remaining: 184 km</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Estimated Arrival: 18:30 IST today (On Schedule, +12m buffer).</p>
+</div>
+</div>
+</div>
+<!-- Crew & Fatigue Telematics Section -->
+<div class="bg-surface-container-low p-3.5 rounded-xl space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-base">airline_seat_recline_normal</span>
+              Crew &amp; In-Cab Fatigue Telematics
+            </span>
+<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-label-sm text-[11px] font-bold">FATIGUE: NORMAL</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container border-2 border-primary/20 flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Close up realistic portrait photo of experienced Indian commercial truck driver Jaswant Yadav wearing professional blue transport uniform with calm focused expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8DqZSi1UUGOAw3E1Hl32a9WxuM6wvpMz7SSiYLQMq4NLwss76bv0WmV_THu08ORnuLMgsTpkgLroEEDDrnpHhV8FigO-5Cim-0TCR3Z6E3-WroArIEr6OSN7sjedjk3C82mZ5UkLZU2qzjRz1rIKlPTnisi4MOBZZt-voRvgGq87xHKZrdMgTJmkfZD8y0BvJZBelVq_byqzDCmeWmYIKty8EIbqMDAJHkpgmpRVcVPFVOzxW2Hbx"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-bold text-on-surface truncate">Jaswant Yadav</span>
+<span class="font-data-mono text-data-mono text-xs text-secondary font-semibold">HMV Lic: Valid 2027</span>
+</div>
+<div class="font-body-sm text-body-sm text-secondary truncate">Co-Driver / Helper: Ramu K. (Active Cab Rotation)</div>
+</div>
+</div>
+<!-- Driver Fatigue & Continuous Driving Progress Bar -->
+<div class="space-y-1">
+<div class="flex items-center justify-between font-data-mono text-[11px]">
+<span class="text-secondary">Continuous Drive Time: <strong>3.2 hrs</strong></span>
+<span class="text-secondary">Mandatory Rest in: <strong>48 mins</strong></span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-emerald-500 rounded-full" style="width: 65%;"></div>
+</div>
+<div class="flex items-center justify-between text-[10px] text-outline font-data-mono">
+<span>0h (Bhiwandi)</span>
+<span>Threshold: 4.0h Safe Max Limit</span>
+</div>
+</div>
+</div>
+<!-- Vehicle Telematics: TPMS & Diagnostics -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant/30 space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-base">sensors</span>
+              IoT Sensors &amp; Tire Pressure (TPMS)
+            </span>
+<span class="font-data-mono text-[11px] text-emerald-700 font-bold">10/10 Sensors Nominal</span>
+</div>
+<!-- Mini TPMS Visual Grid (Multi-axle 10 wheelers layout) -->
+<div class="grid grid-cols-4 gap-2 text-center font-data-mono text-[10px]">
+<div class="p-1.5 rounded bg-surface-container-low border border-emerald-500/30">
+<span class="text-secondary">Front L</span>
+<div class="font-bold text-emerald-700 text-xs">112 PSI</div>
+</div>
+<div class="p-1.5 rounded bg-surface-container-low border border-emerald-500/30">
+<span class="text-secondary">Front R</span>
+<div class="font-bold text-emerald-700 text-xs">114 PSI</div>
+</div>
+<div class="p-1.5 rounded bg-surface-container-low border border-emerald-500/30">
+<span class="text-secondary">Axle 2 L</span>
+<div class="font-bold text-emerald-700 text-xs">118 PSI</div>
+</div>
+<div class="p-1.5 rounded bg-surface-container-low border border-emerald-500/30">
+<span class="text-secondary">Axle 2 R</span>
+<div class="font-bold text-emerald-700 text-xs">119 PSI</div>
+</div>
+</div>
+<!-- Geofence & Cargo Integrity Status -->
+<div class="grid grid-cols-2 gap-2 pt-2 border-t border-outline-variant/20 font-data-mono text-xs">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-emerald-600 text-sm">lock</span>
+<span>Cargo Seal: <strong>#SL-99410 Intact</strong></span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-emerald-600 text-sm">door_sensor</span>
+<span>Cabin Door: <strong>Secured</strong></span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-sm">satellite_alt</span>
+<span>GPS Signal: <strong>99.8% Lock</strong></span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-sm">speed</span>
+<span>Odo: <strong>2,41,890 km</strong></span>
+</div>
+</div>
+</div>
+</div>
+<!-- Tactical Action Footer (Buttons for Dispatch Command) -->
+<div class="p-3 bg-surface-container-low border-t border-outline-variant/30 flex flex-col gap-2">
+<div class="grid grid-cols-2 gap-2">
+<button class="h-9 px-3 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-semibold hover:bg-primary-container transition flex items-center justify-center gap-1.5 shadow-sm active:scale-98">
+<span class="material-symbols-outlined text-base">call</span>
+            Call Jaswant (Lead)
+          </button>
+<button class="h-9 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md font-semibold hover:bg-surface-container border border-outline-variant/40 transition flex items-center justify-center gap-1.5 active:scale-98">
+<span class="material-symbols-outlined text-base text-primary">chat</span>
+            Send In-Cab Alert
+          </button>
+</div>
+<div class="flex items-center justify-between gap-1">
+<button class="flex-1 py-1.5 px-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm flex items-center justify-center gap-1" title="Recalculate route with live congestion">
+<span class="material-symbols-outlined text-sm text-tertiary">alt_route</span>
+            Recalculate ETA
+          </button>
+<div class="h-4 w-px bg-outline-variant/40"></div>
+<button class="flex-1 py-1.5 px-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-sm">file_download</span>
+            Telematics Log
+          </button>
+<div class="h-4 w-px bg-outline-variant/40"></div>
+<button class="flex-1 py-1.5 px-2 rounded text-error hover:bg-error-container/50 font-label-sm text-label-sm flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-sm">report_problem</span>
+            Raise Exception
+          </button>
+</div>
+</div>
+</aside>
+</div>
+</div>
+<script>
+  // Panel toggling & micro-interactions
+  function toggleFleetPanel() {
+    const panel = document.getElementById('fleet-selector-panel');
+    if (panel.style.transform === 'translateX(-110%)') {
+      panel.style.transform = 'translateX(0%)';
+    } else {
+      panel.style.transform = 'translateX(-110%)';
+    }
+  }
+
+  function minimizeInspector() {
+    const inspector = document.getElementById('vehicle-inspector');
+    inspector.style.transform = 'translateX(110%)';
+  }
+
+  function focusVehicle(regNumber) {
+    const inspector = document.getElementById('vehicle-inspector');
+    inspector.style.transform = 'translateX(0%)';
+    
+    // Highlight pin visually
+    const pin = document.getElementById('pin-mh04');
+    if (pin) {
+      pin.classList.add('scale-110');
+      setTimeout(() => pin.classList.remove('scale-110'), 300);
+    }
+  }
+
+  function toggleStatusFilter(btn, status) {
+    const parent = btn.parentElement;
+    const buttons = parent.querySelectorAll('button');
+    buttons.forEach(b => {
+      b.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-xs');
+      b.classList.add('text-on-surface-variant');
+    });
+    btn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-xs');
+    btn.classList.remove('text-on-surface-variant');
+  }
+
+  // Layer toggle visual cues
+  const trailBtn = document.getElementById('toggle-trails');
+  if (trailBtn) {
+    trailBtn.addEventListener('click', function() {
+      this.classList.toggle('text-primary');
+      this.classList.toggle('text-secondary');
+    });
+  }
+</script></main></div></body></html>
