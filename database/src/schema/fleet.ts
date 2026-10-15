@@ -9,7 +9,9 @@ import {
   text,
   uniqueIndex,
   varchar,
+  type AnyMySqlColumn,
 } from 'drizzle-orm/mysql-core';
+import { vendors } from './commercial.js';
 import {
   BODY_TYPES,
   FUEL_TYPES,
@@ -55,8 +57,8 @@ export const vehicles = mysqlTable(
     model: varchar('model', { length: 60 }),
     year: int('year'),
     ownership: mysqlEnum('ownership', VEHICLE_OWNERSHIP).notNull().default('owned'),
-    /** Set for attached/hired vehicles; FK to vendors is added in migration 0002. */
-    vendorId: refCol('vendor_id'),
+    /** Owner/subcontractor for attached or hired vehicles. */
+    vendorId: refCol('vendor_id').references((): AnyMySqlColumn => vendors.id),
     payloadCapacityKg: decimal('payload_capacity_kg', { precision: 12, scale: 3 }).notNull(),
     volumeCapacityCbm: decimal('volume_capacity_cbm', { precision: 10, scale: 2 }),
     fuelType: mysqlEnum('fuel_type', FUEL_TYPES).notNull().default('diesel'),

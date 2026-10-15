@@ -12,8 +12,11 @@ import {
   uniqueIndex,
   varchar,
   decimal,
+  type AnyMySqlColumn,
 } from 'drizzle-orm/mysql-core';
 import { createdAtCol, dt, idCol, refCol, updatedAtCol } from './common.js';
+import { customers } from './commercial.js';
+import { workers } from './people.js';
 
 // ---------------------------------------------------------------- tenancy
 
@@ -75,10 +78,10 @@ export const users = mysqlTable(
     mustChangePassword: boolean('must_change_password').notNull().default(false),
     totpSecretEnc: varchar('totp_secret_enc', { length: 255 }),
     totpEnabled: boolean('totp_enabled').notNull().default(false),
-    /** Set for driver/helper logins; links the account to a workers row (added in migration 0002). */
-    workerId: refCol('worker_id'),
-    /** Set for customer-portal logins; links the account to a customers row (migration 0002). */
-    customerId: refCol('customer_id'),
+    /** Set for driver/helper logins; restricts trip access to the worker's own assignments. */
+    workerId: refCol('worker_id').references((): AnyMySqlColumn => workers.id),
+    /** Set for customer-portal logins; restricts bookings and invoices to that customer. */
+    customerId: refCol('customer_id').references((): AnyMySqlColumn => customers.id),
     createdAt: createdAtCol(),
     updatedAt: updatedAtCol(),
   },
