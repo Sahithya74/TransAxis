@@ -1,0 +1,76 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/plus-jakarta-sans';
+
+/*
+ * Design tokens from the Stitch "Mission Command Logistics" system (docs/design/stitch/DESIGN.md).
+ * Status colours are a strict taxonomy: emerald = healthy, amber = caution, crimson = critical,
+ * violet = AI / predictive. Do not reuse them decoratively.
+ */
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Plus Jakarta Sans Variable', 'Inter Variable', ui-sans-serif, sans-serif;
+
+  --color-chrome: #0f172a;
+  --color-chrome-2: #1e293b;
+  --color-chrome-text: #cbd5e1;
+
+  --color-canvas: #f8fafc;
+  --color-surface: #ffffff;
+  --color-subtle: #f1f5f9;
+  --color-line: #e2e8f0;
+  --color-line-strong: #cbd5e1;
+  --color-ink: #1e293b;
+  --color-muted: #64748b;
+
+  --color-primary: #2563eb;
+  --color-primary-strong: #1d4ed8;
+  --color-primary-soft: #eff6ff;
+
+  --color-ok: #10b981;
+  --color-ok-strong: #065f46;
+  --color-ok-soft: #ecfdf5;
+  --color-warn: #f59e0b;
+  --color-warn-strong: #92400e;
+  --color-warn-soft: #fffbeb;
+  --color-crit: #ef4444;
+  --color-crit-strong: #991b1b;
+  --color-crit-soft: #fef2f2;
+  --color-ai: #8b5cf6;
+  --color-ai-strong: #5b21b6;
+  --color-ai-soft: #f5f3ff;
+
+  --radius-sm: 0.125rem;
+  --radius: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+
+  --shadow-card: 0 1px 3px 0 rgb(15 23 42 / 0.04), 0 1px 2px -1px rgb(15 23 42 / 0.02);
+  --shadow-raised: 0 4px 6px -1px rgb(15 23 42 / 0.08), 0 2px 4px -2px rgb(15 23 42 / 0.04);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-variant-numeric: tabular-nums;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
