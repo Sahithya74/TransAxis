@@ -16,7 +16,11 @@ import { fileRoutes } from './modules/files/routes.js';
 import { FileService } from './modules/files/service.js';
 import { referenceRoutes } from './modules/reference/routes.js';
 import { vehicleRoutes, vehicleTypeRoutes } from './modules/vehicles/routes.js';
+import { bookingRoutes } from './modules/bookings/routes.js';
+import { BookingService } from './modules/bookings/service.js';
 import { customerRoutes, locationRoutes, quoteRoutes, routeRoutes, vendorRoutes } from './modules/parties/routes.js';
+import { tripRoutes } from './modules/trips/routes.js';
+import { TripService } from './modules/trips/service.js';
 import { PartyService } from './modules/parties/service.js';
 import { attendanceRoutes, compensationRoutes, leaveRoutes, workerRoutes } from './modules/workers/routes.js';
 import { WorkerService } from './modules/workers/service.js';
@@ -111,18 +115,16 @@ export function createApp({ config, logger, db, messenger, checkDatabase }: AppD
 
   if (db) {
     const auth = authenticate(config.JWT_ACCESS_SECRET);
-    const authService = new AuthService({
-      db,
-      config,
-      messenger: messenger ?? new LogOnlyProvider(log, config.NODE_ENV !== 'production'),
-    });
+    const messages = messenger ?? new LogOnlyProvider(log, config.NODE_ENV !== 'production');
+    const authService = new AuthService({ db, config, messenger: messages });
     const vehicleService = new VehicleService(db);
 
     api.use('/auth', authRoutes(authService, config));
     api.use('/vehicles', auth, vehicleRoutes(vehicleService));
     api.use('/vehicle-types', auth, vehicleTypeRoutes(vehicleService));
     api.use('/reference', auth, referenceRoutes(db));
-    api.use('/files', auth, fileRoutes(new FileService(db, config.UPLOAD_DIR), config.MAX_UPLOAD_MB));
+    const fileService = new FileService(db, config.UPLOAD_DIR);
+    api.use('/files', auth, fileRoutes(fileService, config.MAX_UPLOAD_MB));
 
     const workerService = new WorkerService(db);
     api.use('/workers', auth, workerRoutes(workerService));
@@ -136,6 +138,10 @@ export function createApp({ config, logger, db, messenger, checkDatabase }: AppD
     api.use('/vendors', auth, vendorRoutes(partyService));
     api.use('/locations', auth, locationRoutes(partyService));
     api.use('/routes', auth, routeRoutes(partyService));
+
+    api.use('/bookings', auth, bookingRoutes(new BookingService(db)));
+    const tripService = new TripService({ db, config, messenger: messages, files: fileService });
+    api.use('/trips', auth, tripRoutes(tripService));
   }
 
   // API reference: on by default outside production, opt-in with API_DOCS_ENABLED=true in production.
