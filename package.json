@@ -1,0 +1,43 @@
+{
+  "name": "transaxis",
+  "private": true,
+  "version": "0.1.0",
+  "description": "TransAxis - fleet management and transport operations intelligence platform",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "database",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run build -w @transaxis/shared && npm run build -w @transaxis/web && npm run build -w @transaxis/api",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "test": "npm run test --workspaces --if-present",
+    "mysql:init": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/mysql-dev.ps1 init",
+    "mysql:start": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/mysql-dev.ps1 start",
+    "mysql:stop": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/mysql-dev.ps1 stop",
+    "mysql:status": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/mysql-dev.ps1 status",
+    "db:bootstrap": "npm run bootstrap -w @transaxis/database",
+    "db:migrate": "npm run migrate -w @transaxis/database",
+    "db:seed": "npm run seed -w @transaxis/database",
+    "db:reset-test": "npm run reset-test -w @transaxis/database"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^22.0.0",
+    "concurrently": "^10.0.6",
+    "eslint": "^9.0.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.0.0",
+    "prettier": "^3.9.10",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.71.2"
+  }
+}
