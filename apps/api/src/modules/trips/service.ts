@@ -28,9 +28,11 @@ import {
 } from '@transaxis/database';
 import {
   TRIP_ACTION_RULES,
+  addDays,
   availableTripActions,
   checkAssignment,
   checkTripTransition,
+  startOfDayIn,
   type AssignmentCheckDto,
   type AssignmentResult,
   type BookingListItemDto,
@@ -115,8 +117,12 @@ export class TripService {
     if (q.vehicleId) conds.push(eq(trips.vehicleId, q.vehicleId));
     if (q.driverId) conds.push(eq(trips.driverId, q.driverId));
     if (q.bookingId) conds.push(eq(trips.bookingId, q.bookingId));
-    if (q.from) conds.push(gte(trips.plannedStart, new Date(`${q.from}T00:00:00+05:30`)));
-    if (q.to) conds.push(lte(trips.plannedStart, new Date(`${q.to}T23:59:59+05:30`)));
+    if (q.from || q.to) {
+      // Dates are calendar days in the organisation's timezone.
+      const tz = (await getOrgInfo(this.db, ctx.orgId)).timezone;
+      if (q.from) conds.push(gte(trips.plannedStart, startOfDayIn(q.from, tz)));
+      if (q.to) conds.push(lt(trips.plannedStart, startOfDayIn(addDays(q.to, 1), tz)));
+    }
     if (q.q) {
       const t = `%${escapeLike(q.q)}%`;
       conds.push(or(like(trips.tripNo, t), like(vehicles.registrationNo, t), like(workers.fullName, t), like(bookings.bookingNo, t), like(bookings.lrNumber, t))!);

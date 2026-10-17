@@ -64,3 +64,28 @@ export function todayIn(timeZone: string, now: Date = new Date()): string {
   // en-CA formats as YYYY-MM-DD.
   return new Intl.DateTimeFormat('en-CA', { timeZone, year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
 }
+
+/** Offset of an IANA timezone from UTC at an instant, in minutes (Asia/Kolkata: +330). */
+export function tzOffsetMinutes(timeZone: string, at: Date): number {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone,
+    hourCycle: 'h23',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).formatToParts(at);
+  const get = (t: string) => Number(parts.find((p) => p.type === t)!.value);
+  const asUtc = Date.UTC(get('year'), get('month') - 1, get('day'), get('hour'), get('minute'), get('second'));
+  return Math.round((asUtc - Math.floor(at.getTime() / 1000) * 1000) / 60_000);
+}
+
+/** The instant a calendar day (YYYY-MM-DD) begins in an IANA timezone. Use it for "from/to date" filters. */
+export function startOfDayIn(isoDate: string, timeZone: string): Date {
+  const midnightUtc = Date.parse(`${isoDate}T00:00:00Z`);
+  const first = midnightUtc - tzOffsetMinutes(timeZone, new Date(midnightUtc)) * 60_000;
+  // Re-read the offset at the candidate instant in case a DST change falls between the two.
+  return new Date(midnightUtc - tzOffsetMinutes(timeZone, new Date(first)) * 60_000);
+}

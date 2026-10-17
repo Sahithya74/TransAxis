@@ -1,5 +1,5 @@
 import type { Request } from 'express';
-import { and, asc, desc, eq, gte, inArray, like, lte, notInArray, or, sql, type SQL } from 'drizzle-orm';
+import { and, asc, desc, eq, gte, inArray, like, lt, notInArray, or, sql, type SQL } from 'drizzle-orm';
 import type { z } from 'zod';
 import {
   bookingCharges,
@@ -17,9 +17,11 @@ import {
 import {
   BOOKING_ACTION_RULES,
   EDITABLE_BOOKING_STATUSES,
+  addDays,
   availableBookingActions,
   checkBookingTransition,
   computeQuote,
+  startOfDayIn,
   type BookingAction,
   type BookingDto,
   type BookingInput,
@@ -56,8 +58,12 @@ export class BookingService {
     if (q.status) conds.push(eq(bookings.status, q.status));
     if (q.customerId) conds.push(eq(bookings.customerId, q.customerId));
     if (q.unassigned === 'true') conds.push(eq(bookings.status, 'approved'));
-    if (q.from) conds.push(gte(bookings.loadingWindowStart, new Date(`${q.from}T00:00:00Z`)));
-    if (q.to) conds.push(lte(bookings.loadingWindowStart, new Date(`${q.to}T23:59:59Z`)));
+    if (q.from || q.to) {
+      // Dates are calendar days in the organisation's timezone, not UTC.
+      const tz = (await getOrgInfo(this.db, ctx.orgId)).timezone;
+      if (q.from) conds.push(gte(bookings.loadingWindowStart, startOfDayIn(q.from, tz)));
+      if (q.to) conds.push(lt(bookings.loadingWindowStart, startOfDayIn(addDays(q.to, 1), tz)));
+    }
     if (q.q) {
       const t = `%${escapeLike(q.q)}%`;
       conds.push(or(like(bookings.bookingNo, t), like(bookings.customerRef, t), like(bookings.lrNumber, t), like(customers.name, t))!);

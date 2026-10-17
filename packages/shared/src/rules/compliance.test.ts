@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { addDays, summariseCompliance, todayIn } from './compliance.js';
+import { addDays, startOfDayIn, summariseCompliance, todayIn, tzOffsetMinutes } from './compliance.js';
 import {
   normaliseRegistration,
   vehicleCreateSchema,
@@ -95,5 +95,19 @@ describe('vehicle schemas', () => {
   it('rejects an expiry before the issue date and impossible dates', () => {
     expect(vehicleDocumentInputSchema.safeParse({ docType: 'insurance', issuedOn: '2026-05-01', expiresOn: '2026-04-30' }).success).toBe(false);
     expect(vehicleDocumentInputSchema.safeParse({ docType: 'insurance', expiresOn: '2026-02-30' }).success).toBe(false);
+  });
+});
+
+describe('day boundaries in an organisation timezone', () => {
+  it('starts an IST day at 18:30 UTC the evening before', () => {
+    expect(tzOffsetMinutes('Asia/Kolkata', new Date('2026-10-15T12:00:00Z'))).toBe(330);
+    expect(startOfDayIn('2026-10-16', 'Asia/Kolkata').toISOString()).toBe('2026-10-15T18:30:00.000Z');
+  });
+
+  it('follows daylight saving time', () => {
+    expect(startOfDayIn('2026-07-01', 'Europe/London').toISOString()).toBe('2026-06-30T23:00:00.000Z');
+    expect(startOfDayIn('2026-12-01', 'Europe/London').toISOString()).toBe('2026-12-01T00:00:00.000Z');
+    // The day DST starts in New York still begins at local midnight (05:00 UTC, before the 2 a.m. change).
+    expect(startOfDayIn('2026-03-08', 'America/New_York').toISOString()).toBe('2026-03-08T05:00:00.000Z');
   });
 });

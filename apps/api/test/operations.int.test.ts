@@ -158,7 +158,32 @@ describe.skipIf(!hasDb)('bookings and trip lifecycle (integration)', () => {
       const mine = (await request(t.app).get('/api/v1/bookings').set(bearer(dispatch))).body.data[0];
       expect((await request(t.app).get(`/api/v1/bookings/${mine.id}`).set(bearer(otherOrg))).status).toBe(404);
     });
+
+    it('filters by loading date in the organisation timezone, not UTC', async () => {
+      // 02:00 IST on 10 March is 20:30 UTC on 9 March; it belongs to 10 March for an Indian operator.
+      const created = await request(t.app)
+        .post('/api/v1/bookings')
+        .set(bearer(dispatch))
+        .send({
+          customerId: customersByCode.get('KGE')!.id,
+          customerRef: 'TZ-EDGE',
+          loadingWindowStart: '2027-03-10T02:00:00+05:30',
+          deliveryDeadline: '2027-03-11T02:00:00+05:30',
+          stops: [
+            { stopType: 'pickup', name: 'Quarry', city: 'Hosur' },
+            { stopType: 'drop', name: 'Yard', city: 'Chennai' },
+          ],
+          cargo: [{ description: 'Granite slabs', quantity: 12, unit: 'slabs', weightKg: 9000 }],
+        });
+      expect(created.status).toBe(201);
+      const ids = async (day: string) =>
+        (await request(t.app).get('/api/v1/bookings').query({ from: day, to: day, q: 'TZ-EDGE' }).set(bearer(dispatch))).body.data.map((b: BookingDto) => b.id);
+      expect(await ids('2027-03-10')).toContain(created.body.id);
+      expect(await ids('2027-03-09')).not.toContain(created.body.id);
+    });
   });
+
+  // ------------------------------------------------------------------ reference data
 
   // ------------------------------------------------------------------ assignment rules
 
