@@ -138,7 +138,8 @@ export async function seedOperations(db: Db, rng: Rng, o: OperationsOptions): Pr
     } else {
       plannedStart = a.startAt ?? round5(addHours(o.now, a.startInHours ?? 0));
     }
-    const plannedEnd = addMinutes(plannedStart, durMin);
+    // Dispatchers plan with a buffer over the base driving time (route history runs about 13% slower).
+    const plannedEnd = addMinutes(plannedStart, Math.round(durMin * 1.15));
     let actualStart: Date | null = null;
     let deliveredAt: Date | null = null;
     if (a.status === 'in_transit' || a.status === 'delivered') actualStart = addMinutes(plannedStart, rng.int(5, 25));

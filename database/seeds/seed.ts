@@ -19,6 +19,9 @@ import { KAVERI_ROUTES, SAHYADRI_ROUTES } from './data/routes.js';
 import { DEMO_PASSWORD, KAVERI, PLATFORM_ORG, SAHYADRI, VEHICLE_TYPES, type OrgFixture } from './fixtures.js';
 import { istAt } from './helpers.js';
 import { seedOperations, type OperationsOptions, type SeededVehicle } from './operations.js';
+import { seedLive } from './live.js';
+import { seedDocuments } from './documents.js';
+import { seedFinance } from './finance.js';
 import { seedPeople } from './people.js';
 import { createRng, type Rng } from './prng.js';
 
@@ -39,6 +42,11 @@ export interface SeedSummary {
   bookings: number;
   trips: number;
   activeTrips: number;
+  gpsEvents: number;
+  incidents: number;
+  invoices: number;
+  journalEntries: number;
+  documents: number;
 }
 
 /** Removes all rows from every application table (dev/test only). Keeps the migrations journal. */
@@ -101,6 +109,11 @@ export async function seedDatabase(db: Db, opts: SeedOptions): Promise<SeedSumma
     bookings: 0,
     trips: 0,
     activeTrips: 0,
+    gpsEvents: 0,
+    incidents: 0,
+    invoices: 0,
+    journalEntries: 0,
+    documents: 0,
   };
 
   await db.transaction(async (tx) => {
@@ -218,6 +231,30 @@ export async function seedDatabase(db: Db, opts: SeedOptions): Promise<SeedSumma
       summary.bookings += ops.bookings;
       summary.trips += ops.trips;
       summary.activeTrips += ops.activeTrips;
+
+      const live = await seedLive(t, rng, {
+        orgId,
+        now,
+        userIdByRole,
+        restrictedZone: isKaveri
+          ? { name: 'Chennai Port: permit-only zone', at: [13.0945, 80.2949], radiusM: 1500 }
+          : { name: 'Pune Cantonment: no heavy vehicles by day', at: [18.5089, 73.8786], radiusM: 1500 },
+      });
+      summary.gpsEvents += live.gpsEvents;
+      summary.incidents += live.incidents;
+
+      const fin = await seedFinance(t, rng, {
+        orgId,
+        now,
+        tz: 'Asia/Kolkata',
+        userIdByRole,
+        forwardChargeCustomers: isKaveri ? ['BAC', 'HEL', 'DST'] : ['CAP'],
+        tdsCustomers: isKaveri ? ['CCW', 'BAC', 'NPD', 'KGE'] : ['CAP'],
+      });
+      summary.invoices += fin.invoices;
+      summary.journalEntries += fin.journalEntries;
+
+      summary.documents += await seedDocuments(t, { orgId, isKaveri, uploadedBy: userIdByRole.get('owner') ?? null });
 
       // Link the driver and customer demo logins to their records so row scoping applies.
       const driverUser = userIdByRole.get('driver');
