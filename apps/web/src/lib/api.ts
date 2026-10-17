@@ -20,6 +20,8 @@ let onSessionLost: (() => void) | null = null;
 export const setAccessToken = (t: string | null) => {
   accessToken = t;
 };
+/** For the realtime socket handshake, which authenticates with the same short-lived token. */
+export const getAccessToken = () => accessToken;
 export const setSessionLostHandler = (fn: (() => void) | null) => {
   onSessionLost = fn;
 };
@@ -73,6 +75,8 @@ export interface RequestOptions {
   body?: unknown;
   query?: Record<string, string | number | boolean | undefined | null>;
   signal?: AbortSignal;
+  /** Extra request headers, e.g. If-Match for optimistic concurrency. */
+  headers?: Record<string, string>;
   /** Skip the automatic refresh-and-retry on 401 (used by the auth calls themselves). */
   noRefresh?: boolean;
 }
@@ -97,6 +101,7 @@ async function authorisedFetch(url: URL, opts: RequestOptions): Promise<Response
       credentials: 'include',
       signal: opts.signal,
       headers: {
+        ...opts.headers,
         // For FormData the browser sets the multipart boundary itself.
         ...(opts.body !== undefined && !isForm ? { 'content-type': 'application/json' } : {}),
         ...(accessToken ? { authorization: `Bearer ${accessToken}` } : {}),
@@ -117,23 +122,33 @@ async function authorisedFetch(url: URL, opts: RequestOptions): Promise<Response
   return res;
 }
 
-export function uploadFile(file: File, category: string): Promise<{ id: number; originalName: string }> {
+/** Trip documents (POD photos, signatures) must name their trip so access follows the trip's. */
+export function uploadFile(file: File, category: string, opts: { tripId?: number } = {}): Promise<{ id: number; originalName: string }> {
   const form = new FormData();
   form.set('category', category);
+  if (opts.tripId) form.set('tripId', String(opts.tripId));
   form.set('file', file);
   return api('/files', { method: 'POST', body: form });
 }
 
 /** Downloads an access-controlled file. The bearer token can't ride on a plain link, so fetch then save. */
-export async function downloadFile(fileId: number, fallbackName = 'download'): Promise<void> {
-  const res = await authorisedFetch(new URL(`/api/v1/files/${fileId}/download`, window.location.origin), {});
+export const downloadFile = (fileId: number, fallbackName = 'download') => download(`/files/${fileId}/download`, {}, fallbackName);
+
+/** Saves a protected API response (a file or a CSV export) under the name the server gives it. */
+export async function download(path: string, query: RequestOptions['query'] = {}, fallbackName = 'download'): Promise<void> {
+  const url = new URL(`/api/v1${path}`, window.location.origin);
+  for (const [k, v] of Object.entries(query)) {
+    if (v !== undefined && v !== null && v !== '') url.searchParams.set(k, String(v));
+  }
+  const res = await authorisedFetch(url, {});
   const disposition = res.headers.get('content-disposition') ?? '';
-  const match = /filename\*=UTF-8''([^;]+)/.exec(disposition);
-  const name = match ? decodeURIComponent(match[1]!) : fallbackName;
-  const url = URL.createObjectURL(await res.blob());
-  const a = Object.assign(document.createElement('a'), { href: url, download: name });
+  const encoded = /filename\*=UTF-8''([^;]+)/.exec(disposition);
+  const plain = /filename="([^"]+)"/.exec(disposition);
+  const name = encoded ? decodeURIComponent(encoded[1]!) : (plain?.[1] ?? fallbackName);
+  const href = URL.createObjectURL(await res.blob());
+  const a = Object.assign(document.createElement('a'), { href, download: name });
   document.body.append(a);
   a.click();
   a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 10_000);
+  setTimeout(() => URL.revokeObjectURL(href), 10_000);
 }

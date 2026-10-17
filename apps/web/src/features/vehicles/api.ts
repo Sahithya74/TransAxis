@@ -28,11 +28,12 @@ export const vehicleKeys = {
   branches: ['branches'] as const,
 };
 
-export const useVehicles = (p: VehicleListParams) =>
+export const useVehicles = (p: VehicleListParams, enabled = true) =>
   useQuery({
     queryKey: vehicleKeys.list(p),
     queryFn: ({ signal }) => api<Paginated<VehicleDto>>('/vehicles', { query: { ...p }, signal }),
     placeholderData: keepPreviousData,
+    enabled,
   });
 
 export const useVehicle = (id: number) =>
