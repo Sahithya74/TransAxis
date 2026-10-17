@@ -79,6 +79,13 @@ export type Permission = keyof typeof PERMISSIONS;
 
 export const ALL_PERMISSIONS = Object.keys(PERMISSIONS) as Permission[];
 
+/**
+ * Administration permissions. Anyone who manages users can hand out the operational permissions, but
+ * these can only be granted or taken away by someone who holds them, so nobody can raise their own level.
+ */
+export const ADMIN_PERMISSIONS: readonly Permission[] = ['orgs:manage', 'settings:read', 'settings:manage', 'users:read', 'users:manage', 'audit:read', 'system:health'];
+export const isAdminPermission = (p: Permission) => ADMIN_PERMISSIONS.includes(p);
+
 export function isPermission(value: string): value is Permission {
   return Object.prototype.hasOwnProperty.call(PERMISSIONS, value);
 }

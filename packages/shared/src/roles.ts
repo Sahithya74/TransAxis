@@ -32,8 +32,9 @@ const read = (...p: Permission[]) => p;
 export const DEFAULT_ROLE_PERMISSIONS: Record<RoleKey, Permission[]> = {
   super_admin: [...ALL_PERMISSIONS],
 
+  // The owner administers their own company (users, roles, settings); only the platform super admin manages tenants.
   owner: read(
-    'settings:read', 'users:read', 'audit:read',
+    'settings:read', 'settings:manage', 'users:read', 'users:manage', 'audit:read', 'system:health',
     'vehicles:read', 'workers:read', 'customers:read', 'vendors:read',
     'bookings:read', 'bookings:approve', 'trips:read', 'tracking:read',
     'alerts:read', 'incidents:read', 'maintenance:read', 'fuel:read',
