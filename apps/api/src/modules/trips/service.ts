@@ -90,6 +90,8 @@ export interface TripDeps {
   config: Env;
   messenger: MessageProvider;
   files: FileService;
+  /** Accrues crew pay when a trip completes (inside the same transaction). */
+  crewPay?: { accrue(tx: Tx, trip: TripRow, completedAt: Date, endOdometer: number | null): Promise<void> };
 }
 
 /** Trips visible to the caller: all of the org's, or only their own for drivers/helpers. */
@@ -546,11 +548,13 @@ export class TripService {
           if (t.startOdometer && input.odometer < Number(t.startOdometer)) {
             throw AppError.businessRule(`Closing odometer ${input.odometer} km is below the starting ${t.startOdometer} km`, [{ path: 'odometer', message: 'Too low' }]);
           }
-          Object.assign(set, { completedAt: new Date(), endOdometer: input.odometer.toFixed(1) });
+          const completedAt = new Date();
+          Object.assign(set, { completedAt, endOdometer: input.odometer.toFixed(1) });
           const [v] = await tx.select({ odo: vehicles.odometerKm }).from(vehicles).where(eq(vehicles.id, t.vehicleId)).for('update');
           if (input.odometer > Number(v!.odo)) await tx.update(vehicles).set({ odometerKm: input.odometer.toFixed(1) }).where(eq(vehicles.id, t.vehicleId));
           await releaseReservations(tx, t.id);
           await recordEvent(tx, { ...base, type: 'completed', userId: ctx.userId, odometer: input.odometer, source });
+          await this.deps.crewPay?.accrue(tx, t, completedAt, input.odometer);
           break;
         }
         case 'reconcile':
