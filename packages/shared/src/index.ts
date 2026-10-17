@@ -26,3 +26,5 @@ export * from './enums-finance.js';
 export * from './rules/finance.js';
 export * from './schemas/finance.js';
 export * from './schemas/portal.js';
+export * from './enums-docs.js';
+export * from './schemas/docs.js';
