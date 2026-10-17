@@ -1,7 +1,7 @@
 import { sql } from 'drizzle-orm';
 import type { Tx } from '@transaxis/database';
 
-export type SequenceScope = 'BKG' | 'TRP' | 'LR';
+export type SequenceScope = 'BKG' | 'TRP' | 'LR' | 'INC' | 'JV' | 'INV' | 'CN' | 'RCP' | 'EXP' | 'ADV' | 'STL' | 'WO';
 
 /**
  * Next human-readable number for an org, e.g. TRP-2026-000123.
