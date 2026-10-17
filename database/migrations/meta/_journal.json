@@ -57,6 +57,13 @@
       "when": 1792148233479,
       "tag": "0007_documents_fulltext",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1792154273428,
+      "tag": "0008_user_totp_step",
+      "breakpoints": true
     }
   ]
 }

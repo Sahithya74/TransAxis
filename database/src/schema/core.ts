@@ -78,6 +78,8 @@ export const users = mysqlTable(
     mustChangePassword: boolean('must_change_password').notNull().default(false),
     totpSecretEnc: varchar('totp_secret_enc', { length: 255 }),
     totpEnabled: boolean('totp_enabled').notNull().default(false),
+    /** Last accepted TOTP step, so a code can't be used twice. */
+    totpLastStep: bigint('totp_last_step', { mode: 'number' }),
     /** Set for driver/helper logins; restricts trip access to the worker's own assignments. */
     workerId: refCol('worker_id').references((): AnyMySqlColumn => workers.id),
     /** Set for customer-portal logins; restricts bookings and invoices to that customer. */
