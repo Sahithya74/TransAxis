@@ -36,6 +36,13 @@
       "when": 1792088969431,
       "tag": "0004_finance_maintenance",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1792088975425,
+      "tag": "0005_journal_append_only",
+      "breakpoints": true
     }
   ]
 }
