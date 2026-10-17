@@ -1,0 +1,506 @@
+import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react';
+import { Link, useNavigate, useParams } from 'react-router';
+import { ChevronLeft, Plus, Trash2 } from 'lucide-react';
+import {
+  BODY_TYPES,
+  CARGO_CATEGORIES,
+  CHARGE_TYPES,
+  RATE_BASES,
+  STOP_TYPES,
+  bookingInputSchema,
+  type BookingDto,
+  type LocationDto,
+  type StopType,
+} from '@transaxis/shared';
+import { Button } from '../../components/ui/Button';
+import { Field, Input, Select, Textarea } from '../../components/ui/Field';
+import { Card, EmptyState, ErrorState, PageHeader, Skeleton } from '../../components/ui/Layout';
+import { useToast } from '../../components/ui/Toast';
+import { apiFieldErrors, zodFieldErrors, type FieldErrors } from '../../lib/forms';
+import { fmtMoney, fmtWeight, fromLocalInput, titleCase, toLocalInput } from '../../lib/format';
+import { useOrgTimezone } from '../../lib/useOrgTimezone';
+import { fetchQuote, useCustomers, useLocations, useRoutes } from '../parties/api';
+import { useVehicleTypes } from '../vehicles/api';
+import { useBooking, useBookingMutations } from './api';
+
+interface StopForm {
+  stopType: StopType;
+  locationId: string;
+  name: string;
+  addressLine: string;
+  city: string;
+  state: string;
+  pincode: string;
+  lat: number | null;
+  lng: number | null;
+  contactName: string;
+  contactPhone: string;
+  windowStart: string;
+  windowEnd: string;
+  instructions: string;
+}
+interface CargoForm {
+  description: string;
+  category: string;
+  hsnCode: string;
+  quantity: string;
+  unit: string;
+  weightKg: string;
+  volumeCbm: string;
+  packaging: string;
+  declaredValue: string;
+  handling: string;
+}
+interface ChargeForm {
+  chargeType: string;
+  description: string;
+  amount: string;
+  isTaxable: boolean;
+}
+interface Form {
+  customerId: string;
+  customerRef: string;
+  routeId: string;
+  requiredVehicleTypeId: string;
+  requiredBodyType: string;
+  requiresTemperatureControl: boolean;
+  isHazardous: boolean;
+  loadingWindowStart: string;
+  loadingWindowEnd: string;
+  deliveryDeadline: string;
+  ewayBillNo: string;
+  ewayBillExpiresAt: string;
+  rateBasis: string;
+  rate: string;
+  paymentTermsDays: string;
+  specialInstructions: string;
+  notes: string;
+  stops: StopForm[];
+  cargo: CargoForm[];
+  charges: ChargeForm[];
+}
+
+const emptyStop = (stopType: StopType): StopForm => ({
+  stopType, locationId: '', name: '', addressLine: '', city: '', state: '', pincode: '', lat: null, lng: null,
+  contactName: '', contactPhone: '', windowStart: '', windowEnd: '', instructions: '',
+});
+const emptyCargo = (): CargoForm => ({
+  description: '', category: 'general', hsnCode: '', quantity: '', unit: 'bags', weightKg: '', volumeCbm: '', packaging: '', declaredValue: '', handling: '',
+});
+const s = (v: string | number | null | undefined) => (v === null || v === undefined ? '' : String(v));
+
+function fromBooking(b: BookingDto | undefined, tz: string): Form {
+  if (!b) {
+    return {
+      customerId: '', customerRef: '', routeId: '', requiredVehicleTypeId: '', requiredBodyType: '', requiresTemperatureControl: false, isHazardous: false,
+      loadingWindowStart: '', loadingWindowEnd: '', deliveryDeadline: '', ewayBillNo: '', ewayBillExpiresAt: '', rateBasis: '', rate: '', paymentTermsDays: '',
+      specialInstructions: '', notes: '', stops: [emptyStop('pickup'), emptyStop('drop')], cargo: [emptyCargo()], charges: [],
+    };
+  }
+  return {
+    customerId: s(b.customer.id),
+    customerRef: s(b.customerRef),
+    routeId: s(b.routeId),
+    requiredVehicleTypeId: s(b.requiredVehicleType?.id),
+    requiredBodyType: s(b.requiredBodyType),
+    requiresTemperatureControl: b.requiresTemperatureControl,
+    isHazardous: b.isHazardous,
+    loadingWindowStart: toLocalInput(b.loadingWindowStart, tz),
+    loadingWindowEnd: toLocalInput(b.loadingWindowEnd, tz),
+    deliveryDeadline: toLocalInput(b.deliveryDeadline, tz),
+    ewayBillNo: s(b.ewayBillNo),
+    ewayBillExpiresAt: toLocalInput(b.ewayBillExpiresAt, tz),
+    rateBasis: s(b.rateBasis),
+    rate: s(b.rate),
+    paymentTermsDays: s(b.paymentTermsDays),
+    specialInstructions: s(b.specialInstructions),
+    notes: s(b.notes),
+    stops: b.stops.map((x) => ({
+      stopType: x.stopType, locationId: s(x.locationId), name: x.name, addressLine: s(x.addressLine), city: x.city, state: s(x.state), pincode: s(x.pincode),
+      lat: x.lat, lng: x.lng, contactName: s(x.contactName), contactPhone: s(x.contactPhone),
+      windowStart: toLocalInput(x.windowStart, tz), windowEnd: toLocalInput(x.windowEnd, tz), instructions: s(x.instructions),
+    })),
+    cargo: b.cargo.map((c) => ({
+      description: c.description, category: c.category, hsnCode: s(c.hsnCode), quantity: s(c.quantity), unit: c.unit, weightKg: s(c.weightKg),
+      volumeCbm: s(c.volumeCbm), packaging: s(c.packaging), declaredValue: s(c.declaredValue), handling: s(c.handling),
+    })),
+    // The freight line is regenerated by quoting, so only the extra charges are edited here.
+    charges: b.charges.filter((c) => c.chargeType !== 'freight').map((c) => ({ chargeType: c.chargeType, description: s(c.description), amount: s(c.amount), isTaxable: c.isTaxable })),
+  };
+}
+
+const nul = (v: string) => (v.trim() === '' ? null : v.trim());
+
+function toPayload(f: Form, tz: string) {
+  const dt = (v: string) => (v ? fromLocalInput(v, tz) : null);
+  return {
+    customerId: f.customerId,
+    customerRef: nul(f.customerRef),
+    routeId: nul(f.routeId),
+    requiredVehicleTypeId: nul(f.requiredVehicleTypeId),
+    requiredBodyType: nul(f.requiredBodyType),
+    requiresTemperatureControl: f.requiresTemperatureControl,
+    isHazardous: f.isHazardous || f.cargo.some((c) => c.category === 'hazardous'),
+    loadingWindowStart: dt(f.loadingWindowStart) ?? '',
+    loadingWindowEnd: dt(f.loadingWindowEnd),
+    deliveryDeadline: dt(f.deliveryDeadline) ?? '',
+    ewayBillNo: nul(f.ewayBillNo),
+    ewayBillExpiresAt: dt(f.ewayBillExpiresAt),
+    rateBasis: nul(f.rateBasis),
+    rate: nul(f.rate),
+    paymentTermsDays: nul(f.paymentTermsDays),
+    specialInstructions: nul(f.specialInstructions),
+    notes: nul(f.notes),
+    stops: f.stops.map((x) => ({
+      stopType: x.stopType, locationId: nul(x.locationId), name: x.name.trim(), addressLine: nul(x.addressLine), city: x.city.trim(), state: nul(x.state),
+      pincode: nul(x.pincode), lat: x.lat, lng: x.lng, contactName: nul(x.contactName), contactPhone: nul(x.contactPhone),
+      windowStart: dt(x.windowStart), windowEnd: dt(x.windowEnd), instructions: nul(x.instructions),
+    })),
+    cargo: f.cargo.map((c) => ({
+      description: c.description.trim(), category: c.category, hsnCode: nul(c.hsnCode), quantity: c.quantity, unit: c.unit.trim(), weightKg: c.weightKg,
+      volumeCbm: nul(c.volumeCbm), packaging: nul(c.packaging), declaredValue: nul(c.declaredValue), handling: nul(c.handling),
+    })),
+    charges: f.charges.map((c) => ({ chargeType: c.chargeType, description: nul(c.description), amount: c.amount, isTaxable: c.isTaxable })),
+  };
+}
+
+export function BookingFormPage() {
+  const params = useParams();
+  const id = params.id ? Number(params.id) : null;
+  const existing = useBooking(id);
+  const tz = useOrgTimezone();
+
+  if (id && existing.isError) return <Card><ErrorState message={(existing.error as Error).message} /></Card>;
+  if (id && !existing.data) return <Skeleton className="h-96 w-full" />;
+  if (existing.data && !existing.data.editable) {
+    return (
+      <Card>
+        <EmptyState
+          title={`${existing.data.bookingNo} can no longer be edited`}
+          body="Bookings can be changed while they are drafts, quoted or on hold. Cancel and re-create it if the order changed."
+          action={<Link to={`/bookings/${existing.data.id}`} className="text-primary hover:underline">Back to the booking</Link>}
+        />
+      </Card>
+    );
+  }
+  return <BookingForm key={existing.data?.version ?? 'new'} booking={existing.data} tz={tz} />;
+}
+
+function BookingForm({ booking, tz }: { booking?: BookingDto; tz: string }) {
+  const navigate = useNavigate();
+  const toast = useToast();
+  const [form, setForm] = useState<Form>(() => fromBooking(booking, tz));
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [formError, setFormError] = useState<string | null>(null);
+  const [quoteHint, setQuoteHint] = useState<string | null>(null);
+  const customers = useCustomers({ pageSize: 100, sort: 'name', status: 'active' });
+  const locations = useLocations({});
+  const routes = useRoutes();
+  const types = useVehicleTypes();
+  const { create, replace } = useBookingMutations();
+
+  const set = <K extends keyof Form>(k: K, v: Form[K]) => setForm((f) => ({ ...f, [k]: v }));
+  const setStop = (i: number, patch: Partial<StopForm>) => setForm((f) => ({ ...f, stops: f.stops.map((x, j) => (j === i ? { ...x, ...patch } : x)) }));
+  const setCargo = (i: number, patch: Partial<CargoForm>) => setForm((f) => ({ ...f, cargo: f.cargo.map((x, j) => (j === i ? { ...x, ...patch } : x)) }));
+  const setCharge = (i: number, patch: Partial<ChargeForm>) => setForm((f) => ({ ...f, charges: f.charges.map((x, j) => (j === i ? { ...x, ...patch } : x)) }));
+
+  const origin = form.stops[0]?.city.trim() ?? '';
+  const destination = form.stops[form.stops.length - 1]?.city.trim() ?? '';
+  const totalKg = form.cargo.reduce((sum, c) => sum + (Number(c.weightKg) || 0), 0);
+  const laneRoutes = useMemo(
+    () => (routes.data ?? []).filter((r) => r.isActive && (!origin || r.originCity.toLowerCase() === origin.toLowerCase()) && (!destination || r.destinationCity.toLowerCase() === destination.toLowerCase())),
+    [routes.data, origin, destination],
+  );
+  // Offer the lane's route automatically when exactly one matches.
+  useEffect(() => {
+    if (!form.routeId && laneRoutes.length === 1) setForm((f) => ({ ...f, routeId: String(laneRoutes[0]!.id) }));
+  }, [laneRoutes, form.routeId]);
+
+  const customerId = Number(form.customerId) || null;
+  const sites = (locations.data ?? []).slice().sort((a, b) => Number(b.customer?.id === customerId) - Number(a.customer?.id === customerId) || a.name.localeCompare(b.name));
+
+  function pickLocation(i: number, locationId: string) {
+    const l = locations.data?.find((x) => String(x.id) === locationId);
+    if (!l) return setStop(i, { locationId: '' });
+    setStop(i, fillFromLocation(l));
+  }
+
+  async function applyRateCard() {
+    if (!customerId || !origin || !destination) return setQuoteHint('Choose the customer and the first pickup and last drop cities first.');
+    try {
+      const r = await fetchQuote({ customerId, originCity: origin, destinationCity: destination, totalWeightKg: totalKg, vehicleTypeId: Number(form.requiredVehicleTypeId) || undefined });
+      if (r.rateCard) setForm((f) => ({ ...f, rateBasis: r.rateCard!.rateBasis, rate: r.rateCard!.rate }));
+      setQuoteHint(`${r.message}${r.quote ? ` Estimated freight ${fmtMoney(r.quote.total)}.` : ''}`);
+    } catch (err) {
+      setQuoteHint(apiFieldErrors(err).message);
+    }
+  }
+
+  async function onSubmit(e: FormEvent) {
+    e.preventDefault();
+    setFormError(null);
+    const payload = toPayload(form, tz);
+    const parsed = bookingInputSchema.safeParse(payload);
+    if (!parsed.success) {
+      const fe = zodFieldErrors(parsed.error);
+      if (!form.customerId) fe.customerId = 'Choose the customer';
+      setErrors(fe);
+      setFormError('Some details need attention. Check the highlighted fields.');
+      return;
+    }
+    setErrors({});
+    try {
+      const saved = booking
+        ? await replace.mutateAsync({ id: booking.id, version: booking.version, body: parsed.data })
+        : await create.mutateAsync(parsed.data);
+      toast.success(booking ? `Saved ${saved.bookingNo}` : `Created ${saved.bookingNo}. Quote it next.`);
+      navigate(`/bookings/${saved.id}`);
+    } catch (err) {
+      const r = apiFieldErrors(err);
+      setErrors(r.fields);
+      setFormError(r.message);
+    }
+  }
+
+  const err = (k: string) => errors[k];
+
+  return (
+    <form onSubmit={onSubmit} noValidate>
+      <Link to={booking ? `/bookings/${booking.id}` : '/bookings'} className="mb-2 inline-flex items-center gap-1 text-[13px] text-muted hover:text-ink">
+        <ChevronLeft className="size-4" aria-hidden /> {booking ? booking.bookingNo : 'Bookings'}
+      </Link>
+      <PageHeader
+        title={booking ? `Edit ${booking.bookingNo}` : 'New booking'}
+        subtitle={booking?.status === 'quoted' ? 'Saving changes returns a quoted booking to draft so it can be re-quoted.' : 'Times are in the organisation’s timezone.'}
+        actions={
+          <>
+            <Button onClick={() => navigate(booking ? `/bookings/${booking.id}` : '/bookings')}>Cancel</Button>
+            <Button variant="primary" type="submit" loading={create.isPending || replace.isPending}>{booking ? 'Save changes' : 'Create booking'}</Button>
+          </>
+        }
+      />
+      {formError && <div role="alert" className="mb-4 rounded border border-crit/30 bg-crit-soft px-3 py-2 text-[13px] text-crit-strong">{formError}</div>}
+
+      <div className="space-y-5">
+        <Section title="Customer and schedule">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <Field label="Customer" required error={err('customerId')}>
+              {(p) => (
+                <Select {...p} value={form.customerId} onChange={(e) => set('customerId', e.target.value)}>
+                  <option value="">Select…</option>
+                  {customers.data?.data.map((c) => <option key={c.id} value={c.id}>{c.name} ({c.code})</option>)}
+                </Select>
+              )}
+            </Field>
+            <Field label="Customer reference" error={err('customerRef')} hint="Their PO or order number">{(p) => <Input {...p} value={form.customerRef} onChange={(e) => set('customerRef', e.target.value)} />}</Field>
+            <Field label="Payment terms (days)" error={err('paymentTermsDays')} hint="Blank uses the customer’s terms">
+              {(p) => <Input {...p} inputMode="numeric" value={form.paymentTermsDays} onChange={(e) => set('paymentTermsDays', e.target.value)} />}
+            </Field>
+            <Field label="Loading from" required error={err('loadingWindowStart')}>{(p) => <Input {...p} type="datetime-local" value={form.loadingWindowStart} onChange={(e) => set('loadingWindowStart', e.target.value)} />}</Field>
+            <Field label="Loading until" error={err('loadingWindowEnd')}>{(p) => <Input {...p} type="datetime-local" value={form.loadingWindowEnd} onChange={(e) => set('loadingWindowEnd', e.target.value)} />}</Field>
+            <Field label="Deliver by" required error={err('deliveryDeadline')}>{(p) => <Input {...p} type="datetime-local" value={form.deliveryDeadline} onChange={(e) => set('deliveryDeadline', e.target.value)} />}</Field>
+            <Field label="E-way bill number" error={err('ewayBillNo')} hint="12 digits, when goods value needs one">{(p) => <Input {...p} inputMode="numeric" value={form.ewayBillNo} onChange={(e) => set('ewayBillNo', e.target.value)} />}</Field>
+            <Field label="E-way bill valid until" error={err('ewayBillExpiresAt')}>{(p) => <Input {...p} type="datetime-local" value={form.ewayBillExpiresAt} onChange={(e) => set('ewayBillExpiresAt', e.target.value)} />}</Field>
+          </div>
+        </Section>
+
+        <Section
+          title="Stops"
+          hint="Start with a pickup and end with a drop. Choose a saved site to fill the address."
+          action={<Button size="sm" onClick={() => setForm((f) => ({ ...f, stops: [...f.stops.slice(0, -1), emptyStop('via'), f.stops[f.stops.length - 1]!] }))} disabled={form.stops.length >= 20}><Plus className="size-4" aria-hidden /> Add stop</Button>}
+        >
+          {err('stops') && <p className="mb-3 text-xs text-crit-strong">{err('stops')}</p>}
+          <ol className="space-y-4">
+            {form.stops.map((x, i) => (
+              <li key={i} className="rounded border border-line p-4">
+                <div className="mb-3 flex flex-wrap items-center gap-2">
+                  <span className="text-[13px] font-semibold">Stop {i + 1}</span>
+                  <Select aria-label={`Stop ${i + 1} type`} className="w-auto" value={x.stopType} onChange={(e) => setStop(i, { stopType: e.target.value as StopType })} invalid={!!err(`stops.${i}.stopType`)}>
+                    {STOP_TYPES.map((t) => <option key={t} value={t}>{titleCase(t)}</option>)}
+                  </Select>
+                  <Select aria-label={`Stop ${i + 1} saved site`} className="w-auto max-w-72" value={x.locationId} onChange={(e) => pickLocation(i, e.target.value)}>
+                    <option value="">Saved site…</option>
+                    {sites.map((l) => <option key={l.id} value={l.id}>{l.name}</option>)}
+                  </Select>
+                  <span className="flex-1" />
+                  {form.stops.length > 2 && (
+                    <Button size="sm" variant="ghost" aria-label={`Remove stop ${i + 1}`} onClick={() => setForm((f) => ({ ...f, stops: f.stops.filter((_, j) => j !== i) }))}>
+                      <Trash2 className="size-4" aria-hidden />
+                    </Button>
+                  )}
+                </div>
+                {err(`stops.${i}.stopType`) && <p className="mb-2 text-xs text-crit-strong">{err(`stops.${i}.stopType`)}</p>}
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  <Field label="Name" required error={err(`stops.${i}.name`)} className="lg:col-span-2">{(p) => <Input {...p} value={x.name} onChange={(e) => setStop(i, { name: e.target.value })} />}</Field>
+                  <Field label="City" required error={err(`stops.${i}.city`)}>{(p) => <Input {...p} value={x.city} onChange={(e) => setStop(i, { city: e.target.value })} />}</Field>
+                  <Field label="PIN code" error={err(`stops.${i}.pincode`)}>{(p) => <Input {...p} inputMode="numeric" value={x.pincode} onChange={(e) => setStop(i, { pincode: e.target.value })} />}</Field>
+                  <Field label="Address" error={err(`stops.${i}.addressLine`)} className="lg:col-span-2">{(p) => <Input {...p} value={x.addressLine} onChange={(e) => setStop(i, { addressLine: e.target.value })} />}</Field>
+                  <Field label="State" error={err(`stops.${i}.state`)}>{(p) => <Input {...p} value={x.state} onChange={(e) => setStop(i, { state: e.target.value })} />}</Field>
+                  <Field label="Contact phone" error={err(`stops.${i}.contactPhone`)}>{(p) => <Input {...p} value={x.contactPhone} onChange={(e) => setStop(i, { contactPhone: e.target.value })} />}</Field>
+                  <Field label="Contact name" error={err(`stops.${i}.contactName`)}>{(p) => <Input {...p} value={x.contactName} onChange={(e) => setStop(i, { contactName: e.target.value })} />}</Field>
+                  <Field label="Window from" error={err(`stops.${i}.windowStart`)}>{(p) => <Input {...p} type="datetime-local" value={x.windowStart} onChange={(e) => setStop(i, { windowStart: e.target.value })} />}</Field>
+                  <Field label="Window to" error={err(`stops.${i}.windowEnd`)}>{(p) => <Input {...p} type="datetime-local" value={x.windowEnd} onChange={(e) => setStop(i, { windowEnd: e.target.value })} />}</Field>
+                  <Field label="Instructions" error={err(`stops.${i}.instructions`)}>{(p) => <Input {...p} value={x.instructions} onChange={(e) => setStop(i, { instructions: e.target.value })} />}</Field>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </Section>
+
+        <Section
+          title="Cargo"
+          hint={`Total ${fmtWeight(totalKg)}. A hazardous item marks the whole booking hazardous.`}
+          action={<Button size="sm" onClick={() => setForm((f) => ({ ...f, cargo: [...f.cargo, emptyCargo()] }))} disabled={form.cargo.length >= 50}><Plus className="size-4" aria-hidden /> Add item</Button>}
+        >
+          {err('cargo') && <p className="mb-3 text-xs text-crit-strong">{err('cargo')}</p>}
+          <div className="space-y-4">
+            {form.cargo.map((c, i) => (
+              <div key={i} className="grid grid-cols-2 gap-3 rounded border border-line p-4 sm:grid-cols-4 lg:grid-cols-6">
+                <Field label="Description" required error={err(`cargo.${i}.description`)} className="col-span-2">{(p) => <Input {...p} value={c.description} onChange={(e) => setCargo(i, { description: e.target.value })} />}</Field>
+                <Field label="Category" error={err(`cargo.${i}.category`)}>
+                  {(p) => <Select {...p} value={c.category} onChange={(e) => setCargo(i, { category: e.target.value })}>{CARGO_CATEGORIES.map((k) => <option key={k} value={k}>{titleCase(k)}</option>)}</Select>}
+                </Field>
+                <Field label="Quantity" required error={err(`cargo.${i}.quantity`)}>{(p) => <Input {...p} inputMode="decimal" value={c.quantity} onChange={(e) => setCargo(i, { quantity: e.target.value })} />}</Field>
+                <Field label="Unit" required error={err(`cargo.${i}.unit`)}>{(p) => <Input {...p} value={c.unit} onChange={(e) => setCargo(i, { unit: e.target.value })} />}</Field>
+                <Field label="Weight (kg)" required error={err(`cargo.${i}.weightKg`)}>{(p) => <Input {...p} inputMode="decimal" value={c.weightKg} onChange={(e) => setCargo(i, { weightKg: e.target.value })} />}</Field>
+                <Field label="HSN code" error={err(`cargo.${i}.hsnCode`)}>{(p) => <Input {...p} inputMode="numeric" value={c.hsnCode} onChange={(e) => setCargo(i, { hsnCode: e.target.value })} />}</Field>
+                <Field label="Volume (m³)" error={err(`cargo.${i}.volumeCbm`)}>{(p) => <Input {...p} inputMode="decimal" value={c.volumeCbm} onChange={(e) => setCargo(i, { volumeCbm: e.target.value })} />}</Field>
+                <Field label="Packaging" error={err(`cargo.${i}.packaging`)}>{(p) => <Input {...p} value={c.packaging} onChange={(e) => setCargo(i, { packaging: e.target.value })} />}</Field>
+                <Field label="Declared value (₹)" error={err(`cargo.${i}.declaredValue`)}>{(p) => <Input {...p} inputMode="decimal" value={c.declaredValue} onChange={(e) => setCargo(i, { declaredValue: e.target.value })} />}</Field>
+                <Field label="Handling" error={err(`cargo.${i}.handling`)} className="col-span-2 sm:col-span-1">{(p) => <Input {...p} value={c.handling} onChange={(e) => setCargo(i, { handling: e.target.value })} />}</Field>
+                <div className="flex items-end justify-end">
+                  {form.cargo.length > 1 && (
+                    <Button size="sm" variant="ghost" aria-label={`Remove cargo item ${i + 1}`} onClick={() => setForm((f) => ({ ...f, cargo: f.cargo.filter((_, j) => j !== i) }))}>
+                      <Trash2 className="size-4" aria-hidden />
+                    </Button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <div className="grid gap-5 lg:grid-cols-2">
+          <Section title="Vehicle requirements">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="Vehicle type" error={err('requiredVehicleTypeId')}>
+                {(p) => (
+                  <Select {...p} value={form.requiredVehicleTypeId} onChange={(e) => set('requiredVehicleTypeId', e.target.value)}>
+                    <option value="">Any</option>
+                    {types.data?.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
+                  </Select>
+                )}
+              </Field>
+              <Field label="Body type" error={err('requiredBodyType')}>
+                {(p) => (
+                  <Select {...p} value={form.requiredBodyType} onChange={(e) => set('requiredBodyType', e.target.value)}>
+                    <option value="">Any</option>
+                    {BODY_TYPES.map((t) => <option key={t} value={t}>{titleCase(t)}</option>)}
+                  </Select>
+                )}
+              </Field>
+              <Field label="Route" error={err('routeId')} hint={laneRoutes.length ? undefined : 'No saved route for this lane; distance comes from the map.'} className="sm:col-span-2">
+                {(p) => (
+                  <Select {...p} value={form.routeId} onChange={(e) => set('routeId', e.target.value)}>
+                    <option value="">None</option>
+                    {(laneRoutes.length ? laneRoutes : routes.data ?? []).map((r) => <option key={r.id} value={r.id}>{r.name} · {r.distanceKm} km</option>)}
+                  </Select>
+                )}
+              </Field>
+              <label className="flex items-center gap-2 text-[13px]">
+                <input type="checkbox" checked={form.requiresTemperatureControl} onChange={(e) => set('requiresTemperatureControl', e.target.checked)} /> Needs temperature control
+              </label>
+              <label className="flex items-center gap-2 text-[13px]">
+                <input type="checkbox" checked={form.isHazardous || form.cargo.some((c) => c.category === 'hazardous')} disabled={form.cargo.some((c) => c.category === 'hazardous')} onChange={(e) => set('isHazardous', e.target.checked)} /> Hazardous goods
+              </label>
+            </div>
+          </Section>
+
+          <Section title="Pricing" hint="Optional now; the booking can be quoted after saving.">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="Rate basis" error={err('rateBasis')}>
+                {(p) => (
+                  <Select {...p} value={form.rateBasis} onChange={(e) => set('rateBasis', e.target.value)}>
+                    <option value="">Not set</option>
+                    {RATE_BASES.map((r) => <option key={r} value={r}>{titleCase(r)}</option>)}
+                  </Select>
+                )}
+              </Field>
+              <Field label="Rate (₹)" error={err('rate')}>{(p) => <Input {...p} inputMode="decimal" value={form.rate} onChange={(e) => set('rate', e.target.value)} />}</Field>
+              <div className="flex items-center justify-between gap-3 rounded border border-line bg-canvas px-3 py-2 text-[13px] sm:col-span-2">
+                <span className="text-muted">{quoteHint ?? 'Fill from the customer’s rate card for this lane.'}</span>
+                <Button size="sm" onClick={() => void applyRateCard()}>Use rate card</Button>
+              </div>
+            </div>
+            <div className="mt-4">
+              <div className="mb-2 flex items-center justify-between">
+                <h3 className="text-[13px] font-semibold">Extra charges</h3>
+                <Button size="sm" onClick={() => setForm((f) => ({ ...f, charges: [...f.charges, { chargeType: 'loading', description: '', amount: '', isTaxable: true }] }))} disabled={form.charges.length >= 20}>
+                  <Plus className="size-4" aria-hidden /> Add charge
+                </Button>
+              </div>
+              {form.charges.length === 0 ? (
+                <p className="text-xs text-muted">Loading, unloading, halting, tolls and similar charges are added on top of freight.</p>
+              ) : (
+                <ul className="space-y-2">
+                  {form.charges.map((c, i) => (
+                    <li key={i} className="flex flex-wrap items-start gap-2">
+                      <Select aria-label="Charge type" className="w-36" value={c.chargeType} onChange={(e) => setCharge(i, { chargeType: e.target.value })}>
+                        {CHARGE_TYPES.filter((t) => t !== 'freight').map((t) => <option key={t} value={t}>{titleCase(t)}</option>)}
+                      </Select>
+                      <Input aria-label="Description" placeholder="Description" className="min-w-32 flex-1" value={c.description} onChange={(e) => setCharge(i, { description: e.target.value })} />
+                      <Input aria-label="Amount" placeholder="₹" inputMode="decimal" className="w-28" value={c.amount} invalid={!!err(`charges.${i}.amount`)} onChange={(e) => setCharge(i, { amount: e.target.value })} />
+                      <Button size="sm" variant="ghost" aria-label="Remove charge" onClick={() => setForm((f) => ({ ...f, charges: f.charges.filter((_, j) => j !== i) }))}><Trash2 className="size-4" aria-hidden /></Button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </Section>
+        </div>
+
+        <Section title="Notes">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            <Field label="Special instructions (shown to the crew)" error={err('specialInstructions')}>{(p) => <Textarea {...p} value={form.specialInstructions} onChange={(e) => set('specialInstructions', e.target.value)} />}</Field>
+            <Field label="Internal notes" error={err('notes')}>{(p) => <Textarea {...p} value={form.notes} onChange={(e) => set('notes', e.target.value)} />}</Field>
+          </div>
+        </Section>
+
+        <div className="flex justify-end gap-2">
+          <Button onClick={() => navigate(booking ? `/bookings/${booking.id}` : '/bookings')}>Cancel</Button>
+          <Button variant="primary" type="submit" loading={create.isPending || replace.isPending}>{booking ? 'Save changes' : 'Create booking'}</Button>
+        </div>
+      </div>
+    </form>
+  );
+}
+
+function fillFromLocation(l: LocationDto): Partial<StopForm> {
+  return {
+    locationId: String(l.id),
+    name: l.name,
+    addressLine: l.addressLine ?? '',
+    city: l.city,
+    state: l.state ?? '',
+    pincode: l.pincode ?? '',
+    lat: l.lat,
+    lng: l.lng,
+    contactName: l.contactName ?? '',
+    contactPhone: l.contactPhone ?? '',
+  };
+}
+
+function Section({ title, hint, action, children }: { title: string; hint?: string; action?: ReactNode; children: ReactNode }) {
+  return (
+    <Card className="p-5">
+      <div className="mb-4 flex flex-wrap items-start gap-3">
+        <div className="min-w-0 flex-1">
+          <h2 className="text-base">{title}</h2>
+          {hint && <p className="mt-0.5 text-xs text-muted">{hint}</p>}
+        </div>
+        {action}
+      </div>
+      {children}
+    </Card>
+  );
+}
