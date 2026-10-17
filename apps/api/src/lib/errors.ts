@@ -15,6 +15,7 @@ export type ErrorCode =
   | 'OTP_LOCKED'
   | 'PAYLOAD_TOO_LARGE'
   | 'UNSUPPORTED_MEDIA_TYPE'
+  | 'SERVICE_UNAVAILABLE'
   | 'INTERNAL_ERROR';
 
 /** An error that is safe to show to the client. Anything else becomes a generic 500. */
