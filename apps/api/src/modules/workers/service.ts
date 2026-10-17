@@ -126,6 +126,11 @@ export class WorkerService {
   }
 
   async create(ctx: RequestContext, input: WorkerCreateInput, req: Request): Promise<WorkerDto> {
+    // Same rule as update: personal and pay details need HR access, also when the record is new.
+    const setsSensitive = SENSITIVE_KEYS.some((k) => input[k] !== undefined && input[k] !== null);
+    if (setsSensitive && !ctx.permissions.has('workers:sensitive')) {
+      throw AppError.forbidden('Setting personal or pay details requires HR access (workers:sensitive)');
+    }
     await this.assertRefs(ctx, input.branchId ?? null, input.compensationPolicyId ?? null);
     let id: number;
     try {
