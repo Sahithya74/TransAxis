@@ -137,6 +137,18 @@ describe.skipIf(!hasDb)('auth (integration)', () => {
     expect(res.status).toBe(403);
   });
 
+  it('accepts refresh from a configured extra origin', async () => {
+    const shared = createTestApp({ EXTRA_WEB_ORIGINS: 'https://demo.example' });
+    try {
+      const s = await login(shared.app, 'control@kaveri.demo');
+      const res = await request(shared.app).post('/api/v1/auth/refresh').set('cookie', s.cookie).set('origin', 'https://demo.example');
+      expect(res.status).toBe(200);
+      expect(res.headers['access-control-allow-origin']).toBe('https://demo.example');
+    } finally {
+      await shared.close();
+    }
+  });
+
   it('logout revokes the session', async () => {
     const s = await login(t.app, 'control@kaveri.demo');
     expect((await request(t.app).post('/api/v1/auth/logout').set('cookie', s.cookie)).status).toBe(204);

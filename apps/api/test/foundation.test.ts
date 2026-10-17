@@ -36,6 +36,21 @@ describe('config', () => {
     const c = loadConfig({ JWT_ACCESS_SECRET: SECRET, DATABASE_URL: '' });
     expect(c.DATABASE_URL).toBeUndefined();
     expect(c.API_PORT).toBe(4000);
+    expect(c.EXTRA_WEB_ORIGINS).toEqual([]);
+    expect(c.TRUST_PROXY).toBeUndefined();
+  });
+
+  it('parses extra web origins and rejects ones that are not URLs', () => {
+    const c = loadConfig({ JWT_ACCESS_SECRET: SECRET, EXTRA_WEB_ORIGINS: ' https://demo.example , http://localhost:4173,' });
+    expect(c.EXTRA_WEB_ORIGINS).toEqual(['https://demo.example', 'http://localhost:4173']);
+    expect(() => loadConfig({ JWT_ACCESS_SECRET: SECRET, EXTRA_WEB_ORIGINS: 'not a url' })).toThrow(/EXTRA_WEB_ORIGINS/);
+  });
+
+  it('reads TRUST_PROXY as a boolean, hop count or name', () => {
+    const trust = (v: string) => loadConfig({ JWT_ACCESS_SECRET: SECRET, TRUST_PROXY: v }).TRUST_PROXY;
+    expect(trust('false')).toBe(false);
+    expect(trust('2')).toBe(2);
+    expect(trust('loopback')).toBe('loopback');
   });
 });
 

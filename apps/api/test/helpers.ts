@@ -6,7 +6,7 @@ import { pino } from 'pino';
 import request from 'supertest';
 import { createDb, type DbHandle } from '@transaxis/database';
 import { createApp } from '../src/app.js';
-import { loadConfig } from '../src/config/env.js';
+import { loadConfig, type Env } from '../src/config/env.js';
 import { CapturingProvider } from '../src/providers/messaging.js';
 
 const envFile = resolve(import.meta.dirname, '..', '..', '..', '.env');
@@ -18,12 +18,13 @@ export const DEMO_PASSWORD = 'Demo@12345';
 
 export interface TestApp {
   app: Express;
+  config: Env;
   handle: DbHandle;
   messenger: CapturingProvider;
   close(): Promise<void>;
 }
 
-export function createTestApp(): TestApp {
+export function createTestApp(env: NodeJS.ProcessEnv = {}): TestApp {
   const handle = createDb(TEST_DB_URL!, 5);
   const messenger = new CapturingProvider();
   const config = loadConfig({
@@ -32,11 +33,13 @@ export function createTestApp(): TestApp {
     LOG_LEVEL: 'silent',
     DATABASE_URL: TEST_DB_URL,
     WEB_ORIGIN: 'http://localhost:5173',
+    EXTRA_WEB_ORIGINS: '',
     UPLOAD_DIR: mkdtempSync(join(tmpdir(), 'transaxis-uploads-')),
     MAX_UPLOAD_MB: '1',
+    ...env,
   });
   const app = createApp({ config, logger: pino({ level: 'silent' }), db: handle.db, messenger });
-  return { app, handle, messenger, close: () => handle.close() };
+  return { app, config, handle, messenger, close: () => handle.close() };
 }
 
 export interface LoggedIn {
