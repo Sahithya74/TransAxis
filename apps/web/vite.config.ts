@@ -13,6 +13,9 @@ export default defineConfig({
       '/socket.io': { target: 'http://localhost:4000', ws: true },
     },
   },
+  // `npm run share` serves the build through a Cloudflare quick tunnel on a random *.trycloudflare.com host.
+  // The /api proxy above is inherited by preview.
+  preview: { allowedHosts: ['.trycloudflare.com'] },
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test-setup.ts'],
