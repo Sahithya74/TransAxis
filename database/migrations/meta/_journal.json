@@ -43,6 +43,20 @@
       "when": 1792088975425,
       "tag": "0005_journal_append_only",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1792148225083,
+      "tag": "0006_documents_ai",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1792148233479,
+      "tag": "0007_documents_fulltext",
+      "breakpoints": true
     }
   ]
 }
