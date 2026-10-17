@@ -5,8 +5,11 @@ import {
   loginRequestSchema,
   passwordResetConfirmSchema,
   passwordResetRequestSchema,
+  totpCodeSchema,
+  totpDisableSchema,
+  totpLoginSchema,
 } from '@transaxis/shared';
-import type { Env } from '../../config/env.js';
+import { webOrigins, type Env } from '../../config/env.js';
 import { AppError } from '../../lib/errors.js';
 import { authenticate, requireContext } from '../../middleware/auth.js';
 import type { AuthService, IssuedSession } from './service.js';
@@ -41,9 +44,10 @@ export function authRoutes(service: AuthService, config: Env): Router {
    * Cookie-authenticated endpoints (refresh/logout) must come from our own web origin. SameSite=Strict
    * already blocks cross-site cookies; this is defence in depth. Non-browser clients send no Origin.
    */
+  const allowedOrigins = webOrigins(config);
   const assertSameOrigin = (req: Request) => {
     const origin = req.get('origin');
-    if (origin && origin !== config.WEB_ORIGIN) throw AppError.forbidden('Cross-origin request rejected');
+    if (origin && !allowedOrigins.includes(origin)) throw AppError.forbidden('Cross-origin request rejected');
   };
 
   // Per IP + email: slows credential stuffing; account lockout handles targeted guessing.
@@ -64,9 +68,44 @@ export function authRoutes(service: AuthService, config: Env): Router {
     handler: (_req, _res, next) => next(new AppError(429, 'RATE_LIMITED', 'Too many reset requests. Try again later.')),
   });
 
+  // Second-step attempts are limited per address too; the account lockout covers targeted guessing.
+  const mfaLimiter = rateLimit({
+    windowMs: 15 * 60_000,
+    limit: isTest ? 1000 : 20,
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    keyGenerator: (req) => ipKeyGenerator(req.ip ?? ''),
+    handler: (_req, _res, next) => next(new AppError(429, 'RATE_LIMITED', 'Too many sign-in attempts. Try again later.')),
+  });
+
   r.post('/login', loginLimiter, async (req, res) => {
     const input = loginRequestSchema.parse(req.body);
-    sendSession(res, await service.login(input, req));
+    const result = await service.login(input, req);
+    if (result.kind === 'mfa') {
+      res.setHeader('cache-control', 'no-store');
+      res.json(result.challenge);
+      return;
+    }
+    sendSession(res, result.issued);
+  });
+
+  r.post('/login/totp', mfaLimiter, async (req, res) => {
+    const input = totpLoginSchema.parse(req.body);
+    sendSession(res, await service.loginTotp(input.mfaToken, input.code, req));
+  });
+
+  const authed = authenticate(config.JWT_ACCESS_SECRET);
+  r.post('/totp/setup', authed, async (req, res) => {
+    res.setHeader('cache-control', 'no-store');
+    res.json(await service.totpSetup(requireContext(req)));
+  });
+  r.post('/totp/enable', authed, async (req, res) => {
+    await service.totpEnable(requireContext(req), totpCodeSchema.parse(req.body).code, req);
+    res.status(204).end();
+  });
+  r.post('/totp/disable', authed, async (req, res) => {
+    await service.totpDisable(requireContext(req), totpDisableSchema.parse(req.body).password, req);
+    res.status(204).end();
   });
 
   r.post('/refresh', async (req, res) => {

@@ -12,6 +12,8 @@ export interface AccessTokenClaims {
   perms: Permission[];
   wrk: number | null;
   cus: number | null;
+  /** Present (true) while the password is a temporary one. */
+  pwd?: true;
 }
 
 const key = (secret: string) => new TextEncoder().encode(secret);
@@ -27,6 +29,7 @@ export async function signAccessToken(
     perms: [...ctx.permissions],
     wrk: ctx.workerId,
     cus: ctx.customerId,
+    ...(ctx.mustChangePassword ? { pwd: true } : {}),
   })
     .setProtectedHeader({ alg: 'HS256' })
     .setSubject(String(ctx.userId))
@@ -56,5 +59,6 @@ export async function verifyAccessToken(token: string, secret: string): Promise<
     permissions: new Set((claims.perms ?? []).filter(isPermission)),
     workerId: claims.wrk ?? null,
     customerId: claims.cus ?? null,
+    mustChangePassword: claims.pwd === true,
   };
 }

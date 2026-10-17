@@ -1,6 +1,8 @@
 import { randomUUID } from 'node:crypto';
+import { SignJWT, jwtVerify } from 'jose';
+import { toDataURL } from 'qrcode';
 import type { Request } from 'express';
-import { and, eq, gt, isNull } from 'drizzle-orm';
+import { and, eq, gt, isNull, lt, or } from 'drizzle-orm';
 import {
   hashPassword,
   organizations,
@@ -20,11 +22,13 @@ import {
   passwordSchema,
   ROLE_KEYS,
   type LoginRequest,
+  type MfaChallengeDto,
   type Permission,
   type RoleKey,
   type SessionOrganization,
   type SessionResponse,
   type SessionUser,
+  type TotpSetupDto,
 } from '@transaxis/shared';
 import type { Env } from '../../config/env.js';
 import { audit } from '../../lib/audit.js';
@@ -32,6 +36,7 @@ import type { RequestContext } from '../../lib/context.js';
 import { randomToken, sha256 } from '../../lib/crypto.js';
 import { AppError } from '../../lib/errors.js';
 import { signAccessToken } from '../../lib/tokens.js';
+import { newTotpSecret, otpauthUrl, SecretBox, verifyTotp } from '../../lib/totp.js';
 import type { MessageProvider } from '../../providers/messaging.js';
 
 export const MAX_FAILED_LOGINS = 5;
@@ -41,6 +46,9 @@ const RESET_TOKEN_TTL_MINUTES = 30;
 const REFRESH_RACE_GRACE_MS = 10_000;
 
 const INVALID_LOGIN = `Invalid email or password. After ${MAX_FAILED_LOGINS} failed attempts an account is locked for ${LOCKOUT_MINUTES} minutes.`;
+const INVALID_CODE = `That code didn't match. Codes change every 30 seconds, so check that your phone's clock is right. After ${MAX_FAILED_LOGINS} wrong attempts the account is locked for ${LOCKOUT_MINUTES} minutes.`;
+const MFA_EXPIRED = 'This sign-in has expired. Enter your email and password again.';
+const MFA_AUDIENCE = 'transaxis-mfa';
 
 export interface AuthDeps {
   db: Db;
@@ -54,19 +62,24 @@ export interface IssuedSession {
   refreshExpiresAt: Date;
 }
 
+/** A correct password either signs in, or asks for the authenticator code when two-step sign-in is on. */
+export type LoginResult = { kind: 'session'; issued: IssuedSession } | { kind: 'mfa'; challenge: MfaChallengeDto };
+
 type UserRow = typeof users.$inferSelect;
 
 export class AuthService {
   /** Hash of a random password, verified for unknown emails so response time doesn't reveal them. */
   private dummyHash: Promise<string>;
+  private readonly box: SecretBox;
 
   constructor(private readonly deps: AuthDeps) {
     this.dummyHash = hashPassword(randomToken(16));
+    this.box = new SecretBox(deps.config.TOTP_ENCRYPTION_KEY ?? deps.config.JWT_ACCESS_SECRET);
   }
 
   // ------------------------------------------------------------------ login
 
-  async login(input: LoginRequest, req: Request): Promise<IssuedSession> {
+  async login(input: LoginRequest, req: Request): Promise<LoginResult> {
     const { db } = this.deps;
     const [user] = await db.select().from(users).where(eq(users.email, input.email)).limit(1);
 
@@ -116,6 +129,11 @@ export class AuthService {
       throw AppError.unauthenticated(INVALID_LOGIN);
     }
 
+    // With two-step sign-in, the password only earns a five-minute challenge; failures still count.
+    if (user.totpEnabled && user.totpSecretEnc) {
+      return { kind: 'mfa', challenge: { mfaRequired: true, mfaToken: await this.signMfaToken(user) } };
+    }
+
     await db
       .update(users)
       .set({ failedLoginCount: 0, lockedUntil: null, lastLoginAt: now })
@@ -123,7 +141,121 @@ export class AuthService {
 
     const issued = await this.issueSession(db, user, randomUUID(), req);
     await audit(db, req, { action: 'auth.login', orgId: user.orgId, userId: user.id });
+    return { kind: 'session', issued };
+  }
+
+  // ------------------------------------------------------------------ two-step verification
+
+  private mfaKey() {
+    return new TextEncoder().encode(this.deps.config.JWT_ACCESS_SECRET);
+  }
+
+  private signMfaToken(user: UserRow): Promise<string> {
+    return new SignJWT({ org: user.orgId })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setSubject(String(user.id))
+      .setIssuer('transaxis-api')
+      .setAudience(MFA_AUDIENCE)
+      .setIssuedAt()
+      .setExpirationTime('5m')
+      .sign(this.mfaKey());
+  }
+
+  /** Second step of sign-in: the challenge from `login` plus a code from the authenticator app. */
+  async loginTotp(mfaToken: string, code: string, req: Request): Promise<IssuedSession> {
+    const { db } = this.deps;
+    let userId: number;
+    try {
+      const { payload } = await jwtVerify(mfaToken, this.mfaKey(), { issuer: 'transaxis-api', audience: MFA_AUDIENCE, algorithms: ['HS256'] });
+      userId = Number(payload.sub);
+    } catch {
+      throw AppError.unauthenticated(MFA_EXPIRED);
+    }
+    const [user] = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+    const [org] = user ? await db.select().from(organizations).where(eq(organizations.id, user.orgId)).limit(1) : [];
+    if (!user || user.status !== 'active' || !org || org.status !== 'active' || !user.totpEnabled || !user.totpSecretEnc) {
+      throw AppError.unauthenticated(MFA_EXPIRED);
+    }
+    const now = new Date();
+    if (user.lockedUntil && user.lockedUntil > now) {
+      await audit(db, req, { action: 'auth.login_blocked', summary: 'Account locked', orgId: user.orgId, userId: user.id });
+      throw AppError.unauthenticated(INVALID_CODE);
+    }
+    let secret: string;
+    try {
+      secret = this.box.open(user.totpSecretEnc);
+    } catch {
+      // The encryption key changed since setup (TOTP_ENCRYPTION_KEY or JWT_ACCESS_SECRET rotated).
+      throw AppError.unauthenticated('Your authenticator setup can no longer be read. Ask an administrator to reset two-step sign-in.');
+    }
+    const step = verifyTotp(secret, code);
+    // A code is accepted once: replaying an intercepted code within its 30 seconds fails. The conditional
+    // update makes this hold even for two requests racing with the same code.
+    const claimed =
+      step !== null &&
+      (user.totpLastStep === null || step > user.totpLastStep) &&
+      Number(
+        (
+          (await db
+            .update(users)
+            .set({ totpLastStep: step })
+            .where(and(eq(users.id, user.id), or(isNull(users.totpLastStep), lt(users.totpLastStep, step))))) as unknown as [{ affectedRows: number }]
+        )[0].affectedRows,
+      ) === 1;
+    if (!claimed) {
+      const failures = user.failedLoginCount + 1;
+      const lockNow = failures >= MAX_FAILED_LOGINS;
+      await db
+        .update(users)
+        .set({ failedLoginCount: lockNow ? 0 : failures, lockedUntil: lockNow ? new Date(now.getTime() + LOCKOUT_MINUTES * 60_000) : user.lockedUntil })
+        .where(eq(users.id, user.id));
+      await audit(db, req, {
+        action: lockNow ? 'auth.account_locked' : 'auth.mfa_failed',
+        summary: lockNow ? `Locked for ${LOCKOUT_MINUTES} minutes after ${MAX_FAILED_LOGINS} failures` : `Wrong authenticator code (${failures})`,
+        orgId: user.orgId,
+        userId: user.id,
+      });
+      throw AppError.unauthenticated(INVALID_CODE);
+    }
+    await db.update(users).set({ failedLoginCount: 0, lockedUntil: null, lastLoginAt: now }).where(eq(users.id, user.id));
+    const issued = await this.issueSession(db, { ...user, totpLastStep: step }, randomUUID(), req);
+    await audit(db, req, { action: 'auth.login', summary: 'With two-step verification', orgId: user.orgId, userId: user.id });
     return issued;
+  }
+
+  /** Starts setting up an authenticator app. The secret is stored encrypted and only used once confirmed. */
+  async totpSetup(ctx: RequestContext): Promise<TotpSetupDto> {
+    const { db } = this.deps;
+    const [user] = await db.select().from(users).where(and(eq(users.id, ctx.userId), eq(users.orgId, ctx.orgId))).limit(1);
+    if (!user) throw AppError.unauthenticated();
+    if (user.totpEnabled) throw AppError.businessRule('Two-step verification is already on. Turn it off first to move it to another phone.');
+    const secret = newTotpSecret();
+    await db.update(users).set({ totpSecretEnc: this.box.seal(secret), totpLastStep: null }).where(eq(users.id, user.id));
+    const url = otpauthUrl(secret, user.email);
+    return { secret, otpauthUrl: url, qrDataUrl: await toDataURL(url, { margin: 1, width: 220 }) };
+  }
+
+  async totpEnable(ctx: RequestContext, code: string, req: Request): Promise<void> {
+    const { db } = this.deps;
+    const [user] = await db.select().from(users).where(and(eq(users.id, ctx.userId), eq(users.orgId, ctx.orgId))).limit(1);
+    if (!user) throw AppError.unauthenticated();
+    if (user.totpEnabled) return;
+    if (!user.totpSecretEnc) throw AppError.businessRule('Start the setup first: scan the QR code, then enter a code.');
+    const step = verifyTotp(this.box.open(user.totpSecretEnc), code);
+    if (step === null) throw AppError.validation(INVALID_CODE, [{ path: 'code', message: "That code didn't match" }]);
+    await db.update(users).set({ totpEnabled: true, totpLastStep: step }).where(eq(users.id, user.id));
+    await audit(db, req, { action: 'auth.totp_enabled', entityType: 'user', entityId: user.id, summary: 'Two-step verification turned on' });
+  }
+
+  async totpDisable(ctx: RequestContext, password: string, req: Request): Promise<void> {
+    const { db } = this.deps;
+    const [user] = await db.select().from(users).where(and(eq(users.id, ctx.userId), eq(users.orgId, ctx.orgId))).limit(1);
+    if (!user) throw AppError.unauthenticated();
+    if (!(await verifyPassword(user.passwordHash, password))) {
+      throw AppError.validation('Password is incorrect', [{ path: 'password', message: 'Incorrect password' }]);
+    }
+    await db.update(users).set({ totpEnabled: false, totpSecretEnc: null, totpLastStep: null }).where(eq(users.id, user.id));
+    await audit(db, req, { action: 'auth.totp_disabled', entityType: 'user', entityId: user.id, summary: 'Two-step verification turned off' });
   }
 
   // ------------------------------------------------------------------ refresh / logout
@@ -209,7 +341,10 @@ export class AuthService {
     if (!(await verifyPassword(user.passwordHash, current))) {
       throw AppError.validation('Current password is incorrect', [{ path: 'currentPassword', message: 'Incorrect password' }]);
     }
-    passwordSchema.parse(next);
+    const policy = passwordSchema.safeParse(next);
+    if (!policy.success) {
+      throw AppError.validation(policy.error.issues[0]!.message, policy.error.issues.map((i) => ({ path: 'newPassword', message: i.message })));
+    }
     if (current === next) {
       throw AppError.validation('Choose a password different from the current one', [{ path: 'newPassword', message: 'Must differ from current password' }]);
     }
@@ -304,6 +439,7 @@ export class AuthService {
       permissions: new Set(access.permissions),
       workerId: user.workerId ?? null,
       customerId: user.customerId ?? null,
+      mustChangePassword: user.mustChangePassword,
     };
     const accessToken = await signAccessToken(ctx, config.JWT_ACCESS_SECRET, config.ACCESS_TOKEN_TTL_MINUTES);
     const refreshToken = randomToken();
@@ -371,6 +507,7 @@ function toSessionUser(user: UserRow, access: { roles: RoleKey[]; permissions: P
     workerId: user.workerId ?? null,
     customerId: user.customerId ?? null,
     mustChangePassword: user.mustChangePassword,
+    totpEnabled: user.totpEnabled,
   };
 }
 

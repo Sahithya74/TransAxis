@@ -13,6 +13,8 @@ export interface RequestContext {
   workerId: number | null;
   /** Present for customer-portal accounts: restricts bookings and invoices to their own. */
   customerId: number | null;
+  /** Signed in with a temporary password: only the account endpoints work until it is changed. */
+  mustChangePassword?: boolean;
 }
 
 export function hasPermission(ctx: RequestContext, permission: Permission): boolean {

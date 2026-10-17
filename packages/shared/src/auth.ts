@@ -34,6 +34,8 @@ export interface SessionUser {
   workerId: number | null;
   customerId: number | null;
   mustChangePassword: boolean;
+  /** Two-step verification with an authenticator app is on for this account. */
+  totpEnabled: boolean;
 }
 
 export interface SessionOrganization {

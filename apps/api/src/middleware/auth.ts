@@ -11,18 +11,35 @@ declare module 'express-serve-static-core' {
   }
 }
 
+export interface AuthenticateOptions {
+  /** Cached organisation check: stops a suspended organisation at once instead of when its tokens expire. */
+  orgActive?: (orgId: number) => Promise<boolean>;
+  /** Refuse sessions still on a temporary password. Off only for the account endpoints that change it. */
+  requireCurrentPassword?: boolean;
+}
+
 /** Verifies the Bearer access token and attaches the request context. */
-export function authenticate(jwtSecret: string): RequestHandler {
+export function authenticate(jwtSecret: string, { orgActive, requireCurrentPassword = false }: AuthenticateOptions = {}): RequestHandler {
   return async (req: Request, _res: Response, next: NextFunction) => {
     const header = req.headers.authorization;
     if (!header?.startsWith('Bearer ')) return next(AppError.unauthenticated());
+    let ctx: RequestContext;
     try {
-      req.ctx = await verifyAccessToken(header.slice('Bearer '.length).trim(), jwtSecret);
-      next();
+      ctx = await verifyAccessToken(header.slice('Bearer '.length).trim(), jwtSecret);
     } catch {
       // Expired, tampered and malformed tokens are indistinguishable to the caller on purpose.
-      next(AppError.unauthenticated('Invalid or expired access token'));
+      return next(AppError.unauthenticated('Invalid or expired access token'));
     }
+    try {
+      if (orgActive && !(await orgActive(ctx.orgId))) return next(AppError.unauthenticated('Your organisation’s access is suspended'));
+    } catch (err) {
+      return next(err);
+    }
+    if (requireCurrentPassword && ctx.mustChangePassword) {
+      return next(new AppError(403, 'PASSWORD_CHANGE_REQUIRED', 'Choose a new password before continuing'));
+    }
+    req.ctx = ctx;
+    next();
   };
 }
 

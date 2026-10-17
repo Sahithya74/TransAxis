@@ -16,6 +16,7 @@ export type ErrorCode =
   | 'PAYLOAD_TOO_LARGE'
   | 'UNSUPPORTED_MEDIA_TYPE'
   | 'SERVICE_UNAVAILABLE'
+  | 'PASSWORD_CHANGE_REQUIRED'
   | 'INTERNAL_ERROR';
 
 /** An error that is safe to show to the client. Anything else becomes a generic 500. */
