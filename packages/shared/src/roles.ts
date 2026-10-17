@@ -45,7 +45,7 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<RoleKey, Permission[]> = {
   dispatcher: read(
     'vehicles:read', 'workers:read', 'customers:read', 'customers:write', 'vendors:read',
     'bookings:read', 'bookings:write', 'bookings:approve',
-    'trips:read', 'trips:assign', 'trips:dispatch', 'trips:override_warnings',
+    'trips:read', 'trips:assign', 'trips:dispatch', 'trips:override_warnings', 'expenses:submit',
     'tracking:read', 'alerts:read', 'alerts:manage', 'incidents:read',
     'maintenance:read', 'fuel:read', 'reports:read', 'notifications:read',
     'documents:read', 'documents:write', 'ai:query',
