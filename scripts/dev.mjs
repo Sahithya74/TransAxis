@@ -1,26 +1,13 @@
-// Starts the API and web dev servers (and the RAG service once it exists and its venv is set up).
-import { existsSync } from 'node:fs';
-import { resolve } from 'node:path';
+// Starts the API and web dev servers, plus the RAG service when its environment is set up (npm run rag:setup).
 import concurrently from 'concurrently';
+import { ragCommand, ROOT } from './rag.mjs';
 
-const root = resolve(import.meta.dirname, '..');
 const commands = [
   { name: 'api', command: 'npm run dev -w @transaxis/api', prefixColor: 'blue' },
   { name: 'web', command: 'npm run dev -w @transaxis/web', prefixColor: 'green' },
 ];
+const rag = ragCommand({ reload: true });
+if (rag) commands.push(rag);
 
-const ragPython = resolve(root, 'services/rag/.venv/Scripts/python.exe');
-const ragMain = resolve(root, 'services/rag/app/main.py');
-if (existsSync(ragPython) && existsSync(ragMain)) {
-  commands.push({
-    name: 'rag',
-    command: `"${ragPython}" -m uvicorn app.main:app --host 127.0.0.1 --port 8001 --reload`,
-    cwd: resolve(root, 'services/rag'),
-    prefixColor: 'magenta',
-  });
-} else {
-  console.log('[dev] RAG service not set up yet; skipping (see services/rag).');
-}
-
-const { result } = concurrently(commands, { cwd: root, killOthersOn: ['failure'], restartTries: 0 });
+const { result } = concurrently(commands, { cwd: ROOT, killOthersOn: ['failure'], restartTries: 0 });
 result.catch(() => process.exit(1));

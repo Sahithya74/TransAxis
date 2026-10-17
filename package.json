@@ -14,6 +14,9 @@
   },
   "scripts": {
     "dev": "node scripts/dev.mjs",
+    "rag": "node scripts/rag-run.mjs",
+    "rag:setup": "node scripts/rag-setup.mjs",
+    "test:rag": "node scripts/rag-run.mjs --test",
     "build": "npm run build -w @transaxis/shared && npm run build -w @transaxis/web && npm run build -w @transaxis/api",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "eslint .",
