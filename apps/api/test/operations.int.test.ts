@@ -185,6 +185,25 @@ describe.skipIf(!hasDb)('bookings and trip lifecycle (integration)', () => {
 
   // ------------------------------------------------------------------ reference data
 
+  describe('reference data', () => {
+    it('serves the active inspection checklists to crew and dispatch alike', async () => {
+      for (const token of [dispatch, driver]) {
+        const res = await request(t.app).get('/api/v1/reference/inspection-checklists').set(bearer(token));
+        expect(res.status).toBe(200);
+        const pre = res.body.data.find((l: { inspectionType: string }) => l.inspectionType === 'pre_trip');
+        expect(pre.items).toEqual(expect.arrayContaining([expect.objectContaining({ key: 'brakes', critical: true })]));
+      }
+    });
+
+    it('returns the caller\'s own letterhead only', async () => {
+      const mine = await request(t.app).get('/api/v1/reference/organization').set(bearer(dispatch));
+      expect(mine.body).toMatchObject({ name: 'Kaveri Roadlines' });
+      expect(mine.body.gstin).toMatch(/^33[A-Z0-9]{13}$/);
+      const theirs = await request(t.app).get('/api/v1/reference/organization').set(bearer(otherOrg));
+      expect(theirs.body.name).not.toBe('Kaveri Roadlines');
+    });
+  });
+
   // ------------------------------------------------------------------ assignment rules
 
   describe('assignment rules', () => {

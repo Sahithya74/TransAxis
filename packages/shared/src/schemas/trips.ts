@@ -217,6 +217,13 @@ export interface TripEventDto {
   source: 'web' | 'driver_app' | 'system' | 'simulated';
 }
 
+/** The active checklist for an inspection type; every item must be answered when inspecting. */
+export interface InspectionChecklistDto {
+  inspectionType: InspectionType;
+  name: string;
+  items: { key: string; label: string; critical: boolean }[];
+}
+
 export interface InspectionDto {
   id: number;
   inspectionType: InspectionType;

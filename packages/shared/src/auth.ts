@@ -43,6 +43,16 @@ export interface SessionOrganization {
   currency: string;
 }
 
+/** Letterhead details printed on lorry receipts, trip sheets and invoices. */
+export interface OrganizationProfileDto {
+  name: string;
+  legalName: string | null;
+  gstin: string | null;
+  addressLine: string | null;
+  city: string | null;
+  state: string | null;
+}
+
 export interface SessionResponse {
   accessToken: string;
   /** Seconds until the access token expires. */
