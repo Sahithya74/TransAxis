@@ -5,3 +5,5 @@ export * from './people.js';
 export * from './commercial.js';
 export * from './operations.js';
 export * from './live.js';
+export * from './finance.js';
+export * from './maintenance.js';

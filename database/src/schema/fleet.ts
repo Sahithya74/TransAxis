@@ -64,6 +64,8 @@ export const vehicles = mysqlTable(
     fuelType: mysqlEnum('fuel_type', FUEL_TYPES).notNull().default('diesel'),
     odometerKm: decimal('odometer_km', { precision: 12, scale: 1 }).notNull().default('0.0'),
     fuelEfficiencyKmpl: decimal('fuel_efficiency_kmpl', { precision: 6, scale: 2 }),
+    /** Used to flag fills larger than the tank (likely pilferage or a data error). */
+    fuelTankLitres: int('fuel_tank_litres'),
     status: mysqlEnum('status', VEHICLE_STATUSES).notNull().default('available'),
     notes: text('notes'),
     createdAt: createdAtCol(),

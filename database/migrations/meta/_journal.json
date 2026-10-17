@@ -29,6 +29,13 @@
       "when": 1792086065587,
       "tag": "0003_live_ops",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1792088969431,
+      "tag": "0004_finance_maintenance",
+      "breakpoints": true
     }
   ]
 }
