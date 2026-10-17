@@ -1,0 +1,11 @@
+# Runtime dependencies for the TransAxis RAG service (Python 3.10+).
+fastapi==0.143.2
+uvicorn==0.54.0
+pyjwt==2.15.1
+pymysql==1.2.3
+cryptography==50.0.2
+qdrant-client==1.19.1
+pypdf==6.21.0
+python-docx==1.2.0
+httpx2==2.13.1
+anthropic==1.15.0
