@@ -7,6 +7,7 @@ import { LicenceBadge, TripStatusBadge } from '../../components/StatusBadges';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { Input, Select } from '../../components/ui/Field';
+import { CsvExchange } from '../../components/CsvExchange';
 import { Card, EmptyState, ErrorState, PageHeader, Pagination, Skeleton } from '../../components/ui/Layout';
 import { SortTh, Table, THead, Th, nextSort } from '../../components/ui/Table';
 import { Tabs } from '../../components/ui/Tabs';
@@ -42,10 +43,15 @@ export function WorkersPage() {
       <PageHeader
         title="Drivers & workforce"
         subtitle="Licences, availability and current assignments"
-        actions={can('workers:write') && tab === 'people' && (
-          <Button variant="primary" onClick={() => setCreating(true)}>
-            <Plus className="size-4" aria-hidden /> Add worker
-          </Button>
+        actions={tab === 'people' && (
+          <>
+            <CsvExchange entity="workers" />
+            {can('workers:write') && (
+              <Button variant="primary" onClick={() => setCreating(true)}>
+                <Plus className="size-4" aria-hidden /> Add worker
+              </Button>
+            )}
+          </>
         )}
       />
       <Tabs

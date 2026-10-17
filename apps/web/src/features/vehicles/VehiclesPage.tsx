@@ -5,6 +5,7 @@ import { todayIn, VEHICLE_STATUSES, type VehicleDto } from '@transaxis/shared';
 import { useAuth } from '../../auth/AuthProvider';
 import { Button } from '../../components/ui/Button';
 import { Input, Select } from '../../components/ui/Field';
+import { CsvExchange } from '../../components/CsvExchange';
 import { Card, EmptyState, ErrorState, PageHeader, Pagination, Skeleton } from '../../components/ui/Layout';
 import { fmtNumber, fmtWeight } from '../../lib/format';
 import { useVehicles, useVehicleTypes, type VehicleListParams } from './api';
@@ -57,11 +58,14 @@ export function VehiclesPage() {
         title="Vehicles"
         subtitle={list.data ? `${fmtNumber(list.data.meta.total)} vehicle${list.data.meta.total === 1 ? '' : 's'}${filtersActive ? ' match the filters' : ' in the fleet'}` : ' '}
         actions={
-          can('vehicles:write') && (
-            <Button variant="primary" onClick={() => setCreating(true)}>
-              <Plus className="size-4" aria-hidden /> Register vehicle
-            </Button>
-          )
+          <>
+            <CsvExchange entity="vehicles" />
+            {can('vehicles:write') && (
+              <Button variant="primary" onClick={() => setCreating(true)}>
+                <Plus className="size-4" aria-hidden /> Register vehicle
+              </Button>
+            )}
+          </>
         }
       />
 

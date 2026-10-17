@@ -6,6 +6,7 @@ import { useAuth } from '../../auth/AuthProvider';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { Input, Select } from '../../components/ui/Field';
+import { CsvExchange } from '../../components/CsvExchange';
 import { Card, EmptyState, ErrorState, PageHeader, Pagination, Skeleton } from '../../components/ui/Layout';
 import { SortTh, Table, THead, Th, nextSort } from '../../components/ui/Table';
 import { Tabs } from '../../components/ui/Tabs';
@@ -27,11 +28,16 @@ export function PartiesPage() {
       <PageHeader
         title="Customers & vendors"
         subtitle="Who you carry for, and who you buy from"
-        actions={canWrite && (
-          <Button variant="primary" onClick={() => setCreating(true)}>
-            <Plus className="size-4" aria-hidden /> {tab === 'customers' ? 'Add customer' : 'Add vendor'}
-          </Button>
-        )}
+        actions={
+          <>
+            {tab === 'customers' && <CsvExchange entity="customers" />}
+            {canWrite && (
+              <Button variant="primary" onClick={() => setCreating(true)}>
+                <Plus className="size-4" aria-hidden /> {tab === 'customers' ? 'Add customer' : 'Add vendor'}
+              </Button>
+            )}
+          </>
+        }
       />
       <Tabs
         className="mb-4"
