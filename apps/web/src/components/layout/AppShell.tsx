@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { NavLink, Outlet, useLocation } from 'react-router';
+import { Link, NavLink, Outlet, useLocation } from 'react-router';
 import { LogOut, Menu, PanelLeftClose, PanelLeftOpen, X } from 'lucide-react';
 import { ROLE_LABELS } from '@transaxis/shared';
 import { useAuth } from '../../auth/AuthProvider';
 import { visibleNav } from '../../lib/nav';
 import { NotificationBell } from '../../features/live/NotificationBell';
+import { CommandPalette } from '../CommandPalette';
 
 const COLLAPSE_KEY = 'transaxis.sidebar.collapsed';
 
@@ -151,11 +152,12 @@ export function AppShell() {
             <span className="mx-2 text-line-strong">/</span>
             <span className="text-ink">{roleLabel}</span>
           </div>
+          <CommandPalette />
           <NotificationBell />
-          <div className="hidden text-right leading-tight sm:block">
+          <Link to="/account" className="hidden rounded px-1.5 py-1 text-right leading-tight hover:bg-subtle sm:block" title="My account">
             <div className="text-[13px] font-medium">{user?.fullName}</div>
             <div className="text-[11px] text-muted">{user?.email}</div>
-          </div>
+          </Link>
           <button
             onClick={() => void logout()}
             className="flex h-9 items-center gap-2 rounded border border-line bg-surface px-3 text-[13px] font-medium hover:border-line-strong hover:bg-canvas"
