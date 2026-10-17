@@ -6,6 +6,7 @@ import { App } from './App';
 import { AuthProvider } from './auth/AuthProvider';
 import { ToastProvider } from './components/ui/Toast';
 import { ApiError } from './lib/api';
+import { RealtimeProvider } from './lib/realtime';
 import './index.css';
 
 const queryClient = new QueryClient({
@@ -25,7 +26,9 @@ createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <AuthProvider>
           <ToastProvider>
-            <App />
+            <RealtimeProvider>
+              <App />
+            </RealtimeProvider>
           </ToastProvider>
         </AuthProvider>
       </BrowserRouter>

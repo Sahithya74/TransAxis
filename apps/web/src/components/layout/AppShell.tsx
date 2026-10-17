@@ -4,6 +4,7 @@ import { LogOut, Menu, PanelLeftClose, PanelLeftOpen, X } from 'lucide-react';
 import { ROLE_LABELS } from '@transaxis/shared';
 import { useAuth } from '../../auth/AuthProvider';
 import { visibleNav } from '../../lib/nav';
+import { NotificationBell } from '../../features/live/NotificationBell';
 
 const COLLAPSE_KEY = 'transaxis.sidebar.collapsed';
 
@@ -150,6 +151,7 @@ export function AppShell() {
             <span className="mx-2 text-line-strong">/</span>
             <span className="text-ink">{roleLabel}</span>
           </div>
+          <NotificationBell />
           <div className="hidden text-right leading-tight sm:block">
             <div className="text-[13px] font-medium">{user?.fullName}</div>
             <div className="text-[11px] text-muted">{user?.email}</div>
